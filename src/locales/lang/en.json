@@ -40,6 +40,7 @@
         "lastName": "Last Name",
         "userName": "User Name",
         "email": "Email",
+        "mobileNumber": "Mobile Number",
         "password": "Password",
         "confirmPassword": "Confirm Password",
         "welcomeBack": "Welcome Back!",
@@ -50,7 +51,8 @@
         "signingIn": "Signing in...",
         "backToSignIn": "Back to Sign In",
         "sendEmail": "Send Email",
-        "enterEmailToReset": "Please enter your email to receive a password reset link"
+        "enterEmailToReset": "Please enter your email to receive a password reset link",
+        "Please enter your mobile number": "Please enter your mobile number"
     },
     "home": {
         "title": "Home",

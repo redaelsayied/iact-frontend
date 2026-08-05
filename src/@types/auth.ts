@@ -22,6 +22,7 @@ export type SignUpCredential = {
     lastName?: string
     email: string
     password: string
+    mobileNumber?: string
 }
 
 export type ForgotPassword = {
@@ -44,6 +45,7 @@ export type User = {
     avatar?: string | null
     userName?: string | null
     email?: string | null
+    mobileNumber?: string | null
     authority?: string[]
 }
 

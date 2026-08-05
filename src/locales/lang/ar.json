@@ -40,6 +40,7 @@
         "lastName": "اسم العائلة",
         "userName": "اسم المستخدم",
         "email": "البريد الإلكتروني",
+        "mobileNumber": "رقم الهاتف المحمول",
         "password": "كلمة المرور",
         "confirmPassword": "تأكيد كلمة المرور",
         "welcomeBack": "مرحباً بعودتك!",
@@ -50,7 +51,8 @@
         "signingIn": "جاري تسجيل الدخول...",
         "backToSignIn": "العودة لتسجيل الدخول",
         "sendEmail": "إرسال البريد الإلكتروني",
-        "enterEmailToReset": "أدخل بريدك الإلكتروني لاستعادة كلمة المرور"
+        "enterEmailToReset": "أدخل بريدك الإلكتروني لاستعادة كلمة المرور",
+        "Please enter your mobile number": "يرجى إدخال رقم الهاتف المحمول"
     },
     "home": {
         "title": "الرئيسية",

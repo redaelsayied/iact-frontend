@@ -20,6 +20,7 @@ type SignUpFormSchema = {
     firstName: string
     lastName: string
     email: string
+    mobileNumber: string
     password: string
     confirmPassword: string
 }
@@ -29,6 +30,7 @@ const validationSchema: ZodType<SignUpFormSchema> = z
         firstName: z.string({ required_error: 'Please enter your first name' }).min(1, { message: 'Please enter your first name' }),
         lastName: z.string({ required_error: 'Please enter your last name' }).min(1, { message: 'Please enter your last name' }),
         email: z.string({ required_error: 'Please enter your email' }).email({ message: 'Invalid email' }),
+        mobileNumber: z.string({ required_error: 'Please enter your mobile number' }).min(1, { message: 'Please enter your mobile number' }),
         password: z.string({ required_error: 'Password Required' }).min(6, { message: 'Password Required' }),
         confirmPassword: z.string({
             required_error: 'Confirm Password Required',
@@ -56,12 +58,12 @@ const SignUpForm = (props: SignUpFormProps) => {
     })
 
     const onSignUp = async (values: SignUpFormSchema) => {
-        const { firstName, lastName, password, email } = values
+        const { firstName, lastName, password, email, mobileNumber } = values
         const userName = `${firstName} ${lastName}`.trim()
 
         if (!disableSubmit) {
             setSubmitting(true)
-            const result = await signUp({ userName, firstName, lastName, password, email })
+            const result = await signUp({ userName, firstName, lastName, password, email, mobileNumber })
 
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
@@ -114,25 +116,45 @@ const SignUpForm = (props: SignUpFormProps) => {
                     </FormItem>
                 </div>
 
-                {/* Row 2: Email */}
-                <FormItem
-                    label={t('auth.email', 'Email')}
-                    invalid={Boolean(errors.email)}
-                    errorMessage={errors.email?.message ? t(errors.email.message, errors.email.message) : undefined}
-                >
-                    <Controller
-                        name="email"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                type="email"
-                                placeholder={t('auth.email', 'Email')}
-                                autoComplete="off"
-                                {...field}
-                            />
-                        )}
-                    />
-                </FormItem>
+                {/* Row 2: Email & Mobile Number */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <FormItem
+                        label={t('auth.email', 'Email')}
+                        invalid={Boolean(errors.email)}
+                        errorMessage={errors.email?.message ? t(errors.email.message, errors.email.message) : undefined}
+                    >
+                        <Controller
+                            name="email"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="email"
+                                    placeholder={t('auth.email', 'Email')}
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
+                    <FormItem
+                        label={t('auth.mobileNumber', 'Mobile Number')}
+                        invalid={Boolean(errors.mobileNumber)}
+                        errorMessage={errors.mobileNumber?.message ? t(errors.mobileNumber.message, errors.mobileNumber.message) : undefined}
+                    >
+                        <Controller
+                            name="mobileNumber"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="text"
+                                    placeholder={t('auth.mobileNumber', 'Mobile Number')}
+                                    autoComplete="off"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </FormItem>
+                </div>
 
                 {/* Row 3: Password & Confirm Password */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
