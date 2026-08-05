@@ -13,6 +13,7 @@ module.exports = {
 		theme: {
 			fontFamily: {
 				sans: [
+					'Public Sans',
 					'Cairo',
 					'Inter',
 					'ui-sans-serif',
