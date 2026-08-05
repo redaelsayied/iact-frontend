@@ -21,6 +21,11 @@ const Logo = (props: LogoProps) => {
         logoWidth = 'auto',
     } = props
 
+    const logoSrc =
+        type === 'streamline'
+            ? `${LOGO_SRC_PATH}icon.svg`
+            : `${LOGO_SRC_PATH}logo-${mode}.svg`
+
     return (
         <div
             className={classNames('logo', className)}
@@ -31,7 +36,7 @@ const Logo = (props: LogoProps) => {
         >
             <img
                 className={imgClass}
-                src={`${LOGO_SRC_PATH}logo-${mode}-${type}.png`}
+                src={logoSrc}
                 alt={`${APP_NAME} logo`}
             />
         </div>
