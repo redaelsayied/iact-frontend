@@ -22,13 +22,13 @@ export const SignUpBase = ({
         <>
             <div className="mb-8">
                 <Logo
-                    type="streamline"
+                    type="full"
                     mode={mode}
                     imgClass="mx-auto"
-                    logoWidth={60}
+                    logoWidth={150}
                 />
             </div>
-            <div className="mb-8">
+            <div className="mb-8 text-center">
                 <h3 className="mb-1">Sign Up</h3>
                 <p className="font-semibold heading-text">
                     And lets get started with your free trial
