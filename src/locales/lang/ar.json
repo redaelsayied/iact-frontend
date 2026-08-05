@@ -36,13 +36,19 @@
         "signUp": "إنشاء حساب",
         "forgotPassword": "نسيت كلمة المرور؟",
         "resetPassword": "إعادة ضبط كلمة المرور",
+        "userName": "اسم المستخدم",
         "email": "البريد الإلكتروني",
         "password": "كلمة المرور",
         "confirmPassword": "تأكيد كلمة المرور",
         "welcomeBack": "مرحباً بعودتك!",
         "enterCredentials": "يرجى إدخال بيانات الاعتماد الخاصة بك للوصول.",
         "alreadyHaveAccount": "لديك حساب بالفعل؟",
-        "dontHaveAccount": "ليس لديك حساب؟"
+        "dontHaveAccount": "ليس لديك حساب؟",
+        "creatingAccount": "جاري إنشاء الحساب...",
+        "signingIn": "جاري تسجيل الدخول...",
+        "backToSignIn": "العودة لتسجيل الدخول",
+        "sendEmail": "إرسال البريد الإلكتروني",
+        "enterEmailToReset": "أدخل بريدك الإلكتروني لاستعادة كلمة المرور"
     },
     "home": {
         "title": "الرئيسية",

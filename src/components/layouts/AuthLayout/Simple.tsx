@@ -1,5 +1,6 @@
 import { cloneElement } from 'react'
 import Container from '@/components/shared/Container'
+import LanguageSelector from '@/components/template/LanguageSelector'
 import type { ReactNode, ReactElement } from 'react'
 import type { CommonProps } from '@/@types/common'
 
@@ -9,7 +10,10 @@ interface SimpleProps extends CommonProps {
 
 const Simple = ({ children, content, ...rest }: SimpleProps) => {
     return (
-        <div className="h-full bg-white dark:bg-gray-800">
+        <div className="h-full bg-white dark:bg-gray-800 relative">
+            <div className="absolute top-4 ltr:right-4 rtl:left-4 z-10">
+                <LanguageSelector />
+            </div>
             <Container className="flex flex-col flex-auto items-center justify-center min-w-0 h-full">
                 <div className="min-w-[320px] md:min-w-[400px] max-w-[400px]">
                     <div>

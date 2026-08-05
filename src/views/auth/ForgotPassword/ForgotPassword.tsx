@@ -4,6 +4,7 @@ import Button from '@/components/ui/Button'
 import ActionLink from '@/components/shared/ActionLink'
 import ForgotPasswordForm from './components/ForgotPasswordForm'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
+import useTranslation from '@/utils/hooks/useTranslation'
 import { useNavigate } from 'react-router-dom'
 
 type ForgotPasswordProps = {
@@ -15,6 +16,7 @@ export const ForgotPasswordBase = ({
 }: ForgotPasswordProps) => {
     const [emailSent, setEmailSent] = useState(false)
     const [message, setMessage] = useTimeOutMessage()
+    const { t } = useTranslation()
 
     const navigate = useNavigate()
 
@@ -27,17 +29,16 @@ export const ForgotPasswordBase = ({
             <div className="mb-6">
                 {emailSent ? (
                     <>
-                        <h3 className="mb-2">Check your email</h3>
+                        <h3 className="mb-2">{t('auth.checkEmail', 'Check your email')}</h3>
                         <p className="font-semibold heading-text">
-                            We have sent a password recovery to your email
+                            {t('auth.emailSentMessage', 'We have sent a password recovery link to your email')}
                         </p>
                     </>
                 ) : (
                     <>
-                        <h3 className="mb-2">Forgot Password</h3>
+                        <h3 className="mb-2">{t('auth.forgotPassword', 'Forgot Password')}</h3>
                         <p className="font-semibold heading-text">
-                            Please enter your email to receive a verification
-                            code
+                            {t('auth.enterEmailToReset', 'Please enter your email to receive a verification code')}
                         </p>
                     </>
                 )}
@@ -58,17 +59,17 @@ export const ForgotPasswordBase = ({
                     type="button"
                     onClick={handleContinue}
                 >
-                    Continue
+                    {t('common.continue', 'Continue')}
                 </Button>
             </ForgotPasswordForm>
             <div className="mt-4 text-center">
-                <span>Back to </span>
+                <span>{t('auth.backTo', 'Back to')}{' '}</span>
                 <ActionLink
                     to={signInUrl}
                     className="heading-text font-bold"
                     themeColor={false}
                 >
-                    Sign in
+                    {t('auth.signIn', 'Sign in')}
                 </ActionLink>
             </div>
         </div>

@@ -3,6 +3,7 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import { FormItem, Form } from '@/components/ui/Form'
 import { useAuth } from '@/auth'
+import useTranslation from '@/utils/hooks/useTranslation'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -39,6 +40,7 @@ const SignUpForm = (props: SignUpFormProps) => {
     const { disableSubmit = false, className, setMessage } = props
 
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const { t } = useTranslation()
 
     const { signUp } = useAuth()
 
@@ -69,9 +71,9 @@ const SignUpForm = (props: SignUpFormProps) => {
         <div className={className}>
             <Form onSubmit={handleSubmit(onSignUp)}>
                 <FormItem
-                    label="User name"
+                    label={t('auth.userName', 'User Name')}
                     invalid={Boolean(errors.userName)}
-                    errorMessage={errors.userName?.message}
+                    errorMessage={errors.userName?.message ? t(errors.userName.message, errors.userName.message) : undefined}
                 >
                     <Controller
                         name="userName"
@@ -79,7 +81,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                         render={({ field }) => (
                             <Input
                                 type="text"
-                                placeholder="User Name"
+                                placeholder={t('auth.userName', 'User Name')}
                                 autoComplete="off"
                                 {...field}
                             />
@@ -87,9 +89,9 @@ const SignUpForm = (props: SignUpFormProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    label="Email"
+                    label={t('auth.email', 'Email')}
                     invalid={Boolean(errors.email)}
-                    errorMessage={errors.email?.message}
+                    errorMessage={errors.email?.message ? t(errors.email.message, errors.email.message) : undefined}
                 >
                     <Controller
                         name="email"
@@ -97,7 +99,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                         render={({ field }) => (
                             <Input
                                 type="email"
-                                placeholder="Email"
+                                placeholder={t('auth.email', 'Email')}
                                 autoComplete="off"
                                 {...field}
                             />
@@ -105,9 +107,9 @@ const SignUpForm = (props: SignUpFormProps) => {
                     />
                 </FormItem>
                 <FormItem
-                    label="Password"
+                    label={t('auth.password', 'Password')}
                     invalid={Boolean(errors.password)}
-                    errorMessage={errors.password?.message}
+                    errorMessage={errors.password?.message ? t(errors.password.message, errors.password.message) : undefined}
                 >
                     <Controller
                         name="password"
@@ -116,16 +118,16 @@ const SignUpForm = (props: SignUpFormProps) => {
                             <Input
                                 type="password"
                                 autoComplete="off"
-                                placeholder="Password"
+                                placeholder={t('auth.password', 'Password')}
                                 {...field}
                             />
                         )}
                     />
                 </FormItem>
                 <FormItem
-                    label="Confirm Password"
+                    label={t('auth.confirmPassword', 'Confirm Password')}
                     invalid={Boolean(errors.confirmPassword)}
-                    errorMessage={errors.confirmPassword?.message}
+                    errorMessage={errors.confirmPassword?.message ? t(errors.confirmPassword.message, errors.confirmPassword.message) : undefined}
                 >
                     <Controller
                         name="confirmPassword"
@@ -134,7 +136,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             <Input
                                 type="password"
                                 autoComplete="off"
-                                placeholder="Confirm Password"
+                                placeholder={t('auth.confirmPassword', 'Confirm Password')}
                                 {...field}
                             />
                         )}
@@ -146,7 +148,9 @@ const SignUpForm = (props: SignUpFormProps) => {
                     variant="solid"
                     type="submit"
                 >
-                    {isSubmitting ? 'Creating Account...' : 'Sign Up'}
+                    {isSubmitting
+                        ? t('auth.creatingAccount', 'Creating Account...')
+                        : t('auth.signUp', 'Sign Up')}
                 </Button>
             </Form>
         </div>

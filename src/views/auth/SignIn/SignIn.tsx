@@ -4,6 +4,7 @@ import SignInForm from './components/SignInForm'
 import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useThemeStore } from '@/store/themeStore'
+import useTranslation from '@/utils/hooks/useTranslation'
 
 type SignInProps = {
     signUpUrl?: string
@@ -17,6 +18,7 @@ export const SignInBase = ({
     disableSubmit,
 }: SignInProps) => {
     const [message, setMessage] = useTimeOutMessage()
+    const { t } = useTranslation()
 
     const mode = useThemeStore((state) => state.mode)
 
@@ -32,9 +34,9 @@ export const SignInBase = ({
                 />
             </div>
             <div className="mb-10 text-center">
-                <h2 className="mb-2">Welcome back!</h2>
+                <h2 className="mb-2">{t('auth.welcomeBack', 'Welcome back!')}</h2>
                 <p className="font-semibold heading-text">
-                    Please enter your credentials to sign in!
+                    {t('auth.enterCredentials', 'Please enter your credentials to sign in!')}
                 </p>
             </div>
             {message && (
@@ -52,20 +54,20 @@ export const SignInBase = ({
                             className="font-semibold heading-text mt-2 underline"
                             themeColor={false}
                         >
-                            Forgot password
+                            {t('auth.forgotPassword', 'Forgot password')}
                         </ActionLink>
                     </div>
                 }
             />
             <div>
                 <div className="mt-6 text-center">
-                    <span>{`Don't have an account yet?`} </span>
+                    <span>{t('auth.dontHaveAccount', "Don't have an account yet?")}{' '}</span>
                     <ActionLink
                         to={signUpUrl}
                         className="heading-text font-bold"
                         themeColor={false}
                     >
-                        Sign up
+                        {t('auth.signUp', 'Sign up')}
                     </ActionLink>
                 </div>
             </div>

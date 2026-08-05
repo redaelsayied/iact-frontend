@@ -4,6 +4,7 @@ import SignUpForm from './components/SignUpForm'
 import ActionLink from '@/components/shared/ActionLink'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useThemeStore } from '@/store/themeStore'
+import useTranslation from '@/utils/hooks/useTranslation'
 
 type SignUpProps = {
     disableSubmit?: boolean
@@ -15,6 +16,7 @@ export const SignUpBase = ({
     disableSubmit,
 }: SignUpProps) => {
     const [message, setMessage] = useTimeOutMessage()
+    const { t } = useTranslation()
 
     const mode = useThemeStore((state) => state.mode)
 
@@ -30,9 +32,9 @@ export const SignUpBase = ({
                 />
             </div>
             <div className="mb-8 text-center">
-                <h3 className="mb-1">Sign Up</h3>
+                <h3 className="mb-1">{t('auth.signUp', 'Sign Up')}</h3>
                 <p className="font-semibold heading-text">
-                    And lets get started with your free trial
+                    {t('auth.enterCredentials', 'And lets get started with your free trial')}
                 </p>
             </div>
             {message && (
@@ -43,13 +45,13 @@ export const SignUpBase = ({
             <SignUpForm disableSubmit={disableSubmit} setMessage={setMessage} />
             <div>
                 <div className="mt-6 text-center">
-                    <span>Already have an account? </span>
+                    <span>{t('auth.alreadyHaveAccount', 'Already have an account?')}{' '}</span>
                     <ActionLink
                         to={signInUrl}
                         className="heading-text font-bold"
                         themeColor={false}
                     >
-                        Sign in
+                        {t('auth.signIn', 'Sign in')}
                     </ActionLink>
                 </div>
             </div>

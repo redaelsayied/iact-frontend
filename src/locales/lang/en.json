@@ -36,13 +36,19 @@
         "signUp": "Sign Up",
         "forgotPassword": "Forgot Password?",
         "resetPassword": "Reset Password",
+        "userName": "User Name",
         "email": "Email",
         "password": "Password",
         "confirmPassword": "Confirm Password",
         "welcomeBack": "Welcome Back!",
         "enterCredentials": "Please enter your credentials to log in.",
         "alreadyHaveAccount": "Already have an account?",
-        "dontHaveAccount": "Don't have an account?"
+        "dontHaveAccount": "Don't have an account?",
+        "creatingAccount": "Creating Account...",
+        "signingIn": "Signing in...",
+        "backToSignIn": "Back to Sign In",
+        "sendEmail": "Send Email",
+        "enterEmailToReset": "Please enter your email to receive a password reset link"
     },
     "home": {
         "title": "Home",
