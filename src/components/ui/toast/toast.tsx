@@ -1,8 +1,8 @@
 import ToastWrapper from './ToastWrapper'
 import { PLACEMENT } from '../utils/constants'
-import type { ToastProps, ToastWrapperProps } from './ToastWrapper'
+import type { ToastProps, ToastWrapperProps, ToastWrapperInstance } from './ToastWrapper'
 import { NotificationPlacement } from '../@types/placement'
-import type { ReactNode } from 'react'
+import type { ReactNode, RefObject } from 'react'
 
 export const toastDefaultProps = {
     placement: PLACEMENT.TOP_END,
@@ -35,8 +35,10 @@ function castPlacment(placement: NotificationPlacement) {
 }
 
 async function createWrapper(wrapperId: string, props: ToastProps) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [wrapper] = await ToastWrapper.getInstance(props as ToastWrapperProps) as any
+     
+    const [wrapper] = (await ToastWrapper.getInstance(
+        props as ToastWrapperProps,
+    )) as [RefObject<ToastWrapperInstance>]
 
     wrappers.set(wrapperId || defaultWrapperId, wrapper)
 
@@ -61,11 +63,11 @@ toast.push = (message, options = toastDefaultProps as ToastProps) => {
     const wrapper = getWrapper(id)
 
     if (wrapper?.current) {
-        return wrapper.current.push(message)
+        return wrapper.current.push(message as any)
     }
 
     return createWrapper(id ?? '', options).then((ref) => {
-        return ref.current?.push(message)
+        return ref.current?.push(message as any)
     })
 }
 

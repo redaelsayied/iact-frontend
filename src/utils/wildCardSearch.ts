@@ -1,4 +1,4 @@
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+ 
 export default function wildCardSearch(
     list: Array<Record<string, string | number>>,
     input: string,

@@ -1,9 +1,5 @@
 export type Variables =
-    | 'primary'
-    | 'primaryDeep'
-    | 'primaryMild'
-    | 'primarySubtle'
-    | 'neutral'
+    'primary' | 'primaryDeep' | 'primaryMild' | 'primarySubtle' | 'neutral'
 
 export type ThemeVariables = Record<'light' | 'dark', Record<Variables, string>>
 

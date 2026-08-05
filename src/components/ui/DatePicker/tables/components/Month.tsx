@@ -34,14 +34,11 @@ export interface MonthBaseProps {
     hideOutOfMonthDates?: boolean
     weekendDays?: [number, number]
     isDateInRange?:
-        | (() => boolean)
-        | ((date: Date, props: GetDayPropsReturn) => boolean)
+        (() => boolean) | ((date: Date, props: GetDayPropsReturn) => boolean)
     isDateFirstInRange?:
-        | (() => boolean)
-        | ((date: Date, props: GetDayPropsReturn) => boolean)
+        (() => boolean) | ((date: Date, props: GetDayPropsReturn) => boolean)
     isDateLastInRange?:
-        | (() => boolean)
-        | ((date: Date, props: GetDayPropsReturn) => boolean)
+        (() => boolean) | ((date: Date, props: GetDayPropsReturn) => boolean)
 }
 
 export interface MonthProps extends CommonProps, MonthBaseProps {

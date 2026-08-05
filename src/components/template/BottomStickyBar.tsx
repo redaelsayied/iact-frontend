@@ -3,7 +3,7 @@ import useLayout from '@/utils/hooks/useLayout'
 import type { CommonProps } from '@/@types/common'
 import { LAYOUT_CONTENT_OVERLAY } from '@/constants/theme.constant'
 
-export interface BottomStickyBarProps extends CommonProps {}
+export type BottomStickyBarProps = CommonProps
 
 const BottomStickyBar = ({ children }: BottomStickyBarProps) => {
     const { type } = useLayout()
