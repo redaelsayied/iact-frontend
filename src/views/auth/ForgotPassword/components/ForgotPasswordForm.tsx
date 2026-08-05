@@ -22,7 +22,7 @@ type ForgotPasswordFormSchema = {
 }
 
 const validationSchema: ZodType<ForgotPasswordFormSchema> = z.object({
-    email: z.string().min(3, { message: 'Please enter a valid email or mobile number' }),
+    email: z.string().min(3, { message: 'Please enter a valid email' }),
 })
 
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
@@ -74,7 +74,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                             render={({ field }) => (
                                 <Input
                                     type="text"
-                                    placeholder={t('auth.mobileOrEmail', 'Email / Mobile Number')}
+                                    placeholder={t('auth.email', 'Email')}
                                     autoComplete="off"
                                     prefix={
                                         <img
