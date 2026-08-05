@@ -5,6 +5,8 @@ import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import useTranslation from '@/utils/hooks/useTranslation'
 import LanguageSelector from '@/components/template/LanguageSelector'
 
+import signupIllustration from '@/assets/icons/signup-illustration.svg'
+
 type SignUpProps = {
     disableSubmit?: boolean
     signInUrl?: string
@@ -25,10 +27,10 @@ export const SignUpBase = ({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* 3D Illustration: Placed directly on the background without container box */}
+                {/* Illustration: Placed directly on the background without container box */}
                 <div className="lg:col-span-5 flex justify-center items-center py-2 lg:py-6">
                     <img
-                        src="/img/others/signup-3d-user.png"
+                        src={signupIllustration}
                         alt="Sign Up"
                         className="h-56 sm:h-64 lg:h-80 xl:h-96 w-auto object-contain hover:scale-105 transition-transform duration-300 max-w-full drop-shadow-md"
                     />

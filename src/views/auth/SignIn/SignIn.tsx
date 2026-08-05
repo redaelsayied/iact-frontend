@@ -5,6 +5,8 @@ import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import useTranslation from '@/utils/hooks/useTranslation'
 import LanguageSelector from '@/components/template/LanguageSelector'
 
+import loginIllustration from '@/assets/icons/login-illustration.svg'
+
 type SignInProps = {
     signUpUrl?: string
     forgetPasswordUrl?: string
@@ -27,10 +29,10 @@ export const SignInBase = ({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* 3D Illustration: Placed directly on the background without container box */}
+                {/* Illustration: Placed directly on the background without container box */}
                 <div className="lg:col-span-5 flex justify-center items-center py-2 lg:py-6">
                     <img
-                        src="/img/others/login-3d-card.png"
+                        src={loginIllustration}
                         alt="Log In"
                         className="h-56 sm:h-64 lg:h-80 xl:h-96 w-auto object-contain hover:scale-105 transition-transform duration-300 max-w-full drop-shadow-md"
                     />
