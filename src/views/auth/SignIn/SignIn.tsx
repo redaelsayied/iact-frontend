@@ -27,12 +27,12 @@ export const SignInBase = ({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* 3D Illustration: Centered on mobile, Left column on Desktop */}
-                <div className="lg:col-span-5 flex justify-center items-center bg-slate-50 dark:bg-gray-800/60 p-6 lg:p-10 rounded-2xl lg:rounded-3xl border border-slate-100 dark:border-gray-700/50">
+                {/* 3D Illustration: Placed directly on the background without container box */}
+                <div className="lg:col-span-5 flex justify-center items-center py-2 lg:py-6">
                     <img
                         src="/img/others/login-3d-card.png"
                         alt="Log In"
-                        className="h-44 sm:h-52 lg:h-64 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
+                        className="h-56 sm:h-64 lg:h-80 xl:h-96 w-auto object-contain hover:scale-105 transition-transform duration-300 max-w-full drop-shadow-md"
                     />
                 </div>
 
@@ -61,13 +61,13 @@ export const SignInBase = ({
                     />
 
                     <div className="mt-6 text-center lg:text-start">
-                        <span className="text-slate-500 text-sm">{t('auth.dontHaveAccount', "Don't have an account?")}{' '}</span>
+                        <span className="text-slate-500 text-sm font-medium">{t('auth.dontHaveAccount', "Don't Have An Account?")}{' '}</span>
                         <ActionLink
                             to={signUpUrl}
-                            className="text-[#102A71] font-bold text-sm hover:underline"
+                            className="text-[#FF6B00] font-bold text-sm underline decoration-[#FF6B00] decoration-2 underline-offset-4 hover:opacity-80"
                             themeColor={false}
                         >
-                            {t('auth.signUp', 'Sign up')}
+                            {t('auth.signUpNow', 'Sign Up Now')}
                         </ActionLink>
                     </div>
                 </div>
