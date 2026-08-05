@@ -22,10 +22,11 @@ export const SignInBase = ({
 
     return (
         <>
-            <div className="mb-8">
+            <div className="mb-8 flex justify-center">
                 <Logo
                     type="full"
                     mode={mode}
+                    className="mx-auto"
                     imgClass="mx-auto"
                     logoWidth={150}
                 />
