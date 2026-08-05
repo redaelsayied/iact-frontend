@@ -46,6 +46,7 @@ export type AuthUserDto = {
     lastName: string
     email: string
     status: number
+    roles?: string[]
 }
 
 export type AuthResponse = {
@@ -63,6 +64,7 @@ export type VerifyEmailUserDto = {
     email: string
     phoneNumber: string
     status: number
+    roles?: string[]
 }
 
 export type VerifyEmailResponse = {

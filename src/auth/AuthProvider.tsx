@@ -6,6 +6,7 @@ import { apiSignIn, apiSignOut, apiSignUp, apiVerifyEmail } from '@/services/Aut
 import { apiGetMe } from '@/services/UserService'
 import { REDIRECT_URL_KEY } from '@/constants/app.constant'
 import { useNavigate } from 'react-router-dom'
+import { extractRolesFromToken } from '@/utils/jwt'
 import type {
     SignInCredential,
     SignUpCredential,
@@ -55,7 +56,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             return `/verify-email${currentUser.email ? `?email=${encodeURIComponent(currentUser.email)}` : ''}`
         }
         const roles = currentUser?.roles || currentUser?.authority || []
-        if (roles.includes('Admin')) {
+        if (roles.some((r) => r.toLowerCase() === 'admin')) {
             return '/admin/dashboard'
         }
         return '/user/home'
@@ -107,6 +108,14 @@ function AuthProvider({ children }: AuthProviderProps) {
                             navigatorRef.current?.navigate('/sign-in')
                             return
                         }
+                        const tokenRoles = extractRolesFromToken(token)
+                        const rawRoles = profile.roles && profile.roles.length > 0
+                            ? profile.roles
+                            : (user.roles?.length ? user.roles : tokenRoles)
+                        const userRoles = rawRoles.length > 0
+                            ? rawRoles.map((r) => (r.toLowerCase() === 'admin' ? 'Admin' : r))
+                            : ['User']
+
                         setUser({
                             id: profile.id,
                             userId: profile.id,
@@ -116,6 +125,8 @@ function AuthProvider({ children }: AuthProviderProps) {
                             email: profile.email,
                             phoneNumber: profile.phoneNumber,
                             status: profile.status,
+                            authority: userRoles,
+                            roles: userRoles,
                             profileImageUrl: profile.profileImageUrl,
                             avatar: profile.profileImageUrl,
                             identityFileUrl: profile.identityFileUrl,
@@ -135,7 +146,12 @@ function AuthProvider({ children }: AuthProviderProps) {
             const resp = await apiSignIn(values)
             if (resp && resp.status && resp.data) {
                 const { accessToken, refreshToken, user: authUser } = resp.data
-                const roles = authUser.status === 4 ? (user.roles?.length ? user.roles : ['User']) : ['User']
+                const tokenRoles = extractRolesFromToken(accessToken)
+                const rawRoles = authUser.roles && authUser.roles.length > 0 ? authUser.roles : tokenRoles
+                const roles = rawRoles.length > 0
+                    ? rawRoles.map((r) => (r.toLowerCase() === 'admin' ? 'Admin' : r))
+                    : ['User']
+
                 const updatedUser: User = {
                     id: authUser.id,
                     userId: authUser.id,

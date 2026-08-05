@@ -7,6 +7,7 @@ export type UserProfileResponse = {
     email: string
     phoneNumber: string
     status: number
+    roles?: string[]
     nationality?: string | null
     identityFileUrl?: string | null
     profileImageUrl?: string | null
