@@ -56,6 +56,7 @@
         "forgetPassword": "هل نسيت كلمة المرور؟",
         "enterEmailToReset": "لا تقلق! أدخل بريدك الإلكتروني لإعادة ضبط كلمة المرور",
         "submit": "إرسال",
+        "backTo": "العودة إلى",
         "Please enter your mobile number": "يرجى إدخال رقم الهاتف المحمول"
     },
     "home": {
