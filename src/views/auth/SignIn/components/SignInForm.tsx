@@ -77,8 +77,8 @@ const SignInForm = (props: SignInFormProps) => {
             <form onSubmit={handleSubmit(onSignIn)}>
                 {/* Mobile Number or Email Field */}
                 <div className="mb-5">
-                    <div className={`flex items-center border-b ${errors.email ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus-within:border-primary'} py-2.5 transition-colors`}>
-                        <div className="me-3 flex-shrink-0 text-slate-400 text-xl">
+                    <div className={`flex items-center border-b ${errors.email ? 'border-error' : 'border-border focus-within:border-primary'} py-2.5 transition-colors`}>
+                        <div className="me-3 flex-shrink-0 text-text-muted text-xl">
                             <HiOutlineDevicePhoneMobile />
                         </div>
                         <Controller
@@ -89,20 +89,20 @@ const SignInForm = (props: SignInFormProps) => {
                                     type="text"
                                     placeholder={t('auth.mobileOrEmail', 'Mobile Number or Email')}
                                     autoComplete="off"
-                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 text-sm p-0"
+                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-text-primary placeholder:text-text-muted text-sm p-0"
                                     {...field}
                                 />
                             )}
                         />
                     </div>
                     {errors.email?.message && (
-                        <span className="text-xs text-red-500 mt-1 block">{t(errors.email.message, errors.email.message)}</span>
+                        <span className="text-xs text-error mt-1 block">{t(errors.email.message, errors.email.message)}</span>
                     )}
                 </div>
 
                 {/* Password Field */}
                 <div className="mb-2">
-                    <div className={`flex items-center border-b ${errors.password ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus-within:border-primary'} py-2.5 transition-colors`}>
+                    <div className={`flex items-center border-b ${errors.password ? 'border-error' : 'border-border focus-within:border-primary'} py-2.5 transition-colors`}>
                         <div className="me-3 flex-shrink-0">
                             <PasswordWithXxxIcon />
                         </div>
@@ -114,7 +114,7 @@ const SignInForm = (props: SignInFormProps) => {
                                     type={showPassword ? 'text' : 'password'}
                                     placeholder={t('auth.password', 'Password')}
                                     autoComplete="off"
-                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 text-sm p-0"
+                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-text-primary placeholder:text-text-muted text-sm p-0"
                                     {...field}
                                 />
                             )}
@@ -122,13 +122,13 @@ const SignInForm = (props: SignInFormProps) => {
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="ms-2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                            className="ms-2 text-text-muted hover:text-text-primary focus:outline-none"
                         >
                             {showPassword ? <HiOutlineEyeOff className="text-lg" /> : <HiOutlineEye className="text-lg" />}
                         </button>
                     </div>
                     {errors.password?.message && (
-                        <span className="text-xs text-red-500 mt-1 block">{t(errors.password.message, errors.password.message)}</span>
+                        <span className="text-xs text-error mt-1 block">{t(errors.password.message, errors.password.message)}</span>
                     )}
                 </div>
 
@@ -136,7 +136,7 @@ const SignInForm = (props: SignInFormProps) => {
                 <div className="flex justify-end mb-8 mt-2">
                     <ActionLink
                         to={forgetPasswordUrl}
-                        className="text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-blue-400"
+                        className="text-xs font-semibold text-text-secondary hover:text-primary"
                         themeColor={false}
                     >
                         {t('auth.forgetPassword', 'Forget Password?')}

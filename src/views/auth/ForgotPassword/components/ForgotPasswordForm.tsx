@@ -8,10 +8,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
+import useTranslation from '@/utils/hooks/useTranslation'
+import atIcon from '@/assets/icons/at-11.svg'
 
 interface ForgotPasswordFormProps extends CommonProps {
     emailSent: boolean
-    setEmailSent?: (compplete: boolean) => void
+    setEmailSent?: (complete: boolean) => void
     setMessage?: (message: string) => void
 }
 
@@ -20,11 +22,12 @@ type ForgotPasswordFormSchema = {
 }
 
 const validationSchema: ZodType<ForgotPasswordFormSchema> = z.object({
-    email: z.string().email().min(5),
+    email: z.string().min(3, { message: 'Please enter a valid email or mobile number' }),
 })
 
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const { t } = useTranslation()
 
     const { className, setMessage, setEmailSent, emailSent, children } = props
 
@@ -40,6 +43,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
         const { email } = values
 
         try {
+            setSubmitting(true)
             const resp = await apiForgotPassword<boolean>({ email })
             if (resp) {
                 setSubmitting(false)
@@ -47,7 +51,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
             }
         } catch (errors) {
             setMessage?.(
-                typeof errors === 'string' ? errors : 'Some error occured!',
+                typeof errors === 'string' ? errors : 'Some error occurred!',
             )
             setSubmitting(false)
         }
@@ -58,20 +62,28 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     return (
         <div className={className}>
             {!emailSent ? (
-                <Form onSubmit={handleSubmit(onForgotPassword)}>
+                <Form onSubmit={handleSubmit(onForgotPassword)} className="w-full">
                     <FormItem
-                        label="Email"
                         invalid={Boolean(errors.email)}
                         errorMessage={errors.email?.message}
+                        className="mb-6 w-full"
                     >
                         <Controller
                             name="email"
                             control={control}
                             render={({ field }) => (
                                 <Input
-                                    type="email"
-                                    placeholder="Email"
+                                    type="text"
+                                    placeholder={t('auth.mobileOrEmail', 'Email / Mobile Number')}
                                     autoComplete="off"
+                                    prefix={
+                                        <img
+                                            src={atIcon}
+                                            alt="at"
+                                            className="w-5 h-5 opacity-70"
+                                        />
+                                    }
+                                    className="h-12 bg-surface border-border text-text-primary text-base"
                                     {...field}
                                 />
                             )}
@@ -82,8 +94,9 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                         loading={isSubmitting}
                         variant="solid"
                         type="submit"
+                        className="h-12 bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold text-base rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border-none w-full"
                     >
-                        {isSubmitting ? 'Submiting...' : 'Submit'}
+                        {isSubmitting ? t('common.loading', 'Submitting...') : t('auth.submit', 'Submit')}
                     </Button>
                 </Form>
             ) : (

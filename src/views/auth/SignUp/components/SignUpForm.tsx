@@ -77,12 +77,12 @@ const SignUpForm = (props: SignUpFormProps) => {
                 {/* Row 1: First Name & Last Name with User Icon */}
                 <div className="mb-5">
                     <div className="flex items-center">
-                        <div className="me-3 flex-shrink-0 text-slate-400 text-xl pb-1">
+                        <div className="me-3 flex-shrink-0 text-text-muted text-xl pb-1">
                             <HiOutlineUser />
                         </div>
                         <div className="grid grid-cols-2 gap-4 w-full">
                             {/* First Name Field */}
-                            <div className={`border-b ${errors.firstName ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus-within:border-primary'} py-2.5 transition-colors`}>
+                            <div className={`border-b ${errors.firstName ? 'border-error' : 'border-border focus-within:border-primary'} py-2.5 transition-colors`}>
                                 <Controller
                                     name="firstName"
                                     control={control}
@@ -91,7 +91,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                             type="text"
                                             placeholder={t('auth.firstName', 'First Name')}
                                             autoComplete="off"
-                                            className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 text-sm p-0"
+                                            className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-text-primary placeholder:text-text-muted text-sm p-0"
                                             {...field}
                                         />
                                     )}
@@ -99,7 +99,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             </div>
 
                             {/* Last Name Field */}
-                            <div className={`border-b ${errors.lastName ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus-within:border-primary'} py-2.5 transition-colors`}>
+                            <div className={`border-b ${errors.lastName ? 'border-error' : 'border-border focus-within:border-primary'} py-2.5 transition-colors`}>
                                 <Controller
                                     name="lastName"
                                     control={control}
@@ -108,7 +108,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                             type="text"
                                             placeholder={t('auth.lastName', 'Last Name')}
                                             autoComplete="off"
-                                            className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 text-sm p-0"
+                                            className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-text-primary placeholder:text-text-muted text-sm p-0"
                                             {...field}
                                         />
                                     )}
@@ -117,7 +117,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                         </div>
                     </div>
                     {(errors.firstName?.message || errors.lastName?.message) && (
-                        <span className="text-xs text-red-500 mt-1 block ms-8">
+                        <span className="text-xs text-error mt-1 block ms-8">
                             {errors.firstName?.message ? t(errors.firstName.message, errors.firstName.message) : t(errors.lastName?.message || '', errors.lastName?.message || '')}
                         </span>
                     )}
@@ -125,8 +125,8 @@ const SignUpForm = (props: SignUpFormProps) => {
 
                 {/* Row 2: Mobile Number Field */}
                 <div className="mb-5">
-                    <div className={`flex items-center border-b ${errors.mobileNumber ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus-within:border-primary'} py-2.5 transition-colors`}>
-                        <div className="me-3 flex-shrink-0 text-slate-400 text-xl">
+                    <div className={`flex items-center border-b ${errors.mobileNumber ? 'border-error' : 'border-border focus-within:border-primary'} py-2.5 transition-colors`}>
+                        <div className="me-3 flex-shrink-0 text-text-muted text-xl">
                             <HiOutlineDevicePhoneMobile />
                         </div>
                         <Controller
@@ -137,21 +137,21 @@ const SignUpForm = (props: SignUpFormProps) => {
                                     type="text"
                                     placeholder={t('auth.mobileNumber', 'Mobile Number')}
                                     autoComplete="off"
-                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 text-sm p-0"
+                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-text-primary placeholder:text-text-muted text-sm p-0"
                                     {...field}
                                 />
                             )}
                         />
                     </div>
                     {errors.mobileNumber?.message && (
-                        <span className="text-xs text-red-500 mt-1 block">{t(errors.mobileNumber.message, errors.mobileNumber.message)}</span>
+                        <span className="text-xs text-error mt-1 block">{t(errors.mobileNumber.message, errors.mobileNumber.message)}</span>
                     )}
                 </div>
 
                 {/* Row 3: Email Field */}
                 <div className="mb-5">
-                    <div className={`flex items-center border-b ${errors.email ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus-within:border-primary'} py-2.5 transition-colors`}>
-                        <div className="me-3 flex-shrink-0 text-slate-400 text-xl">
+                    <div className={`flex items-center border-b ${errors.email ? 'border-error' : 'border-border focus-within:border-primary'} py-2.5 transition-colors`}>
+                        <div className="me-3 flex-shrink-0 text-text-muted text-xl">
                             <HiOutlineAtSymbol />
                         </div>
                         <Controller
@@ -162,20 +162,20 @@ const SignUpForm = (props: SignUpFormProps) => {
                                     type="email"
                                     placeholder={t('auth.email', 'Email')}
                                     autoComplete="off"
-                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 text-sm p-0"
+                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-text-primary placeholder:text-text-muted text-sm p-0"
                                     {...field}
                                 />
                             )}
                         />
                     </div>
                     {errors.email?.message && (
-                        <span className="text-xs text-red-500 mt-1 block">{t(errors.email.message, errors.email.message)}</span>
+                        <span className="text-xs text-error mt-1 block">{t(errors.email.message, errors.email.message)}</span>
                     )}
                 </div>
 
                 {/* Row 4: Password Field */}
                 <div className="mb-8">
-                    <div className={`flex items-center border-b ${errors.password ? 'border-red-500' : 'border-slate-200 dark:border-slate-700 focus-within:border-primary'} py-2.5 transition-colors`}>
+                    <div className={`flex items-center border-b ${errors.password ? 'border-error' : 'border-border focus-within:border-primary'} py-2.5 transition-colors`}>
                         <div className="me-3 flex-shrink-0">
                             <PasswordWithXxxIcon />
                         </div>
@@ -187,7 +187,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                                     type={showPassword ? 'text' : 'password'}
                                     placeholder={t('auth.password', 'Password')}
                                     autoComplete="off"
-                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 text-sm p-0"
+                                    className="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-text-primary placeholder:text-text-muted text-sm p-0"
                                     {...field}
                                 />
                             )}
@@ -195,13 +195,13 @@ const SignUpForm = (props: SignUpFormProps) => {
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="ms-2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                            className="ms-2 text-text-muted hover:text-text-primary focus:outline-none"
                         >
                             {showPassword ? <HiOutlineEyeOff className="text-lg" /> : <HiOutlineEye className="text-lg" />}
                         </button>
                     </div>
                     {errors.password?.message && (
-                        <span className="text-xs text-red-500 mt-1 block">{t(errors.password.message, errors.password.message)}</span>
+                        <span className="text-xs text-error mt-1 block">{t(errors.password.message, errors.password.message)}</span>
                     )}
                 </div>
 

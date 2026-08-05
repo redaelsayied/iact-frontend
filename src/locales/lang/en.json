@@ -53,7 +53,9 @@
         "next": "Next",
         "loginButton": "Login",
         "logIn": "Log In",
-        "forgetPassword": "Forget Password?",
+        "forgetPassword": "Forget Password ?",
+        "enterEmailToReset": "No worries! Enter your email to reset your password",
+        "submit": "Submit",
         "Please enter your mobile number": "Please enter your mobile number"
     },
     "home": {

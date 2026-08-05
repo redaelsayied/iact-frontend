@@ -54,6 +54,8 @@
         "loginButton": "تسجيل الدخول",
         "logIn": "تسجيل الدخول",
         "forgetPassword": "هل نسيت كلمة المرور؟",
+        "enterEmailToReset": "لا تقلق! أدخل بريدك الإلكتروني أو رقم جوالك لإعادة ضبط كلمة المرور",
+        "submit": "إرسال",
         "Please enter your mobile number": "يرجى إدخال رقم الهاتف المحمول"
     },
     "home": {

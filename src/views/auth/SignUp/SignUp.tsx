@@ -40,10 +40,10 @@ export const SignUpBase = ({
                 <div className="lg:col-span-7 flex flex-col justify-center px-2 sm:px-6">
                     {/* Title & Subtitle */}
                     <div className="mb-6 text-start">
-                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0D1B3E] dark:text-white mb-2">
+                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text-primary mb-2">
                             {t('auth.signUpTitle', 'Sign Up')}
                         </h1>
-                        <p className="text-xs sm:text-sm font-medium text-slate-400 dark:text-slate-300">
+                        <p className="text-xs sm:text-sm font-medium text-text-secondary">
                             {t('auth.newHereDetails', 'New Here? Create Your Account')}
                         </p>
                     </div>
@@ -57,10 +57,10 @@ export const SignUpBase = ({
                     <SignUpForm disableSubmit={disableSubmit} setMessage={setMessage} />
 
                     <div className="mt-6 text-center lg:text-start">
-                        <span className="text-slate-500 text-sm font-medium">{t('auth.alreadyHaveAccount', 'Already Have An Account?')}{' '}</span>
+                        <span className="text-text-secondary text-sm font-medium">{t('auth.alreadyHaveAccount', 'Already Have An Account?')}{' '}</span>
                         <ActionLink
                             to={signInUrl}
-                            className="text-[#FF6B00] font-bold text-sm underline decoration-[#FF6B00] decoration-2 underline-offset-4 hover:opacity-80"
+                            className="text-secondary font-bold text-sm underline decoration-secondary decoration-2 underline-offset-4 hover:opacity-80"
                             themeColor={false}
                         >
                             {t('auth.logInNow', 'Log In Now')}
