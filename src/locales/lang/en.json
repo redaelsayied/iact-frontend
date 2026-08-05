@@ -16,5 +16,36 @@
                 "item2": "Group collapse menu item 2"
             }
         }
+    },
+    "common": {
+        "signOut": "Sign Out",
+        "profile": "Profile",
+        "settings": "Settings",
+        "search": "Search...",
+        "anonymous": "Anonymous",
+        "noEmail": "No email available",
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "delete": "Delete",
+        "loading": "Loading...",
+        "language": "Language"
+    },
+    "auth": {
+        "signIn": "Sign In",
+        "signUp": "Sign Up",
+        "forgotPassword": "Forgot Password?",
+        "resetPassword": "Reset Password",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "welcomeBack": "Welcome Back!",
+        "enterCredentials": "Please enter your credentials to log in.",
+        "alreadyHaveAccount": "Already have an account?",
+        "dontHaveAccount": "Don't have an account?"
+    },
+    "home": {
+        "title": "Home",
+        "welcome": "Welcome to Dashboard"
     }
 }

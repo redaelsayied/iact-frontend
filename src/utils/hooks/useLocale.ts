@@ -1,6 +1,9 @@
 import { useEffect } from 'react'
 import i18n from 'i18next'
 import { useLocaleStore } from '@/store/localeStore'
+import { useThemeStore } from '@/store/themeStore'
+import { dateLocales } from '@/locales'
+import dayjs from 'dayjs'
 
 const useLocale = () => {
     const currentLang = useLocaleStore((state) => state.currentLang)
@@ -14,6 +17,15 @@ const useLocale = () => {
                 },
             )
             i18n.changeLanguage(formattedLang)
+
+            if (dateLocales[formattedLang]) {
+                dateLocales[formattedLang]().then(() => {
+                    dayjs.locale(formattedLang)
+                })
+            }
+
+            const dir = formattedLang === 'ar' ? 'rtl' : 'ltr'
+            useThemeStore.getState().setDirection(dir)
         }
     }, [currentLang])
 

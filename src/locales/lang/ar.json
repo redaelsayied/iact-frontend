@@ -1,0 +1,51 @@
+{
+    "nav": {
+        "home": "الرئيسية",
+        "singleMenuItem": "عنصر قائمة فردي",
+        "collapseMenu": {
+            "collapseMenu": "قائمة منسدلة",
+            "item1": "عنصر منسدل 1",
+            "item2": "عنصر منسدل 2"
+        },
+        "groupMenu": {
+            "groupMenu": "مجموعة القوائم",
+            "single": "عنصر مجموعة فردي",
+            "collapse": {
+                "collapse": "مجموعة منسدلة",
+                "item1": "عنصر 1",
+                "item2": "عنصر 2"
+            }
+        }
+    },
+    "common": {
+        "signOut": "تسجيل الخروج",
+        "profile": "الملف الشخصي",
+        "settings": "الإعدادات",
+        "search": "بحث...",
+        "anonymous": "مستخدم مجهول",
+        "noEmail": "لا يوجد بريد إلكتروني",
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "loading": "جاري التحميل...",
+        "language": "اللغة"
+    },
+    "auth": {
+        "signIn": "تسجيل الدخول",
+        "signUp": "إنشاء حساب",
+        "forgotPassword": "نسيت كلمة المرور؟",
+        "resetPassword": "إعادة ضبط كلمة المرور",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور",
+        "welcomeBack": "مرحباً بعودتك!",
+        "enterCredentials": "يرجى إدخال بيانات الاعتماد الخاصة بك للوصول.",
+        "alreadyHaveAccount": "لديك حساب بالفعل؟",
+        "dontHaveAccount": "ليس لديك حساب؟"
+    },
+    "home": {
+        "title": "الرئيسية",
+        "welcome": "مرحباً بك في لوحة التحكم"
+    }
+}

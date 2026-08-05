@@ -4,6 +4,7 @@ import { devtools, persist } from 'zustand/middleware'
 import i18n from 'i18next'
 import { dateLocales } from '@/locales'
 import dayjs from 'dayjs'
+import { useThemeStore } from '@/store/themeStore'
 
 type LocaleState = {
     currentLang: string
@@ -25,9 +26,14 @@ export const useLocaleStore = create<LocaleState>()(
 
                     i18n.changeLanguage(formattedLang)
 
-                    dateLocales[formattedLang]().then(() => {
-                        dayjs.locale(formattedLang)
-                    })
+                    if (dateLocales[formattedLang]) {
+                        dateLocales[formattedLang]().then(() => {
+                            dayjs.locale(formattedLang)
+                        })
+                    }
+
+                    const dir = formattedLang === 'ar' ? 'rtl' : 'ltr'
+                    useThemeStore.getState().setDirection(dir)
 
                     return set({ currentLang: lang })
                 },

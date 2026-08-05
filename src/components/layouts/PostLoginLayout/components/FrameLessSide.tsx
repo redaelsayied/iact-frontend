@@ -3,8 +3,9 @@ import Header from '@/components/template/Header'
 import FrameLessGap from '@/components/template/FrameLessGap'
 import SideNavToggle from '@/components/template/SideNavToggle'
 import MobileNav from '@/components/template/MobileNav'
-import UserProfileDropdown from '@/components//template/UserProfileDropdown'
-import LayoutBase from '@/components//template/LayoutBase'
+import UserProfileDropdown from '@/components/template/UserProfileDropdown'
+import LanguageSelector from '@/components/template/LanguageSelector'
+import LayoutBase from '@/components/template/LayoutBase'
 import classNames from '@/utils/classNames'
 import useScrollTop from '@/utils/hooks/useScrollTop'
 import useResponsive from '@/utils/hooks/useResponsive'
@@ -98,6 +99,7 @@ const FrameLessSide = ({ children }: CommonProps) => {
                             }
                             headerEnd={
                                 <>
+                                    <LanguageSelector />
                                     <UserProfileDropdown hoverable={false} />
                                 </>
                             }

@@ -2,8 +2,9 @@ import SideNav from '@/components/template/SideNav'
 import Header from '@/components/template/Header'
 import SideNavToggle from '@/components/template/SideNavToggle'
 import MobileNav from '@/components/template/MobileNav'
-import UserProfileDropdown from '@/components//template/UserProfileDropdown'
-import LayoutBase from '@/components//template/LayoutBase'
+import UserProfileDropdown from '@/components/template/UserProfileDropdown'
+import LanguageSelector from '@/components/template/LanguageSelector'
+import LayoutBase from '@/components/template/LayoutBase'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_COLLAPSIBLE_SIDE } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
@@ -29,6 +30,7 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                         }
                         headerEnd={
                             <>
+                                <LanguageSelector />
                                 <UserProfileDropdown hoverable={false} />
                             </>
                         }
