@@ -44,7 +44,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
 
         try {
             setSubmitting(true)
-            const resp = await apiForgotPassword<boolean>({ email })
+            const resp = await apiForgotPassword({ email })
             if (resp) {
                 setSubmitting(false)
                 setEmailSent?.(true)
@@ -62,7 +62,7 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     return (
         <div className={className}>
             {!emailSent ? (
-                <Form onSubmit={handleSubmit(onForgotPassword)} className="w-full">
+                <Form className="w-full" onSubmit={handleSubmit(onForgotPassword)}>
                     <FormItem
                         invalid={Boolean(errors.email)}
                         errorMessage={errors.email?.message}

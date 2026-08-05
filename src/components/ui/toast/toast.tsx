@@ -63,11 +63,11 @@ toast.push = (message, options = toastDefaultProps as ToastProps) => {
     const wrapper = getWrapper(id)
 
     if (wrapper?.current) {
-        return wrapper.current.push(message as any)
+        return wrapper.current.push(message as ReactNode)
     }
 
     return createWrapper(id ?? '', options).then((ref) => {
-        return ref.current?.push(message as any)
+        return ref.current?.push(message as ReactNode)
     })
 }
 

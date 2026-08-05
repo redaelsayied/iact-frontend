@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Button from '@/components/ui/Button'
 import { useAuth } from '@/auth'
 import useTranslation from '@/utils/hooks/useTranslation'
@@ -55,16 +56,25 @@ const SignUpForm = (props: SignUpFormProps) => {
         resolver: zodResolver(validationSchema),
     })
 
+    const navigate = useNavigate()
+
     const onSignUp = async (values: SignUpFormSchema) => {
         const { firstName, lastName, password, email, mobileNumber } = values
-        const userName = `${firstName} ${lastName}`.trim()
 
         if (!disableSubmit) {
             setSubmitting(true)
-            const result = await signUp({ userName, firstName, lastName, password, email, mobileNumber })
+            const result = await signUp({
+                firstName,
+                lastName,
+                phoneNumber: mobileNumber,
+                email,
+                password,
+            })
 
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
+            } else {
+                navigate(`/verify-email?email=${encodeURIComponent(email)}`)
             }
 
             setSubmitting(false)
@@ -194,8 +204,8 @@ const SignUpForm = (props: SignUpFormProps) => {
                         />
                         <button
                             type="button"
-                            onClick={() => setShowPassword(!showPassword)}
                             className="ms-2 text-text-muted hover:text-text-primary focus:outline-none"
+                            onClick={() => setShowPassword(!showPassword)}
                         >
                             {showPassword ? <HiOutlineEyeOff className="text-lg" /> : <HiOutlineEye className="text-lg" />}
                         </button>

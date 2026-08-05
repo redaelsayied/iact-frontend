@@ -9,9 +9,27 @@ const authRoute: Routes = [
         authority: [],
     },
     {
+        key: 'login',
+        path: `/login`,
+        component: lazy(() => import('@/views/auth/SignIn')),
+        authority: [],
+    },
+    {
         key: 'signUp',
         path: `/sign-up`,
         component: lazy(() => import('@/views/auth/SignUp')),
+        authority: [],
+    },
+    {
+        key: 'register',
+        path: `/register`,
+        component: lazy(() => import('@/views/auth/SignUp')),
+        authority: [],
+    },
+    {
+        key: 'verifyEmail',
+        path: `/verify-email`,
+        component: lazy(() => import('@/views/auth/OtpVerification')),
         authority: [],
     },
     {

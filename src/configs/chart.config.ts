@@ -23,7 +23,7 @@ export const apexLineChartDefaultOption: ApexOptions = {
         itemMargin: {
             vertical: 10,
         },
-        tooltipHoverFormatter: function (val, opts) {
+        tooltipHoverFormatter: function (val: string, opts: { w: { globals: { series: number[][] } }; seriesIndex: number; dataPointIndex: number }) {
             return (
                 val +
                 ' - ' +
@@ -81,7 +81,7 @@ export const apexBarChartDefaultOption: ApexOptions = {
         itemMargin: {
             vertical: 10,
         },
-        tooltipHoverFormatter: function (val, opts) {
+        tooltipHoverFormatter: function (val: string, opts: { w: { globals: { series: number[][] } }; seriesIndex: number; dataPointIndex: number }) {
             return (
                 val +
                 ' - ' +
@@ -98,7 +98,7 @@ export const apexBarChartDefaultOption: ApexOptions = {
     },
     tooltip: {
         y: {
-            formatter: (val) => `${val}`,
+            formatter: (val: number | string) => `${val}`,
         },
     },
 }
@@ -114,9 +114,9 @@ export const apexDonutChartDefaultOption: ApexOptions = {
                         show: true,
                         showAlways: true,
                         label: '',
-                        formatter: function (w) {
+                        formatter: function (w: { globals: { seriesTotals: number[] } }) {
                             return w.globals.seriesTotals.reduce(
-                                (a: string, b: string) => {
+                                (a: number, b: number) => {
                                     return a + b
                                 },
                                 0,

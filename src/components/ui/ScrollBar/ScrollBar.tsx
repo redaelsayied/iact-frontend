@@ -7,6 +7,7 @@ import type { TypeAttributes } from '../@types/common'
 
 export interface ScrollBarProps extends Props {
     direction?: TypeAttributes.Direction
+    autoHide?: boolean
     ref?: Ref<SimpleBarCore>
 }
 

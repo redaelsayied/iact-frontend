@@ -2,6 +2,7 @@ import { createContext } from 'react'
 import type {
     SignInCredential,
     SignUpCredential,
+    VerifyEmailPayload,
     AuthResult,
     User,
     OauthSignInCallbackPayload,
@@ -12,6 +13,7 @@ type Auth = {
     user: User
     signIn: (values: SignInCredential) => AuthResult
     signUp: (values: SignUpCredential) => AuthResult
+    verifyEmail: (values: VerifyEmailPayload) => AuthResult
     signOut: () => void
     oAuthSignIn: (
         callback: (payload: OauthSignInCallbackPayload) => void,
@@ -40,6 +42,7 @@ const AuthContext = createContext<Auth>({
     user: {},
     signIn: async () => defaultFunctionPlaceHolder(),
     signUp: async () => defaultFunctionPlaceHolder(),
+    verifyEmail: async () => defaultFunctionPlaceHolder(),
     signOut: () => {},
     oAuthSignIn: defaultOAuthSignInPlaceHolder,
 })

@@ -64,7 +64,7 @@ const SignInForm = (props: SignInFormProps) => {
 
         if (!disableSubmit) {
             setSubmitting(true)
-            const result = await signIn({ email, password })
+            const result = await signIn({ identifier: email, password })
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
             }
@@ -121,8 +121,8 @@ const SignInForm = (props: SignInFormProps) => {
                         />
                         <button
                             type="button"
-                            onClick={() => setShowPassword(!showPassword)}
                             className="ms-2 text-text-muted hover:text-text-primary focus:outline-none"
+                            onClick={() => setShowPassword(!showPassword)}
                         >
                             {showPassword ? <HiOutlineEyeOff className="text-lg" /> : <HiOutlineEye className="text-lg" />}
                         </button>

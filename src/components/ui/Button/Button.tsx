@@ -29,7 +29,7 @@ export interface ButtonProps
     ref?: React.Ref<HTMLButtonElement>
     shape?: TypeAttributes.Shape
     size?: TypeAttributes.Size
-    variant?: 'solid' | 'plain' | 'default'
+    variant?: 'solid' | 'plain' | 'default' | 'twoTone'
     iconAlignment?: 'start' | 'end'
 }
 
@@ -165,12 +165,24 @@ const Button = (props: ButtonProps) => {
         } ${textColor}`
     }
 
+    const twoToneColor = () => {
+        const btn = {
+            bgColor: `bg-primary-subtle bg-opacity-20`,
+            textColor: `text-primary`,
+            hoverColor: unclickable ? '' : `hover:bg-primary-subtle hover:bg-opacity-30`,
+            activeColor: ``,
+        }
+        return getBtnColor(btn)
+    }
+
     const btnColor = () => {
         switch (variant) {
             case 'solid':
                 return solidColor()
             case 'plain':
                 return plainColor()
+            case 'twoTone':
+                return twoToneColor()
             case 'default':
                 return defaultColor()
             default:

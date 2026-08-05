@@ -85,8 +85,8 @@ export const ForgotPasswordBase = ({
                             block
                             variant="solid"
                             type="button"
-                            onClick={handleContinue}
                             className="h-12 bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold text-base rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border-none w-full"
+                            onClick={handleContinue}
                         >
                             {t('common.continue', 'Continue')}
                         </Button>

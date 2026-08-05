@@ -1,48 +1,77 @@
 import ApiService from './ApiService'
-import endpointConfig from '@/configs/endpoint.config'
+import type { ApiResponse } from '@/@types/api'
 import type {
     SignInCredential,
     SignUpCredential,
-    ForgotPassword,
-    ResetPassword,
-    SignInResponse,
-    SignUpResponse,
+    VerifyEmailPayload,
+    ResendOtpPayload,
+    ForgotPasswordPayload,
+    ResetPasswordPayload,
+    RefreshTokenPayload,
+    LogoutPayload,
+    AuthResponse,
+    VerifyEmailResponse,
 } from '@/@types/auth'
 
 export async function apiSignIn(data: SignInCredential) {
-    return ApiService.fetchDataWithAxios<SignInResponse>({
-        url: endpointConfig.signIn,
+    return ApiService.fetchDataWithAxios<ApiResponse<AuthResponse>>({
+        url: '/Auth/login',
         method: 'post',
         data,
     })
 }
 
 export async function apiSignUp(data: SignUpCredential) {
-    return ApiService.fetchDataWithAxios<SignUpResponse>({
-        url: endpointConfig.signUp,
+    return ApiService.fetchDataWithAxios<ApiResponse>({
+        url: '/Auth/register',
         method: 'post',
         data,
     })
 }
 
-export async function apiSignOut() {
-    return ApiService.fetchDataWithAxios({
-        url: endpointConfig.signOut,
-        method: 'post',
-    })
-}
-
-export async function apiForgotPassword<T>(data: ForgotPassword) {
-    return ApiService.fetchDataWithAxios<T>({
-        url: endpointConfig.forgotPassword,
+export async function apiVerifyEmail(data: VerifyEmailPayload) {
+    return ApiService.fetchDataWithAxios<ApiResponse<VerifyEmailResponse>>({
+        url: '/Auth/verify-email',
         method: 'post',
         data,
     })
 }
 
-export async function apiResetPassword<T>(data: ResetPassword) {
-    return ApiService.fetchDataWithAxios<T>({
-        url: endpointConfig.resetPassword,
+export async function apiResendOtp(data: ResendOtpPayload) {
+    return ApiService.fetchDataWithAxios<ApiResponse>({
+        url: '/Auth/resend-otp',
+        method: 'post',
+        data,
+    })
+}
+
+export async function apiForgotPassword(data: ForgotPasswordPayload) {
+    return ApiService.fetchDataWithAxios<ApiResponse>({
+        url: '/Auth/forget-password',
+        method: 'post',
+        data,
+    })
+}
+
+export async function apiResetPassword(data: ResetPasswordPayload) {
+    return ApiService.fetchDataWithAxios<ApiResponse>({
+        url: '/Auth/reset-password',
+        method: 'post',
+        data,
+    })
+}
+
+export async function apiRefreshToken(data: RefreshTokenPayload) {
+    return ApiService.fetchDataWithAxios<ApiResponse<AuthResponse>>({
+        url: '/Auth/refresh-token',
+        method: 'post',
+        data,
+    })
+}
+
+export async function apiSignOut(data: LogoutPayload) {
+    return ApiService.fetchDataWithAxios<ApiResponse>({
+        url: '/Auth/logout',
         method: 'post',
         data,
     })
