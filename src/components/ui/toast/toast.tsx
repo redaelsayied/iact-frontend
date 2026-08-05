@@ -63,11 +63,13 @@ toast.push = (message, options = toastDefaultProps as ToastProps) => {
     const wrapper = getWrapper(id)
 
     if (wrapper?.current) {
-        return wrapper.current.push(message as ReactNode)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return wrapper.current.push(message as any)
     }
 
     return createWrapper(id ?? '', options).then((ref) => {
-        return ref.current?.push(message as ReactNode)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return ref.current?.push(message as any)
     })
 }
 

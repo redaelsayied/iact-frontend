@@ -5,6 +5,7 @@ import {
     TOKEN_NAME_IN_STORAGE,
 } from '@/constants/api.constant'
 import cookiesStorage from '@/utils/cookiesStorage'
+import { useLocaleStore } from '@/store/localeStore'
 import type { InternalAxiosRequestConfig } from 'axios'
 
 const AxiosRequestIntrceptorConfigCallback = (
@@ -28,6 +29,10 @@ const AxiosRequestIntrceptorConfigCallback = (
     if (accessToken) {
         config.headers[REQUEST_HEADER_AUTH_KEY] = `${TOKEN_TYPE}${accessToken}`
     }
+
+    // Attach Accept-Language header based on current locale store
+    const currentLang = useLocaleStore.getState()?.currentLang || appConfig.locale || 'en'
+    config.headers['Accept-Language'] = currentLang
 
     return config
 }

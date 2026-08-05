@@ -9,7 +9,7 @@ export type AppConfig = {
 }
 
 const appConfig: AppConfig = {
-    apiPrefix: '/api',
+    apiPrefix: import.meta.env.VITE_API_BASE_URL || 'https://iatc.runasp.net/api',
     authenticatedEntryPath: '/home',
     unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
