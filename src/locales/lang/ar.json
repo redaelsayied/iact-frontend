@@ -36,6 +36,8 @@
         "signUp": "إنشاء حساب",
         "forgotPassword": "نسيت كلمة المرور؟",
         "resetPassword": "إعادة ضبط كلمة المرور",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
         "userName": "اسم المستخدم",
         "email": "البريد الإلكتروني",
         "password": "كلمة المرور",

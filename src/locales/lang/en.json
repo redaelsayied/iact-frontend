@@ -36,6 +36,8 @@
         "signUp": "Sign Up",
         "forgotPassword": "Forgot Password?",
         "resetPassword": "Reset Password",
+        "firstName": "First Name",
+        "lastName": "Last Name",
         "userName": "User Name",
         "email": "Email",
         "password": "Password",
