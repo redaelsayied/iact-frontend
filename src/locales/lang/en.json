@@ -34,6 +34,7 @@
     "auth": {
         "signIn": "Sign In",
         "signUp": "Sign Up",
+        "signUpTitle": "Sign Up",
         "forgotPassword": "Forgot Password?",
         "resetPassword": "Reset Password",
         "firstName": "First Name",

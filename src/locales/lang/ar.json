@@ -34,6 +34,7 @@
     "auth": {
         "signIn": "تسجيل الدخول",
         "signUp": "إنشاء حساب",
+        "signUpTitle": "إنشاء حساب",
         "forgotPassword": "نسيت كلمة المرور؟",
         "resetPassword": "إعادة ضبط كلمة المرور",
         "firstName": "الاسم الأول",
