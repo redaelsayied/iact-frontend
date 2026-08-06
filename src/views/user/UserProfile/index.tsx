@@ -343,38 +343,6 @@ const UserProfile = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                            {t('profile.email', 'Email Address')} (
-                            {t('profile.readOnly', 'Read-only')})
-                        </label>
-                        <Input
-                            disabled
-                            readOnly
-                            value={profile?.email || sessionUser.email || ''}
-                            className="bg-gray-100 dark:bg-gray-700"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                            {t('profile.phone', 'Phone Number')} (
-                            {t('profile.readOnly', 'Read-only')})
-                        </label>
-                        <Input
-                            disabled
-                            readOnly
-                            value={
-                                profile?.phoneNumber ||
-                                sessionUser.phoneNumber ||
-                                ''
-                            }
-                            className="bg-gray-100 dark:bg-gray-700"
-                        />
-                    </div>
-                </div>
-
                 <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                     <Button
                         variant="solid"
