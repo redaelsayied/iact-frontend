@@ -56,7 +56,14 @@ const Input = (props: InputProps) => {
     const [prefixGutter, setPrefixGutter] = useState(0)
     const [suffixGutter, setSuffixGutter] = useState(0)
 
-    const { controlSize, direction } = useConfig()
+    const { controlSize, direction: configDirection } = useConfig()
+    const direction =
+        configDirection ||
+        (typeof document !== 'undefined'
+            ? (document.documentElement.dir as 'ltr' | 'rtl')
+            : 'ltr') ||
+        'ltr'
+
     const formControlSize = useForm()?.size
     const formItemInvalid = useFormItem()?.invalid
     const inputGroupSize = useInputGroup()?.size
@@ -121,7 +128,7 @@ const Input = (props: InputProps) => {
 
     useEffect(() => {
         getAffixSize()
-    }, [prefix, suffix])
+    }, [prefix, suffix, direction])
 
     const remToPxConvertion = (pixel: number) => 0.0625 * pixel
 

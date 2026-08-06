@@ -1,5 +1,7 @@
 {
     "nav": {
+        "adminMenu": "إدارة النظام",
+        "usersList": "قائمة المستخدمين",
         "home": "الرئيسية",
         "singleMenuItem": "عنصر قائمة فردي",
         "collapseMenu": {
@@ -106,5 +108,41 @@
     "home": {
         "title": "الرئيسية",
         "welcome": "مرحباً بك في لوحة التحكم"
+    },
+    "userManagement": {
+        "title": "إدارة المستخدمين",
+        "description": "عرض المستخدمين والبحث والتصفية والتعديل وتبديل الحالة النشطة لحسابات المستخدمين.",
+        "createUser": "إنشاء مستخدم",
+        "searchPlaceholder": "البحث بالاسم الكامل أو البريد الإلكتروني...",
+        "filterByStatus": "تصفية حسب الحالة",
+        "allStatuses": "كل الحالات",
+        "pendingEmailVerification": "في انتظار تأكيد البريد الإلكتروني",
+        "pendingIdentityVerification": "في انتظار التحقق من الهوية",
+        "pendingApproval": "في انتظار الموافقة",
+        "active": "نشط",
+        "rejected": "مرفوض",
+        "suspended": "معلق",
+        "locked": "مقفل",
+        "pendingEmail": "في انتظار تأكيد البريد",
+        "pendingID": "في انتظار التحقق من الهوية",
+        "pendingReview": "في انتظار المراجعة",
+        "unknown": "غير معروف",
+        "user": "المستخدم",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "roles": "الأدوار",
+        "status": "الحالة",
+        "actions": "إجراءات",
+        "viewDetails": "عرض التفاصيل",
+        "editUser": "تعديل المستخدم",
+        "deleteUser": "حذف المستخدم",
+        "toggleStatusDelete": "تبديل الحالة / الحذف",
+        "toggleUserStatus": "تبديل حالة المستخدم",
+        "confirmToggle": "تأكيد التبديل",
+        "toggleConfirmation": "هل أنت متأكد من رغبتك في تبديل الحالة النشطة لحساب {name} ({email})؟",
+        "failedFetchUsers": "فشل جلب المستخدمين.",
+        "statusUpdated": "تم تحديث حالة المستخدم بنجاح.",
+        "failedToggleStatus": "فشل تبديل حالة المستخدم.",
+        "operationFailed": "فشلت العملية."
     }
 }

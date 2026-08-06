@@ -1,5 +1,7 @@
 {
     "nav": {
+        "adminMenu": "Admin Management",
+        "usersList": "Users List",
         "home": "Home",
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
@@ -106,5 +108,41 @@
     "home": {
         "title": "Home",
         "welcome": "Welcome to Dashboard"
+    },
+    "userManagement": {
+        "title": "User Management",
+        "description": "View, search, filter, edit, and toggle active states of user accounts.",
+        "createUser": "Create User",
+        "searchPlaceholder": "Search by full name or email...",
+        "filterByStatus": "Filter by Status",
+        "allStatuses": "All Statuses",
+        "pendingEmailVerification": "Pending Email Verification",
+        "pendingIdentityVerification": "Pending Identity Verification",
+        "pendingApproval": "Pending Approval",
+        "active": "Active",
+        "rejected": "Rejected",
+        "suspended": "Suspended",
+        "locked": "Locked",
+        "pendingEmail": "Pending Email",
+        "pendingID": "Pending ID",
+        "pendingReview": "Pending Review",
+        "unknown": "Unknown",
+        "user": "User",
+        "email": "Email",
+        "phone": "Phone",
+        "roles": "Roles",
+        "status": "Status",
+        "actions": "Actions",
+        "viewDetails": "View Details",
+        "editUser": "Edit User",
+        "deleteUser": "Delete User",
+        "toggleStatusDelete": "Toggle Status / Delete",
+        "toggleUserStatus": "Toggle User Status",
+        "confirmToggle": "Confirm Toggle",
+        "toggleConfirmation": "Are you sure you want to toggle the active status of account {name} ({email})?",
+        "failedFetchUsers": "Failed to fetch users.",
+        "statusUpdated": "User status updated successfully.",
+        "failedToggleStatus": "Failed to toggle user status.",
+        "operationFailed": "Operation failed."
     }
 }

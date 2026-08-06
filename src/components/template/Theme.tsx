@@ -4,20 +4,24 @@ import useDarkMode from '@/utils/hooks/useDarkMode'
 import useThemeSchema from '@/utils/hooks/useThemeSchema'
 import useLocale from '@/utils/hooks/useLocale'
 import useDirection from '@/utils/hooks/useDirection'
+import { useThemeStore } from '@/store/themeStore'
 import type { CommonProps } from '@/@types/common'
 
 const Theme = (props: CommonProps) => {
     useThemeSchema()
     useDarkMode()
-    useDirection()
+    const [direction] = useDirection()
 
     const { locale } = useLocale()
+    const mode = useThemeStore((state) => state.mode)
 
     return (
         <ConfigProvider
             value={{
-                locale: locale,
                 ...themeConfig,
+                locale: locale,
+                direction: direction,
+                mode: mode,
             }}
         >
             {props.children}

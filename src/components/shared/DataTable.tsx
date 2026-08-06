@@ -13,6 +13,7 @@ import Checkbox from '@/components/ui/Checkbox'
 import TableRowSkeleton from './loaders/TableRowSkeleton'
 import Loading from './Loading'
 import FileNotFound from '@/assets/svg/FileNotFound'
+import useTranslation from '@/utils/hooks/useTranslation'
 import {
     useReactTable,
     getCoreRowModel,
@@ -136,7 +137,11 @@ function DataTable<T>(props: DataTableProps<T>) {
         ...rest
     } = props
 
+    const { t } = useTranslation()
     const { pageSize, pageIndex, total } = pagingData
+
+    const isNoData =
+        typeof noData === 'boolean' ? noData : (!loading && data.length === 0)
 
     const [sorting, setSorting] = useState<ColumnSort[] | null>(null)
 
@@ -144,9 +149,9 @@ function DataTable<T>(props: DataTableProps<T>) {
         () =>
             pageSizes.map((number) => ({
                 value: number,
-                label: `${number} / page`,
+                label: `${number} / ${t('common.page', 'صفحة')}`,
             })),
-        [pageSizes],
+        [pageSizes, t],
     )
 
     useEffect(() => {
@@ -272,108 +277,118 @@ function DataTable<T>(props: DataTableProps<T>) {
     }
 
     return (
-        <Loading loading={Boolean(loading && data.length !== 0)} type="cover">
-            <Table {...rest}>
-                <THead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <Tr key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => {
-                                return (
-                                    <Th
-                                        key={header.id}
-                                        colSpan={header.colSpan}
-                                    >
-                                        {header.isPlaceholder ? null : (
-                                            <div
-                                                className={classNames(
-                                                    header.column.getCanSort() &&
-                                                        'cursor-pointer select-none point',
-                                                    loading &&
-                                                        'pointer-events-none',
-                                                )}
-                                                onClick={header.column.getToggleSortingHandler()}
+        <div className="flex flex-col w-full min-h-[460px] justify-between">
+            <div className="flex-1 w-full flex flex-col overflow-x-auto">
+                <Loading loading={Boolean(loading && data.length !== 0)} type="cover" className="w-full flex-1 flex flex-col">
+                    <Table className="w-full min-w-full" {...rest}>
+                        <THead>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <Tr key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => {
+                                        return (
+                                            <Th
+                                                key={header.id}
+                                                colSpan={header.colSpan}
+                                                style={{
+                                                    width:
+                                                        header.column.getSize() !== 150
+                                                            ? header.column.getSize()
+                                                            : undefined,
+                                                }}
                                             >
-                                                {flexRender(
-                                                    header.column.columnDef
-                                                        .header,
-                                                    header.getContext(),
+                                                {header.isPlaceholder ? null : (
+                                                    <div
+                                                        className={classNames(
+                                                            header.column.getCanSort() &&
+                                                                'cursor-pointer select-none point',
+                                                            loading &&
+                                                                'pointer-events-none',
+                                                        )}
+                                                        onClick={header.column.getToggleSortingHandler()}
+                                                    >
+                                                        {flexRender(
+                                                            header.column.columnDef
+                                                                .header,
+                                                            header.getContext(),
+                                                        )}
+                                                        {header.column.getCanSort() && (
+                                                            <Sorter
+                                                                sort={header.column.getIsSorted()}
+                                                            />
+                                                        )}
+                                                    </div>
                                                 )}
-                                                {header.column.getCanSort() && (
-                                                    <Sorter
-                                                        sort={header.column.getIsSorted()}
-                                                    />
+                                            </Th>
+                                        )
+                                    })}
+                                </Tr>
+                            ))}
+                        </THead>
+                        {loading && data.length === 0 ? (
+                            <TableRowSkeleton
+                                columns={(finalColumns as Array<T>).length}
+                                rows={pagingData.pageSize}
+                                avatarInColumns={skeletonAvatarColumns}
+                                avatarProps={skeletonAvatarProps}
+                            />
+                        ) : (
+                            <TBody>
+                                {isNoData ? (
+                                    <Tr>
+                                        <Td
+                                            className="hover:bg-transparent text-center h-[340px]"
+                                            colSpan={finalColumns.length}
+                                        >
+                                            <div className="flex flex-col items-center justify-center gap-3 h-full">
+                                                {customNoDataIcon ? (
+                                                    customNoDataIcon
+                                                ) : (
+                                                    <>
+                                                        <FileNotFound />
+                                                        <span className="font-semibold text-gray-500 text-sm">
+                                                            {t('common.noDataFound', 'لا توجد بيانات')}
+                                                        </span>
+                                                    </>
                                                 )}
                                             </div>
-                                        )}
-                                    </Th>
-                                )
-                            })}
-                        </Tr>
-                    ))}
-                </THead>
-                {loading && data.length === 0 ? (
-                    <TableRowSkeleton
-                        columns={(finalColumns as Array<T>).length}
-                        rows={pagingData.pageSize}
-                        avatarInColumns={skeletonAvatarColumns}
-                        avatarProps={skeletonAvatarProps}
-                    />
-                ) : (
-                    <TBody>
-                        {noData ? (
-                            <Tr>
-                                <Td
-                                    className="hover:bg-transparent"
-                                    colSpan={finalColumns.length}
-                                >
-                                    <div className="flex flex-col items-center gap-4">
-                                        {customNoDataIcon ? (
-                                            customNoDataIcon
-                                        ) : (
-                                            <>
-                                                <FileNotFound />
-                                                <span className="font-semibold">
-                                                    No data found!
-                                                </span>
-                                            </>
-                                        )}
-                                    </div>
-                                </Td>
-                            </Tr>
-                        ) : (
-                            table
-                                .getRowModel()
-                                .rows.slice(0, pageSize)
-                                .map((row) => {
-                                    return (
-                                        <Tr key={row.id}>
-                                            {row
-                                                .getVisibleCells()
-                                                .map((cell) => {
-                                                    return (
-                                                        <Td
-                                                            key={cell.id}
-                                                            style={{
-                                                                width: cell.column.getSize(),
-                                                            }}
-                                                        >
-                                                            {flexRender(
-                                                                cell.column
-                                                                    .columnDef
-                                                                    .cell,
-                                                                cell.getContext(),
-                                                            )}
-                                                        </Td>
-                                                    )
-                                                })}
-                                        </Tr>
-                                    )
-                                })
+                                        </Td>
+                                    </Tr>
+                                ) : (
+                                    table
+                                        .getRowModel()
+                                        .rows.slice(0, pageSize)
+                                        .map((row) => {
+                                            return (
+                                                <Tr key={row.id}>
+                                                    {row
+                                                        .getVisibleCells()
+                                                        .map((cell) => {
+                                                            return (
+                                                                <Td
+                                                                    key={cell.id}
+                                                                    style={{
+                                                                        width: cell.column.getSize(),
+                                                                    }}
+                                                                >
+                                                                    {flexRender(
+                                                                        cell.column
+                                                                            .columnDef
+                                                                            .cell,
+                                                                        cell.getContext(),
+                                                                    )}
+                                                                </Td>
+                                                            )
+                                                        })}
+                                                </Tr>
+                                            )
+                                        })
+                                )}
+                            </TBody>
                         )}
-                    </TBody>
-                )}
-            </Table>
-            <div className="flex items-center justify-between mt-4">
+                    </Table>
+                </Loading>
+            </div>
+            <div className="flex items-center justify-between mt-4 pt-2">
                 <Pagination
                     pageSize={pageSize}
                     currentPage={pageIndex}
@@ -394,7 +409,7 @@ function DataTable<T>(props: DataTableProps<T>) {
                     />
                 </div>
             </div>
-        </Loading>
+        </div>
     )
 }
 

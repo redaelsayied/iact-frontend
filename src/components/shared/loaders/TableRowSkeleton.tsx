@@ -15,13 +15,13 @@ const TableRowSkeleton = (props: TableRowSkeletonProps) => {
     const { columns = 1, rows = 10, avatarInColumns = [], avatarProps } = props
 
     return (
-        <TBody>
+        <TBody className="w-full">
             {Array.from(new Array(rows), (_, i) => i + 0).map((row) => (
-                <Tr key={`row-${row}`}>
+                <Tr key={`row-${row}`} className="w-full">
                     {Array.from(new Array(columns), (_, i) => i + 0).map(
                         (col) => (
                             <Td key={`col-${col}`}>
-                                <div className="flex flex-auto items-center gap-2">
+                                <div className="flex flex-auto items-center gap-2 w-full">
                                     {avatarInColumns.includes(col) && (
                                         <div>
                                             <Skeleton
@@ -30,7 +30,7 @@ const TableRowSkeleton = (props: TableRowSkeletonProps) => {
                                             />
                                         </div>
                                     )}
-                                    <Skeleton />
+                                    <Skeleton className="w-full" />
                                 </div>
                             </Td>
                         ),

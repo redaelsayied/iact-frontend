@@ -10,49 +10,56 @@ import DataTable, { ColumnDef } from '@/components/shared/DataTable'
 import ConfirmDialog from '@/components/shared/ConfirmDialog'
 import { Link } from 'react-router-dom'
 import { apiGetUsers, apiDeleteUser } from '@/services/UserService'
+import useTranslation from '@/utils/hooks/useTranslation'
+import Tooltip from '@/components/ui/Tooltip'
 import {
     HiOutlineMagnifyingGlass,
     HiOutlineUserPlus,
     HiOutlineEye,
-    HiOutlinePencilSquare,
+    HiOutlinePencil,
     HiOutlineTrash,
     HiOutlineUser,
 } from 'react-icons/hi2'
 import type { UserInfoResponse, PaginatedResult, UserQueryFilter } from '@/@types/user'
 
-const statusOptions = [
-    { value: 0, label: 'All Statuses' },
-    { value: 1, label: 'Pending Email Verification' },
-    { value: 2, label: 'Pending Identity Verification' },
-    { value: 3, label: 'Pending Approval' },
-    { value: 4, label: 'Active' },
-    { value: 5, label: 'Rejected' },
-    { value: 6, label: 'Suspended' },
-    { value: 7, label: 'Locked' },
-]
-
-const renderStatusBadge = (status: number) => {
-    switch (status) {
-        case 1:
-            return <Badge className="bg-amber-500 text-white">Pending Email</Badge>
-        case 2:
-            return <Badge className="bg-blue-500 text-white">Pending ID</Badge>
-        case 3:
-            return <Badge className="bg-purple-500 text-white">Pending Review</Badge>
-        case 4:
-            return <Badge className="bg-emerald-500 text-white">Active</Badge>
-        case 5:
-            return <Badge className="bg-rose-500 text-white">Rejected</Badge>
-        case 6:
-            return <Badge className="bg-red-600 text-white">Suspended</Badge>
-        case 7:
-            return <Badge className="bg-gray-700 text-white">Locked</Badge>
-        default:
-            return <Badge className="bg-gray-400 text-white">Unknown</Badge>
-    }
-}
-
 const UsersList = () => {
+    const { t } = useTranslation()
+
+    const statusOptions = [
+        { value: 0, label: t('userManagement.allStatuses', 'كل الحالات') },
+        { value: 1, label: t('userManagement.pendingEmailVerification', 'في انتظار تأكيد البريد الإلكتروني') },
+        { value: 2, label: t('userManagement.pendingIdentityVerification', 'في انتظار التحقق من الهوية') },
+        { value: 3, label: t('userManagement.pendingApproval', 'في انتظار الموافقة') },
+        { value: 4, label: t('userManagement.active', 'نشط') },
+        { value: 5, label: t('userManagement.rejected', 'مرفوض') },
+        { value: 6, label: t('userManagement.suspended', 'معلق') },
+        { value: 7, label: t('userManagement.locked', 'مقفل') },
+    ]
+
+    const renderStatusBadge = useCallback(
+        (status: number) => {
+            switch (status) {
+                case 1:
+                    return <Badge className="bg-amber-500 text-white">{t('userManagement.pendingEmail', 'في انتظار تأكيد البريد')}</Badge>
+                case 2:
+                    return <Badge className="bg-blue-500 text-white">{t('userManagement.pendingID', 'في انتظار التحقق من الهوية')}</Badge>
+                case 3:
+                    return <Badge className="bg-purple-500 text-white">{t('userManagement.pendingReview', 'في انتظار المراجعة')}</Badge>
+                case 4:
+                    return <Badge className="bg-emerald-500 text-white">{t('userManagement.active', 'نشط')}</Badge>
+                case 5:
+                    return <Badge className="bg-rose-500 text-white">{t('userManagement.rejected', 'مرفوض')}</Badge>
+                case 6:
+                    return <Badge className="bg-red-600 text-white">{t('userManagement.suspended', 'معلق')}</Badge>
+                case 7:
+                    return <Badge className="bg-gray-700 text-white">{t('userManagement.locked', 'مقفل')}</Badge>
+                default:
+                    return <Badge className="bg-gray-400 text-white">{t('userManagement.unknown', 'غير معروف')}</Badge>
+            }
+        },
+        [t]
+    )
+
     const [users, setUsers] = useState<UserInfoResponse[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const [errorMsg, setErrorMsg] = useState<string>('')
@@ -95,12 +102,12 @@ const UsersList = () => {
             }
         } catch (err: unknown) {
             const errorObj = err as { response?: { data?: { message?: string } }; message?: string }
-            setErrorMsg(errorObj?.response?.data?.message || errorObj.message || 'Failed to fetch users.')
+            setErrorMsg(errorObj?.response?.data?.message || errorObj.message || t('userManagement.failedFetchUsers', 'فشل جلب المستخدمين.'))
             setUsers([])
         } finally {
             setLoading(false)
         }
-    }, [pageNumber, pageSize, searchTerm, statusFilter])
+    }, [pageNumber, pageSize, searchTerm, statusFilter, t])
 
     useEffect(() => {
         fetchUsers()
@@ -129,16 +136,16 @@ const UsersList = () => {
         try {
             const res = await apiDeleteUser(selectedUser.id)
             if (res?.status) {
-                setSuccessMsg(res.message || 'User status updated successfully.')
+                setSuccessMsg(res.message || t('userManagement.statusUpdated', 'تم تحديث حالة المستخدم بنجاح.'))
                 setDeleteModalOpen(false)
                 setSelectedUser(null)
                 fetchUsers()
             } else {
-                setErrorMsg(res?.message || 'Failed to toggle user status.')
+                setErrorMsg(res?.message || t('userManagement.failedToggleStatus', 'فشل تبديل حالة المستخدم.'))
             }
         } catch (err: unknown) {
             const errorObj = err as { response?: { data?: { message?: string } }; message?: string }
-            setErrorMsg(errorObj?.response?.data?.message || errorObj.message || 'Operation failed.')
+            setErrorMsg(errorObj?.response?.data?.message || errorObj.message || t('userManagement.operationFailed', 'فشلت العملية.'))
         } finally {
             setDeleting(false)
         }
@@ -147,8 +154,9 @@ const UsersList = () => {
     const columns: ColumnDef<UserInfoResponse>[] = useMemo(
         () => [
             {
-                header: 'User',
+                header: t('userManagement.user', 'المستخدم'),
                 accessorKey: 'firstName',
+                size: 220,
                 cell: (props) => {
                     const row = props.row.original
                     return (
@@ -162,59 +170,74 @@ const UsersList = () => {
                                 <span className="font-semibold text-gray-800 text-sm block">
                                     {row.firstName} {row.lastName}
                                 </span>
-                                <span className="text-xs text-gray-400 font-mono">ID: {row.id}</span>
                             </div>
                         </div>
                     )
                 },
             },
             {
-                header: 'Email',
+                header: t('userManagement.email', 'البريد الإلكتروني'),
                 accessorKey: 'email',
+                size: 260,
                 cell: (props) => props.row.original.email || '-',
             },
             {
-                header: 'Phone',
+                header: t('userManagement.phone', 'الهاتف'),
                 accessorKey: 'phoneNumber',
+                size: 150,
                 cell: (props) => props.row.original.phoneNumber || '-',
             },
             {
-                header: 'Roles',
+                header: t('userManagement.roles', 'الأدوار'),
                 accessorKey: 'roles',
-                cell: (props) => (props.row.original.roles || []).join(', ') || 'User',
+                size: 140,
+                cell: (props) => (props.row.original.roles || []).join(', ') || t('userManagement.user', 'المستخدم'),
             },
             {
-                header: 'Status',
+                header: t('userManagement.status', 'الحالة'),
                 accessorKey: 'status',
+                size: 150,
                 cell: (props) => renderStatusBadge(props.row.original.status),
             },
             {
-                header: '',
+                header: t('userManagement.actions', 'إجراءات'),
                 id: 'action',
+                size: 150,
                 cell: (props) => {
                     const row = props.row.original
                     return (
-                        <div className="flex items-center justify-end gap-2">
-                            <Link to={`/admin/users/${row.id}`}>
-                                <Button size="xs" variant="twoTone" icon={<HiOutlineEye />} title="View Details" />
-                            </Link>
-                            <Link to={`/admin/users/${row.id}/edit`}>
-                                <Button size="xs" variant="default" icon={<HiOutlinePencilSquare />} title="Edit User" />
-                            </Link>
-                            <Button
-                                size="xs"
-                                variant="solid"
-                                color="red-600"
-                                icon={<HiOutlineTrash />}
-                                title="Toggle Status / Delete"
-                                onClick={() => openDeleteDialog(row)}
-                            />
+                        <div className="flex items-center justify-center gap-2 sm:gap-3">
+                            <Tooltip title={t('userManagement.viewDetails', 'عرض التفاصيل')}>
+                                <Link
+                                    to={`/admin/users/${row.id}`}
+                                    className="w-9 h-9 flex items-center justify-center rounded-full text-gray-400 dark:text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:text-indigo-400 dark:hover:bg-indigo-950/40 transition-all duration-200 hover:scale-110 focus:outline-none"
+                                >
+                                    <HiOutlineEye className="text-xl" />
+                                </Link>
+                            </Tooltip>
+                            <Tooltip title={t('userManagement.editUser', 'تعديل البيانات')}>
+                                <Link
+                                    to={`/admin/users/${row.id}/edit`}
+                                    className="w-9 h-9 flex items-center justify-center rounded-full text-gray-400 dark:text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:text-emerald-400 dark:hover:bg-emerald-950/40 transition-all duration-200 hover:scale-110 focus:outline-none"
+                                >
+                                    <HiOutlinePencil className="text-xl" />
+                                </Link>
+                            </Tooltip>
+                            <Tooltip title={t('userManagement.deleteUser', 'حذف المستخدم')}>
+                                <button
+                                    type="button"
+                                    className="w-9 h-9 flex items-center justify-center rounded-full text-gray-400 dark:text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:text-rose-400 dark:hover:bg-rose-950/40 transition-all duration-200 hover:scale-110 focus:outline-none"
+                                    onClick={() => openDeleteDialog(row)}
+                                >
+                                    <HiOutlineTrash className="text-xl" />
+                                </button>
+                            </Tooltip>
                         </div>
                     )
                 },
             },
         ],
-        []
+        [t, renderStatusBadge]
     )
 
     return (
@@ -222,14 +245,14 @@ const UsersList = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-800">User Management</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{t('userManagement.title', 'إدارة المستخدمين')}</h2>
                     <p className="text-gray-500 text-sm mt-1">
-                        View, search, filter, edit, and toggle active states of user accounts.
+                        {t('userManagement.description', 'عرض المستخدمين والبحث والتصفية والتعديل وتبديل الحالة النشطة لحسابات المستخدمين.')}
                     </p>
                 </div>
                 <Link to="/admin/users/create">
                     <Button variant="solid" icon={<HiOutlineUserPlus />}>
-                        Create User
+                        {t('userManagement.createUser', 'إنشاء مستخدم')}
                     </Button>
                 </Link>
             </div>
@@ -243,7 +266,7 @@ const UsersList = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="w-full md:w-80">
                         <Input
-                            placeholder="Search by full name or email..."
+                            placeholder={t('userManagement.searchPlaceholder', 'البحث بالاسم الكامل أو البريد الإلكتروني...')}
                             value={searchTerm}
                             prefix={<HiOutlineMagnifyingGlass className="text-lg text-gray-400" />}
                             onChange={handleSearch}
@@ -251,7 +274,7 @@ const UsersList = () => {
                     </div>
                     <div className="w-full md:w-64">
                         <Select
-                            placeholder="Filter by Status"
+                            placeholder={t('userManagement.filterByStatus', 'تصفية حسب الحالة')}
                             options={statusOptions}
                             value={statusOptions.find((o) => o.value === statusFilter)}
                             onChange={handleStatusChange}
@@ -283,16 +306,18 @@ const UsersList = () => {
             <ConfirmDialog
                 isOpen={deleteModalOpen}
                 type="danger"
-                title="Toggle User Status"
-                confirmText="Confirm Toggle"
+                title={t('userManagement.toggleUserStatus', 'تبديل حالة المستخدم')}
+                confirmText={t('userManagement.confirmToggle', 'تأكيد التبديل')}
                 confirmButtonProps={{ loading: deleting, color: 'red-600' }}
                 onClose={() => setDeleteModalOpen(false)}
                 onCancel={() => setDeleteModalOpen(false)}
                 onConfirm={confirmDeleteToggle}
             >
                 <p className="text-sm text-gray-600">
-                    Are you sure you want to toggle the active status of account{' '}
-                    <strong className="text-gray-900">{selectedUser?.firstName} {selectedUser?.lastName}</strong> ({selectedUser?.email})?
+                    {t('userManagement.toggleConfirmation', 'هل أنت متأكد من رغبتك في تبديل الحالة النشطة لحساب {name} ({email})؟', {
+                        name: `${selectedUser?.firstName} ${selectedUser?.lastName}`,
+                        email: selectedUser?.email,
+                    })}
                 </p>
             </ConfirmDialog>
         </div>
