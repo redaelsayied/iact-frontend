@@ -24,11 +24,11 @@ type SignInFormSchema = {
 
 const validationSchema: ZodType<SignInFormSchema> = z.object({
     email: z
-        .string({ required_error: 'Please enter your email or mobile' })
-        .min(1, { message: 'Please enter your email or mobile' }),
+        .string({ required_error: 'auth.pleaseEnterEmailOrMobile' })
+        .min(1, { message: 'auth.pleaseEnterEmailOrMobile' }),
     password: z
-        .string({ required_error: 'Please enter your password' })
-        .min(1, { message: 'Please enter your password' }),
+        .string({ required_error: 'auth.pleaseEnterPassword' })
+        .min(1, { message: 'auth.pleaseEnterPassword' }),
 })
 
 const PasswordWithXxxIcon = () => (

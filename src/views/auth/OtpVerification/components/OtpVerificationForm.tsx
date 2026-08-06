@@ -6,6 +6,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '@/auth'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
 
@@ -29,6 +30,7 @@ const OtpVerificationForm = (props: OtpVerificationFormProps) => {
     const { email, className, setMessage, setOtpVerified } = props
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
     const { verifyEmail } = useAuth()
+    const { t } = useTranslation()
 
     const {
         handleSubmit,
@@ -56,11 +58,12 @@ const OtpVerificationForm = (props: OtpVerificationFormProps) => {
     }
 
     return (
-        <div className={className}>
+        <div className={`w-full ${className || ''}`}>
             <Form onSubmit={handleSubmit(onOtpSend)}>
                 <FormItem
                     invalid={Boolean(errors.otp)}
                     errorMessage={errors.otp?.message}
+                    className="mb-2"
                 >
                     <Controller
                         name="otp"
@@ -68,20 +71,31 @@ const OtpVerificationForm = (props: OtpVerificationFormProps) => {
                         render={({ field }) => (
                             <OtpInput
                                 placeholder=""
-                                inputClass="h-[58px]"
+                                className="justify-center lg:justify-start gap-2 sm:gap-3 my-2"
+                                inputClass="w-10 sm:w-12 md:w-14 h-12 sm:h-14 text-center text-lg sm:text-xl font-bold rounded-lg border border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm transition-all"
                                 length={OTP_LENGTH}
                                 {...field}
                             />
                         )}
                     />
                 </FormItem>
+
+                {/* Code Expiration Notice */}
+                <p className="text-xs sm:text-sm text-text-secondary text-center lg:text-start mb-6 font-medium">
+                    {t('auth.codeExpireNotice', 'Your Code Will Expire in 10 Minutes')}
+                </p>
+
+                {/* Submit Button */}
                 <Button
                     block
                     loading={isSubmitting}
                     variant="solid"
                     type="submit"
+                    className="w-full h-12 bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold py-3 sm:py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-base sm:text-lg border-none focus:outline-none cursor-pointer"
                 >
-                    {isSubmitting ? 'Verifying...' : 'Verify OTP'}
+                    {isSubmitting
+                        ? t('auth.verifying', 'Verifying...')
+                        : t('auth.verifyButton', 'Verfiy')}
                 </Button>
             </Form>
         </div>

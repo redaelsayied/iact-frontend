@@ -25,11 +25,11 @@ type SignUpFormSchema = {
 }
 
 const validationSchema: ZodType<SignUpFormSchema> = z.object({
-    firstName: z.string({ required_error: 'Please enter your first name' }).min(1, { message: 'Please enter your first name' }),
-    lastName: z.string({ required_error: 'Please enter your last name' }).min(1, { message: 'Please enter your last name' }),
-    mobileNumber: z.string({ required_error: 'Please enter your mobile number' }).min(1, { message: 'Please enter your mobile number' }),
-    email: z.string({ required_error: 'Please enter your email' }).email({ message: 'Invalid email' }),
-    password: z.string({ required_error: 'Password Required' }).min(6, { message: 'Password Required' }),
+    firstName: z.string({ required_error: 'auth.pleaseEnterFirstName' }).min(1, { message: 'auth.pleaseEnterFirstName' }),
+    lastName: z.string({ required_error: 'auth.pleaseEnterLastName' }).min(1, { message: 'auth.pleaseEnterLastName' }),
+    mobileNumber: z.string({ required_error: 'auth.pleaseEnterMobileNumber' }).min(1, { message: 'auth.pleaseEnterMobileNumber' }),
+    email: z.string({ required_error: 'auth.pleaseEnterEmail' }).email({ message: 'auth.invalidEmail' }),
+    password: z.string({ required_error: 'auth.passwordRequired' }).min(6, { message: 'auth.passwordRequired' }),
 })
 
 const PasswordWithXxxIcon = () => (
