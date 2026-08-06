@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
-import Badge from '@/components/ui/Badge'
 import Avatar from '@/components/ui/Avatar'
 import Spinner from '@/components/ui/Spinner'
 import Alert from '@/components/ui/Alert'
@@ -19,24 +18,65 @@ import {
 import type { UserFullInfoResponse } from '@/@types/user'
 
 const renderStatusBadge = (status: number) => {
-    switch (status) {
-        case 1:
-            return <Badge className="bg-amber-500 text-white">Pending Email Verification</Badge>
-        case 2:
-            return <Badge className="bg-blue-500 text-white">Pending Identity Document</Badge>
-        case 3:
-            return <Badge className="bg-purple-500 text-white">Pending Admin Approval</Badge>
-        case 4:
-            return <Badge className="bg-emerald-500 text-white">Active Account</Badge>
-        case 5:
-            return <Badge className="bg-rose-500 text-white">Rejected</Badge>
-        case 6:
-            return <Badge className="bg-red-600 text-white">Suspended</Badge>
-        case 7:
-            return <Badge className="bg-gray-700 text-white">Locked</Badge>
-        default:
-            return <Badge className="bg-gray-400 text-white">Unknown Status</Badge>
-    }
+    const config = (() => {
+        switch (status) {
+            case 1:
+                return {
+                    dotClass: 'bg-amber-500',
+                    badgeClass: 'bg-amber-50 text-amber-700 border-amber-200/80 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/50',
+                    label: 'Pending Email Verification',
+                }
+            case 2:
+                return {
+                    dotClass: 'bg-blue-500',
+                    badgeClass: 'bg-blue-50 text-blue-700 border-blue-200/80 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/50',
+                    label: 'Pending Identity Document',
+                }
+            case 3:
+                return {
+                    dotClass: 'bg-purple-500',
+                    badgeClass: 'bg-purple-50 text-purple-700 border-purple-200/80 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800/50',
+                    label: 'Pending Admin Approval',
+                }
+            case 4:
+                return {
+                    dotClass: 'bg-emerald-500',
+                    badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200/80 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/50',
+                    label: 'Active Account',
+                }
+            case 5:
+                return {
+                    dotClass: 'bg-rose-500',
+                    badgeClass: 'bg-rose-50 text-rose-700 border-rose-200/80 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/50',
+                    label: 'Rejected',
+                }
+            case 6:
+                return {
+                    dotClass: 'bg-red-600',
+                    badgeClass: 'bg-red-50 text-red-700 border-red-200/80 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800/50',
+                    label: 'Suspended',
+                }
+            case 7:
+                return {
+                    dotClass: 'bg-gray-500',
+                    badgeClass: 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700',
+                    label: 'Locked',
+                }
+            default:
+                return {
+                    dotClass: 'bg-gray-400',
+                    badgeClass: 'bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-800',
+                    label: 'Unknown Status',
+                }
+        }
+    })()
+
+    return (
+        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${config.badgeClass} transition-colors shadow-2xs`}>
+            <span className={`w-2 h-2 rounded-full shrink-0 ${config.dotClass}`} />
+            {config.label}
+        </span>
+    )
 }
 
 const UserDetails = () => {

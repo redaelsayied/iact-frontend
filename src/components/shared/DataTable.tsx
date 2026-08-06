@@ -149,9 +149,9 @@ function DataTable<T>(props: DataTableProps<T>) {
         () =>
             pageSizes.map((number) => ({
                 value: number,
-                label: `${number} / ${t('common.page', 'صفحة')}`,
+                label: `${number}`,
             })),
-        [pageSizes, t],
+        [pageSizes],
     )
 
     useEffect(() => {
@@ -299,6 +299,7 @@ function DataTable<T>(props: DataTableProps<T>) {
                                                 {header.isPlaceholder ? null : (
                                                     <div
                                                         className={classNames(
+                                                            'flex items-center justify-center gap-1.5 whitespace-nowrap w-full',
                                                             header.column.getCanSort() &&
                                                                 'cursor-pointer select-none point',
                                                             loading &&
@@ -306,11 +307,13 @@ function DataTable<T>(props: DataTableProps<T>) {
                                                         )}
                                                         onClick={header.column.getToggleSortingHandler()}
                                                     >
-                                                        {flexRender(
-                                                            header.column.columnDef
-                                                                .header,
-                                                            header.getContext(),
-                                                        )}
+                                                        <span className="inline-flex items-center">
+                                                            {flexRender(
+                                                                header.column.columnDef
+                                                                    .header,
+                                                                header.getContext(),
+                                                            )}
+                                                        </span>
                                                         {header.column.getCanSort() && (
                                                             <Sorter
                                                                 sort={header.column.getIsSorted()}
@@ -388,26 +391,32 @@ function DataTable<T>(props: DataTableProps<T>) {
                     </Table>
                 </Loading>
             </div>
-            <div className="flex items-center justify-between mt-4 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
+                <div className="flex items-center gap-2.5">
+                    <div style={{ minWidth: 80 }}>
+                        <Select
+                            instanceId={instanceId}
+                            size="sm"
+                            menuPlacement="top"
+                            isSearchable={false}
+                            value={pageSizeOption.filter(
+                                (option) => option.value === pageSize,
+                            )}
+                            options={pageSizeOption}
+                            onChange={(option) => handleSelectChange(option?.value)}
+                        />
+                    </div>
+                    <span className="text-xs sm:text-sm text-gray-500 font-medium">
+                        {t('common.rowsPerPage', 'عدد الصفوف في الصفحة:')}
+                    </span>
+                </div>
+
                 <Pagination
                     pageSize={pageSize}
                     currentPage={pageIndex}
                     total={total}
                     onChange={handlePaginationChange}
                 />
-                <div style={{ minWidth: 130 }}>
-                    <Select
-                        instanceId={instanceId}
-                        size="sm"
-                        menuPlacement="top"
-                        isSearchable={false}
-                        value={pageSizeOption.filter(
-                            (option) => option.value === pageSize,
-                        )}
-                        options={pageSizeOption}
-                        onChange={(option) => handleSelectChange(option?.value)}
-                    />
-                </div>
             </div>
         </div>
     )

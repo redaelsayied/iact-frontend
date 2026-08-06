@@ -101,7 +101,7 @@ const Pagination = (props: PaginationProps) => {
     const pagerClass = {
         default: 'pagination-pager',
         inactive: 'pagination-pager-inactive',
-        active: `text-primary dark:bg-primary dark:text-neutral`,
+        active: 'bg-[#1b2b65] text-white dark:bg-indigo-600 dark:text-white font-bold shadow-2xs scale-105 border border-[#1b2b65]',
         disabled: 'pagination-pager-disabled',
     }
 

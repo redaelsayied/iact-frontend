@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { HiChevronRight } from 'react-icons/hi'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { CommonProps } from '../@types/common'
 import type { MouseEvent } from 'react'
 
@@ -16,7 +16,8 @@ interface NextProps extends CommonProps {
 }
 
 const Next = (props: NextProps) => {
-    const { currentPage, pageCount, pagerClass, onNext } = props
+    const { currentPage, pageCount, onNext } = props
+    const { t } = useTranslation()
 
     const disabled = currentPage === pageCount || pageCount === 0
 
@@ -29,9 +30,10 @@ const Next = (props: NextProps) => {
     }
 
     const pagerNextClass = classNames(
-        pagerClass.default,
-        'pagination-pager-next',
-        disabled ? pagerClass.disabled : pagerClass.inactive,
+        'px-2 sm:px-3 py-1.5 text-xs font-semibold select-none transition-all cursor-pointer inline-flex items-center justify-center',
+        disabled
+            ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed pointer-events-none'
+            : 'text-gray-500 hover:text-[#1b2b65] dark:text-gray-400 dark:hover:text-white',
     )
 
     return (
@@ -40,7 +42,7 @@ const Next = (props: NextProps) => {
             role="presentation"
             onClick={onNextClick}
         >
-            <HiChevronRight />
+            {t('common.next', 'التالي')}
         </span>
     )
 }

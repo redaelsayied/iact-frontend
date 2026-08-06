@@ -3,7 +3,6 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
-import Badge from '@/components/ui/Badge'
 import Avatar from '@/components/ui/Avatar'
 import Alert from '@/components/ui/Alert'
 import DataTable, { ColumnDef } from '@/components/shared/DataTable'
@@ -38,24 +37,67 @@ const UsersList = () => {
 
     const renderStatusBadge = useCallback(
         (status: number) => {
-            switch (status) {
-                case 1:
-                    return <Badge className="bg-amber-500 text-white">{t('userManagement.pendingEmail', 'في انتظار تأكيد البريد')}</Badge>
-                case 2:
-                    return <Badge className="bg-blue-500 text-white">{t('userManagement.pendingID', 'في انتظار التحقق من الهوية')}</Badge>
-                case 3:
-                    return <Badge className="bg-purple-500 text-white">{t('userManagement.pendingReview', 'في انتظار المراجعة')}</Badge>
-                case 4:
-                    return <Badge className="bg-emerald-500 text-white">{t('userManagement.active', 'نشط')}</Badge>
-                case 5:
-                    return <Badge className="bg-rose-500 text-white">{t('userManagement.rejected', 'مرفوض')}</Badge>
-                case 6:
-                    return <Badge className="bg-red-600 text-white">{t('userManagement.suspended', 'معلق')}</Badge>
-                case 7:
-                    return <Badge className="bg-gray-700 text-white">{t('userManagement.locked', 'مقفل')}</Badge>
-                default:
-                    return <Badge className="bg-gray-400 text-white">{t('userManagement.unknown', 'غير معروف')}</Badge>
-            }
+            const config = (() => {
+                switch (status) {
+                    case 1:
+                        return {
+                            dotClass: 'bg-amber-500',
+                            badgeClass: 'bg-amber-50 text-amber-700 border-amber-200/80 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800/50',
+                            label: t('userManagement.pendingEmail', 'في انتظار تأكيد البريد'),
+                        }
+                    case 2:
+                        return {
+                            dotClass: 'bg-blue-500',
+                            badgeClass: 'bg-blue-50 text-blue-700 border-blue-200/80 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800/50',
+                            label: t('userManagement.pendingID', 'في انتظار التحقق من الهوية'),
+                        }
+                    case 3:
+                        return {
+                            dotClass: 'bg-purple-500',
+                            badgeClass: 'bg-purple-50 text-purple-700 border-purple-200/80 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800/50',
+                            label: t('userManagement.pendingReview', 'في انتظار المراجعة'),
+                        }
+                    case 4:
+                        return {
+                            dotClass: 'bg-emerald-500',
+                            badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200/80 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800/50',
+                            label: t('userManagement.active', 'نشط'),
+                        }
+                    case 5:
+                        return {
+                            dotClass: 'bg-rose-500',
+                            badgeClass: 'bg-rose-50 text-rose-700 border-rose-200/80 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800/50',
+                            label: t('userManagement.rejected', 'مرفوض'),
+                        }
+                    case 6:
+                        return {
+                            dotClass: 'bg-red-600',
+                            badgeClass: 'bg-red-50 text-red-700 border-red-200/80 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800/50',
+                            label: t('userManagement.suspended', 'معلق'),
+                        }
+                    case 7:
+                        return {
+                            dotClass: 'bg-gray-500',
+                            badgeClass: 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700',
+                            label: t('userManagement.locked', 'مقفل'),
+                        }
+                    default:
+                        return {
+                            dotClass: 'bg-gray-400',
+                            badgeClass: 'bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-800',
+                            label: t('userManagement.unknown', 'غير معروف'),
+                        }
+                }
+            })()
+
+            return (
+                <div className="flex justify-center">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${config.badgeClass} transition-colors shadow-2xs`}>
+                        <span className={`w-2 h-2 rounded-full shrink-0 ${config.dotClass}`} />
+                        {config.label}
+                    </span>
+                </div>
+            )
         },
         [t]
     )
@@ -154,8 +196,9 @@ const UsersList = () => {
     const columns: ColumnDef<UserInfoResponse>[] = useMemo(
         () => [
             {
-                header: t('userManagement.user', 'المستخدم'),
+                header: () => t('userManagement.user', 'المستخدم'),
                 accessorKey: 'firstName',
+                enableSorting: false,
                 size: 220,
                 cell: (props) => {
                     const row = props.row.original
@@ -176,32 +219,37 @@ const UsersList = () => {
                 },
             },
             {
-                header: t('userManagement.email', 'البريد الإلكتروني'),
+                header: () => t('userManagement.email', 'البريد الإلكتروني'),
                 accessorKey: 'email',
+                enableSorting: false,
                 size: 260,
                 cell: (props) => props.row.original.email || '-',
             },
             {
-                header: t('userManagement.phone', 'الهاتف'),
+                header: () => t('userManagement.phone', 'الهاتف'),
                 accessorKey: 'phoneNumber',
+                enableSorting: false,
                 size: 150,
                 cell: (props) => props.row.original.phoneNumber || '-',
             },
             {
-                header: t('userManagement.roles', 'الأدوار'),
+                header: () => t('userManagement.roles', 'الأدوار'),
                 accessorKey: 'roles',
+                enableSorting: false,
                 size: 140,
                 cell: (props) => (props.row.original.roles || []).join(', ') || t('userManagement.user', 'المستخدم'),
             },
             {
-                header: t('userManagement.status', 'الحالة'),
+                header: () => t('userManagement.status', 'الحالة'),
                 accessorKey: 'status',
+                enableSorting: false,
                 size: 150,
                 cell: (props) => renderStatusBadge(props.row.original.status),
             },
             {
-                header: t('userManagement.actions', 'إجراءات'),
+                header: () => t('userManagement.actions', 'إجراءات'),
                 id: 'action',
+                enableSorting: false,
                 size: 150,
                 cell: (props) => {
                     const row = props.row.original
