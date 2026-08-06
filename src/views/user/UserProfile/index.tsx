@@ -41,7 +41,6 @@ type ProfileSchemaType = z.infer<typeof profileSchema>
 
 const UserProfile = () => {
     const { t } = useTranslation()
-    const { signOut } = useAuth()
     const currentLang = useLocaleStore((state) => state.currentLang)
     const direction = useThemeStore((state) => state.direction)
     const isRtl = currentLang === 'ar' || direction === 'rtl'
