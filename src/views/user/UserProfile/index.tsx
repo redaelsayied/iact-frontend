@@ -7,6 +7,7 @@ import Avatar from '@/components/ui/Avatar'
 import Dialog from '@/components/ui/Dialog'
 import Spinner from '@/components/ui/Spinner'
 import useTranslation from '@/utils/hooks/useTranslation'
+import { useAuth } from '@/auth'
 import {
     apiGetMe,
     apiUpdateProfile,
@@ -25,8 +26,11 @@ import {
     HiOutlineDocumentText,
     HiOutlineCreditCard,
     HiOutlineQuestionMarkCircle,
+    HiOutlineArrowRightOnRectangle,
+    HiOutlineArrowLeftOnRectangle,
     HiChevronRight,
     HiChevronLeft,
+    HiOutlinePencilSquare,
 } from 'react-icons/hi2'
 import type { UserProfileResponse } from '@/@types/user'
 
@@ -40,6 +44,7 @@ type ProfileSchemaType = z.infer<typeof profileSchema>
 
 const UserProfile = () => {
     const { t } = useTranslation()
+    const { signOut } = useAuth()
     const currentLang = useLocaleStore((state) => state.currentLang)
     const direction = useThemeStore((state) => state.direction)
     const isRtl = currentLang === 'ar' || direction === 'rtl'
@@ -96,8 +101,8 @@ const UserProfile = () => {
                 )
             case 4:
                 return (
-                    <span className="inline-flex items-center text-emerald-600 text-xs font-semibold gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span className="inline-flex items-center text-emerald-500 text-xs font-bold gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                         {t('profile.active', 'Active')}
                     </span>
                 )
@@ -174,7 +179,7 @@ const UserProfile = () => {
                 setProfileSuccess(
                     t(
                         'profile.profileUpdateSuccess',
-                        'Profile updated successfully.',
+                        'تم تحديث البيانات بنجاح.',
                     ),
                 )
                 setUser({
@@ -182,13 +187,16 @@ const UserProfile = () => {
                     lastName: data.lastName,
                 })
                 fetchUserProfile()
-                setEditModalOpen(false)
+                setTimeout(() => {
+                    setEditModalOpen(false)
+                    setProfileSuccess('')
+                }, 1200)
             } else {
                 setProfileError(
                     res?.message ||
                         t(
                             'profile.profileUpdateFailed',
-                            'Failed to update profile.',
+                            'فشل تحديث البيانات.',
                         ),
                 )
             }
@@ -200,7 +208,7 @@ const UserProfile = () => {
             setProfileError(
                 errorObj?.response?.data?.message ||
                     errorObj.message ||
-                    t('profile.profileUpdateFailed', 'Profile update failed.'),
+                    t('profile.profileUpdateFailed', 'فشل تحديث البيانات.'),
             )
         } finally {
             setUpdatingProfile(false)
@@ -223,7 +231,7 @@ const UserProfile = () => {
                     setAvatarSuccess(
                         t(
                             'profile.imageUpdateSuccess',
-                            'Profile image updated successfully.',
+                            'تم تحديث الصورة الشخصية بنجاح.',
                         ),
                     )
                     fetchUserProfile()
@@ -232,7 +240,7 @@ const UserProfile = () => {
                         res?.message ||
                             t(
                                 'profile.imageUpdateFailed',
-                                'Failed to upload profile image.',
+                                'فشل رفع الصورة الشخصية.',
                             ),
                     )
                 }
@@ -246,7 +254,7 @@ const UserProfile = () => {
                         errorObj.message ||
                         t(
                             'profile.imageUpdateFailed',
-                            'Image upload failed.',
+                            'فشل رفع الصورة الشخصية.',
                         ),
                 )
             } finally {
@@ -273,6 +281,7 @@ const UserProfile = () => {
 
     const displayUser = profile || sessionUser
     const ChevronIcon = isRtl ? HiChevronLeft : HiChevronRight
+    const LogoutIcon = isRtl ? HiOutlineArrowLeftOnRectangle : HiOutlineArrowRightOnRectangle
 
     const renderProfileForm = () => (
         <div>
@@ -350,7 +359,7 @@ const UserProfile = () => {
                         loading={updatingProfile}
                         className="bg-[#1b2b65] hover:bg-[#152250] text-white rounded-xl px-8"
                     >
-                        {t('profile.saveChanges', 'Save Changes')}
+                        {t('profile.saveChanges', 'حفظ التغييرات')}
                     </Button>
                 </div>
             </form>
@@ -358,7 +367,7 @@ const UserProfile = () => {
     )
 
     return (
-        <div className="w-full max-w-3xl mx-auto flex flex-col gap-6">
+        <div className="w-full max-w-6xl mx-auto py-2 sm:py-6 px-2 sm:px-4">
             {/* Hidden File Input for Avatar Direct Upload */}
             <input
                 ref={fileInputRef}
@@ -368,9 +377,12 @@ const UserProfile = () => {
                 onChange={handleAvatarSelect}
             />
 
-            <div className="w-full">
-                {/* Profile Summary Card & Menu List */}
-                <Card className="w-full border border-sky-100/80 dark:border-gray-800 shadow-sm rounded-3xl p-5 sm:p-7 bg-white dark:bg-gray-900">
+            {/* ======================================================== */}
+            {/* DESKTOP & TABLET LAYOUT (visible on md: / lg: screens)   */}
+            {/* ======================================================== */}
+            <div className="hidden md:flex md:flex-col gap-6 w-full">
+                {/* Top Desktop Profile Header Banner Card */}
+                <Card className="w-full border border-sky-100/90 dark:border-gray-800 shadow-sm rounded-3xl p-6 sm:p-8 bg-white dark:bg-gray-900">
                     {/* Avatar Upload Feedback Alerts */}
                     {avatarSuccess && (
                         <Alert type="success" className="mb-4">
@@ -383,11 +395,218 @@ const UserProfile = () => {
                         </Alert>
                     )}
 
-                    {/* Header Top Profile Section */}
-                    <div className="border border-sky-100 dark:border-gray-800 rounded-2xl p-6 flex flex-col items-center text-center bg-white dark:bg-gray-900 shadow-2xs mb-6">
+                    <div className="flex flex-row items-center justify-between gap-6">
+                        {/* User Info Section */}
+                        <div className="flex flex-row items-center gap-5">
+                            {/* Clickable Avatar Container with Hover Camera Badge */}
+                            <div
+                                className="relative group cursor-pointer shrink-0"
+                                title={t(
+                                    'profile.clickToChangePicture',
+                                    'Click to change profile picture',
+                                )}
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                <Avatar
+                                    size={96}
+                                    shape="circle"
+                                    src={
+                                        previewUrl ||
+                                        displayUser.profileImageUrl ||
+                                        sessionUser.avatar ||
+                                        undefined
+                                    }
+                                    icon={
+                                        <HiOutlineUser className="text-4xl" />
+                                    }
+                                    className="border-2 border-gray-100 dark:border-gray-700 shadow-md group-hover:brightness-90 transition-all"
+                                />
+
+                                {/* Dark Hover Overlay with Camera Icon */}
+                                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                    {uploadingAvatar ? (
+                                        <Spinner
+                                            size="24px"
+                                            className="text-white"
+                                        />
+                                    ) : (
+                                        <HiOutlineCamera className="text-2xl" />
+                                    )}
+                                </div>
+
+                                {/* Floating Camera Badge Icon */}
+                                <div className="absolute bottom-0 right-0 p-1.5 bg-[#1b2b65] text-white rounded-full shadow-md border-2 border-white text-xs">
+                                    {uploadingAvatar ? (
+                                        <Spinner
+                                            size="14px"
+                                            className="text-white"
+                                        />
+                                    ) : (
+                                        <HiOutlineCamera />
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Name & Email & Status */}
+                            <div className="flex flex-col gap-1 items-start">
+                                <div className="flex items-center gap-3 flex-wrap">
+                                    <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">
+                                        {displayUser.firstName} {displayUser.lastName}
+                                    </h2>
+                                    {renderStatusDot(displayUser.status)}
+                                </div>
+
+                                <p className="text-gray-500 dark:text-gray-400 text-sm font-normal">
+                                    {displayUser.email}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Edit Profile Action Button */}
+                        <Button
+                            variant="solid"
+                            icon={<HiOutlinePencilSquare className="text-lg" />}
+                            className="bg-[#1b2b65] hover:bg-[#152250] text-white rounded-full px-7 py-2.5 text-sm font-semibold border-none shadow-sm transition-all shrink-0"
+                            onClick={() => setEditModalOpen(true)}
+                        >
+                            {t('profile.editProfile', 'Edit Profile')}
+                        </Button>
+                    </div>
+                </Card>
+
+                {/* Desktop Features Cards Grid (2 columns on md/lg) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+                    {/* Item 1: Certificates */}
+                    <Card
+                        className="group border border-gray-100/90 dark:border-gray-800 shadow-sm hover:shadow-md rounded-3xl p-5 bg-white dark:bg-gray-900 transition-all cursor-pointer hover:border-orange-200 dark:hover:border-orange-900/50"
+                        onClick={() =>
+                            openFeatureModal(
+                                t('profile.certificates', 'Certificates'),
+                            )
+                        }
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+                                    <HiOutlineAcademicCap />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t('profile.certificates', 'Certificates')}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg transition-transform group-hover:rtl:-translate-x-1 group-hover:ltr:translate-x-1" />
+                        </div>
+                    </Card>
+
+                    {/* Item 2: Invoices */}
+                    <Card
+                        className="group border border-gray-100/90 dark:border-gray-800 shadow-sm hover:shadow-md rounded-3xl p-5 bg-white dark:bg-gray-900 transition-all cursor-pointer hover:border-orange-200 dark:hover:border-orange-900/50"
+                        onClick={() =>
+                            openFeatureModal(
+                                t('profile.invoices', 'Invoices'),
+                            )
+                        }
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+                                    <HiOutlineDocumentText />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t('profile.invoices', 'Invoices')}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg transition-transform group-hover:rtl:-translate-x-1 group-hover:ltr:translate-x-1" />
+                        </div>
+                    </Card>
+
+                    {/* Item 3: Payment Method */}
+                    <Card
+                        className="group border border-gray-100/90 dark:border-gray-800 shadow-sm hover:shadow-md rounded-3xl p-5 bg-white dark:bg-gray-900 transition-all cursor-pointer hover:border-orange-200 dark:hover:border-orange-900/50"
+                        onClick={() =>
+                            openFeatureModal(
+                                t('profile.paymentMethod', 'Payment Method'),
+                            )
+                        }
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+                                    <HiOutlineCreditCard />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t('profile.paymentMethod', 'Payment Method')}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg transition-transform group-hover:rtl:-translate-x-1 group-hover:ltr:translate-x-1" />
+                        </div>
+                    </Card>
+
+                    {/* Item 4: Help Center */}
+                    <Card
+                        className="group border border-gray-100/90 dark:border-gray-800 shadow-sm hover:shadow-md rounded-3xl p-5 bg-white dark:bg-gray-900 transition-all cursor-pointer hover:border-orange-200 dark:hover:border-orange-900/50"
+                        onClick={() =>
+                            openFeatureModal(
+                                t('profile.helpCenter', 'Help Center'),
+                            )
+                        }
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+                                    <HiOutlineQuestionMarkCircle />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t('profile.helpCenter', 'Help Center')}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg transition-transform group-hover:rtl:-translate-x-1 group-hover:ltr:translate-x-1" />
+                        </div>
+                    </Card>
+
+                    {/* Item 5: Log Out */}
+                    <Card
+                        className="group border border-gray-100/90 dark:border-gray-800 shadow-sm hover:shadow-md rounded-3xl p-5 bg-white dark:bg-gray-900 transition-all cursor-pointer md:col-span-2 hover:border-red-200 dark:hover:border-red-900/50"
+                        onClick={signOut}
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
+                                    <LogoutIcon />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t('common.signOut', 'Log Out')}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg transition-transform group-hover:rtl:-translate-x-1 group-hover:ltr:translate-x-1" />
+                        </div>
+                    </Card>
+                </div>
+            </div>
+
+            {/* ======================================================== */}
+            {/* MOBILE LAYOUT (visible ONLY on screens < md)               */}
+            {/* ======================================================== */}
+            <div className="block md:hidden w-full max-w-md mx-auto">
+                {/* Profile Main Mobile Card */}
+                <Card className="w-full border border-sky-100/90 dark:border-gray-800 shadow-sm rounded-[32px] p-5 sm:p-7 bg-white dark:bg-gray-900">
+                    {/* Avatar Upload Feedback Alerts */}
+                    {avatarSuccess && (
+                        <Alert type="success" className="mb-4">
+                            {avatarSuccess}
+                        </Alert>
+                    )}
+                    {avatarError && (
+                        <Alert type="danger" className="mb-4">
+                            {avatarError}
+                        </Alert>
+                    )}
+
+                    {/* Header Top Profile Section Box */}
+                    <div className="border border-sky-100 dark:border-gray-800 rounded-[24px] p-6 flex flex-col items-center text-center bg-white dark:bg-gray-900 shadow-2xs mb-6">
                         {/* Clickable Avatar Container with Hover Camera Badge */}
                         <div
-                            className="relative group cursor-pointer inline-block mb-4"
+                            className="relative group cursor-pointer inline-block mb-3.5"
                             title={t(
                                 'profile.clickToChangePicture',
                                 'Click to change profile picture',
@@ -395,7 +614,7 @@ const UserProfile = () => {
                             onClick={() => fileInputRef.current?.click()}
                         >
                             <Avatar
-                                size={100}
+                                size={104}
                                 shape="circle"
                                 src={
                                     previewUrl ||
@@ -406,7 +625,7 @@ const UserProfile = () => {
                                 icon={
                                     <HiOutlineUser className="text-4xl" />
                                 }
-                                className="border-2 border-gray-100 shadow-sm group-hover:brightness-90 transition-all"
+                                className="border-2 border-gray-100 dark:border-gray-700 shadow-sm group-hover:brightness-90 transition-all"
                             />
 
                             {/* Dark Hover Overlay with Camera Icon */}
@@ -462,22 +681,16 @@ const UserProfile = () => {
                             className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
                             onClick={() =>
                                 openFeatureModal(
-                                    t(
-                                        'profile.certificates',
-                                        'Certificates',
-                                    ),
+                                    t('profile.certificates', 'Certificates'),
                                 )
                             }
                         >
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0">
                                     <HiOutlineAcademicCap />
                                 </div>
                                 <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
-                                    {t(
-                                        'profile.certificates',
-                                        'Certificates',
-                                    )}
+                                    {t('profile.certificates', 'Certificates')}
                                 </span>
                             </div>
                             <ChevronIcon className="text-orange-500 text-lg" />
@@ -493,7 +706,7 @@ const UserProfile = () => {
                             }
                         >
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0">
                                     <HiOutlineDocumentText />
                                 </div>
                                 <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
@@ -508,22 +721,16 @@ const UserProfile = () => {
                             className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
                             onClick={() =>
                                 openFeatureModal(
-                                    t(
-                                        'profile.paymentMethod',
-                                        'Payment Method',
-                                    ),
+                                    t('profile.paymentMethod', 'Payment Method'),
                                 )
                             }
                         >
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0">
                                     <HiOutlineCreditCard />
                                 </div>
                                 <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
-                                    {t(
-                                        'profile.paymentMethod',
-                                        'Payment Method',
-                                    )}
+                                    {t('profile.paymentMethod', 'Payment Method')}
                                 </span>
                             </div>
                             <ChevronIcon className="text-orange-500 text-lg" />
@@ -531,7 +738,7 @@ const UserProfile = () => {
 
                         {/* Item 4: Help Center */}
                         <div
-                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer"
+                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
                             onClick={() =>
                                 openFeatureModal(
                                     t('profile.helpCenter', 'Help Center'),
@@ -539,7 +746,7 @@ const UserProfile = () => {
                             }
                         >
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0">
                                     <HiOutlineQuestionMarkCircle />
                                 </div>
                                 <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
@@ -548,11 +755,27 @@ const UserProfile = () => {
                             </div>
                             <ChevronIcon className="text-orange-500 text-lg" />
                         </div>
+
+                        {/* Item 5: Log Out */}
+                        <div
+                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer"
+                            onClick={signOut}
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0">
+                                    <LogoutIcon />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t('common.signOut', 'Log Out')}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg" />
+                        </div>
                     </div>
                 </Card>
             </div>
 
-            {/* Mobile Edit Profile Dialog */}
+            {/* Edit Profile Dialog Modal */}
             <Dialog
                 isOpen={editModalOpen}
                 width={550}

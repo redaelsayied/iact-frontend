@@ -4,11 +4,12 @@ import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import { useSessionUser } from '@/store/authStore'
 import { Link } from 'react-router-dom'
 import {
-    PiUserDuotone,
-    PiSignOutDuotone,
-    PiGearDuotone,
-} from 'react-icons/pi'
-import { HiChevronDown } from 'react-icons/hi'
+    HiOutlineUser,
+    HiOutlineCog6Tooth,
+    HiOutlineArrowRightOnRectangle,
+    HiOutlineArrowLeftOnRectangle,
+    HiChevronDown,
+} from 'react-icons/hi2'
 import { useAuth } from '@/auth'
 import useTranslation from '@/utils/hooks/useTranslation'
 import type { JSX } from 'react'
@@ -25,14 +26,19 @@ const _UserDropdown = () => {
 
     const { signOut } = useAuth()
     const { t, i18n } = useTranslation()
-    const currentLang = typeof i18n === 'object' && i18n?.language ? i18n.language : 'ar'
+    const currentLang =
+        typeof i18n === 'object' && i18n?.language ? i18n.language : 'ar'
+    const isRtl = currentLang === 'ar'
+    const LogoutIcon = isRtl
+        ? HiOutlineArrowLeftOnRectangle
+        : HiOutlineArrowRightOnRectangle
 
     const handleSignOut = () => {
         signOut()
     }
 
     const avatarProps = {
-        ...(avatar ? { src: avatar } : { icon: <PiUserDuotone /> }),
+        ...(avatar ? { src: avatar } : { icon: <HiOutlineUser /> }),
     }
 
     const displayName =
@@ -43,7 +49,8 @@ const _UserDropdown = () => {
 
     const userRole = roles?.[0] || authority?.[0] || ''
     const getRoleTitle = (role: string) => {
-        if (!role) return currentLang === 'ar' ? 'مستخدم المنصة' : 'Platform User'
+        if (!role)
+            return currentLang === 'ar' ? 'مستخدم المنصة' : 'Platform User'
         const lower = role.toLowerCase()
         if (lower.includes('superadmin') || lower.includes('super_admin')) {
             return currentLang === 'ar' ? 'المسؤول الأعلى للمنصة' : 'Super Admin'
@@ -59,16 +66,12 @@ const _UserDropdown = () => {
         {
             label: t('common.profile', 'الملف الشخصي'),
             path: '/user/profile',
-            icon: (
-                <PiUserDuotone className="text-xl text-gray-500 dark:text-gray-400" />
-            ),
+            icon: <HiOutlineUser />,
         },
         {
             label: t('common.accountSettings', 'إعدادات الحساب'),
             path: '/user/settings',
-            icon: (
-                <PiGearDuotone className="text-xl text-gray-500 dark:text-gray-400" />
-            ),
+            icon: <HiOutlineCog6Tooth />,
         },
     ]
 
@@ -112,23 +115,27 @@ const _UserDropdown = () => {
                     className="px-0 py-0"
                 >
                     <Link
-                        className="flex items-center gap-3 w-full py-2.5 px-4 text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary-soft transition-colors"
+                        className="flex items-center gap-3 w-full py-2.5 px-4 text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                         to={item.path}
                     >
-                        <span className="text-xl flex items-center">{item.icon}</span>
-                        <span className="font-medium text-sm">{item.label}</span>
+                        <div className="w-8 h-8 rounded-xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-lg shrink-0">
+                            {item.icon}
+                        </div>
+                        <span className="font-bold text-sm">{item.label}</span>
                     </Link>
                 </Dropdown.Item>
             ))}
             <Dropdown.Item
                 eventKey="Sign Out"
-                className="gap-3 py-2.5 px-4 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 font-medium cursor-pointer"
+                className="gap-3 py-2.5 px-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer"
                 onClick={handleSignOut}
             >
-                <span className="text-xl flex items-center text-red-500">
-                    <PiSignOutDuotone />
+                <div className="w-8 h-8 rounded-xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-lg shrink-0">
+                    <LogoutIcon />
+                </div>
+                <span className="font-bold text-gray-800 dark:text-gray-200 text-sm">
+                    {t('common.signOut', 'تسجيل الخروج')}
                 </span>
-                <span className="font-medium text-sm">{t('common.signOut', 'تسجيل الخروج')}</span>
             </Dropdown.Item>
         </Dropdown>
     )
@@ -137,4 +144,3 @@ const _UserDropdown = () => {
 const UserDropdown = withHeaderItem(_UserDropdown)
 
 export default UserDropdown
-
