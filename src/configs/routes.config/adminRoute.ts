@@ -3,12 +3,6 @@ import type { Routes } from '@/@types/routes'
 
 const adminRoute: Routes = [
     {
-        key: 'admin.dashboard',
-        path: '/admin/dashboard',
-        component: lazy(() => import('@/views/admin/AdminDashboard')),
-        authority: ['Admin'],
-    },
-    {
         key: 'admin.users',
         path: '/admin/users',
         component: lazy(() => import('@/views/admin/UsersList')),

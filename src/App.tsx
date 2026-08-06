@@ -1,6 +1,5 @@
 import { BrowserRouter } from 'react-router-dom'
 import Theme from '@/components/template/Theme'
-import Layout from '@/components/layouts'
 import { AuthProvider } from '@/auth'
 import Views from '@/views'
 import appConfig from './configs/app.config'
@@ -14,9 +13,7 @@ function App() {
         <Theme>
             <BrowserRouter>
                 <AuthProvider>
-                    <Layout>
-                        <Views />
-                    </Layout>
+                    <Views />
                 </AuthProvider>
             </BrowserRouter>
         </Theme>

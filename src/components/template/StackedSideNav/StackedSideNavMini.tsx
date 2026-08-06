@@ -10,7 +10,7 @@ import {
 import { NAV_ITEM_TYPE_ITEM } from '@/constants/navigation.constant'
 import navigationIcon from '@/configs/navigation-icon.config'
 import useMenuActive from '@/utils/hooks/useMenuActive'
-import useAppNavigation from '@/utils/hooks/useAppNavigation'
+import { useLayoutContext } from '@/components/layouts/LayoutContext'
 import isEmpty from 'lodash/isEmpty'
 import { Link } from 'react-router-dom'
 import type { NavigationTree } from '@/@types/navigation'
@@ -56,7 +56,7 @@ const StackedSideNavMini = (props: StackedSideNavMiniProps) => {
         ...rest
     } = props
 
-    const { homePath } = useAppNavigation()
+    const { homePath } = useLayoutContext()
     const { includedRouteTree } = useMenuActive(navigationTree, routeKey)
 
     const handleMenuItemSelect = ({

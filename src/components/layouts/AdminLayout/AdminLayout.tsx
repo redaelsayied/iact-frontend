@@ -1,16 +1,33 @@
 import PostLoginLayout from '../PostLoginLayout'
+import { LayoutProvider } from '../LayoutContext'
+import { adminNavigationConfig } from '@/configs/navigation.config'
+import { useThemeStore } from '@/store/themeStore'
 import type { CommonProps } from '@/@types/common'
 import type { LayoutType } from '@/@types/theme'
 
 export interface AdminLayoutProps extends CommonProps {
-    layoutType: LayoutType
+    layoutType?: LayoutType
 }
 
-const AdminLayout = ({ layoutType, children }: AdminLayoutProps) => {
+const AdminLayout = ({ children, layoutType }: AdminLayoutProps) => {
+    const currentLayoutType = useThemeStore((state) => state.layout.type)
+    const activeLayoutType = layoutType || currentLayoutType
+
     return (
-        <div className="admin-app-container flex flex-auto flex-col h-full min-h-screen">
-            <PostLoginLayout layoutType={layoutType}>{children}</PostLoginLayout>
-        </div>
+        <LayoutProvider
+            value={{
+                navigationTree: adminNavigationConfig,
+                homePath: '/admin/users',
+                profilePath: '/admin/profile',
+                settingsPath: '/admin/settings',
+            }}
+        >
+            <div className="admin-app-layout flex flex-auto flex-col h-full min-h-screen">
+                <PostLoginLayout layoutType={activeLayoutType}>
+                    {children}
+                </PostLoginLayout>
+            </div>
+        </LayoutProvider>
     )
 }
 

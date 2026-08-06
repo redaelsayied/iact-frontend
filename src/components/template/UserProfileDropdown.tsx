@@ -2,7 +2,7 @@ import Avatar from '@/components/ui/Avatar'
 import Dropdown from '@/components/ui/Dropdown'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import { useSessionUser } from '@/store/authStore'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
     HiOutlineUser,
     HiOutlineCog6Tooth,
@@ -12,6 +12,7 @@ import {
 } from 'react-icons/hi2'
 import { useAuth } from '@/auth'
 import useTranslation from '@/utils/hooks/useTranslation'
+import { useLayoutContext } from '@/components/layouts/LayoutContext'
 import type { JSX } from 'react'
 
 type DropdownList = {
@@ -20,11 +21,21 @@ type DropdownList = {
     icon: JSX.Element
 }
 
-const _UserDropdown = () => {
+export type UserProfileDropdownProps = {
+    profilePath?: string
+    settingsPath?: string
+    className?: string
+    hoverable?: boolean
+}
+
+const _UserDropdown = (props: UserProfileDropdownProps) => {
     const { avatar, userName, firstName, lastName, email, roles, authority } =
         useSessionUser((state) => state.user)
 
-    const location = useLocation()
+    const layoutContext = useLayoutContext()
+    const targetProfilePath = props.profilePath || layoutContext.profilePath
+    const targetSettingsPath = props.settingsPath || layoutContext.settingsPath
+
     const { signOut } = useAuth()
     const { t, i18n } = useTranslation()
     const currentLang =
@@ -63,19 +74,15 @@ const _UserDropdown = () => {
     }
     const displayRole = getRoleTitle(userRole)
 
-    const isAdminArea = location.pathname.startsWith('/admin')
-    const profilePath = isAdminArea ? '/admin/profile' : '/user/profile'
-    const settingsPath = isAdminArea ? '/admin/settings' : '/user/settings'
-
     const dropdownItemList: DropdownList[] = [
         {
             label: t('common.profile', 'الملف الشخصي'),
-            path: profilePath,
+            path: targetProfilePath,
             icon: <HiOutlineUser />,
         },
         {
             label: t('common.accountSettings', 'إعدادات الحساب'),
-            path: settingsPath,
+            path: targetSettingsPath,
             icon: <HiOutlineCog6Tooth />,
         },
     ]
@@ -146,6 +153,6 @@ const _UserDropdown = () => {
     )
 }
 
-const UserDropdown = withHeaderItem(_UserDropdown)
+const UserProfileDropdown = withHeaderItem(_UserDropdown)
 
-export default UserDropdown
+export default UserProfileDropdown

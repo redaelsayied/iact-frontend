@@ -57,7 +57,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         }
         const roles = currentUser?.roles || currentUser?.authority || []
         if (roles.some((r) => r.toLowerCase() === 'admin')) {
-            return '/admin/dashboard'
+            return '/admin/users'
         }
         return '/user/home'
     }

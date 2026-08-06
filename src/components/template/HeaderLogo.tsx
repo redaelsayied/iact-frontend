@@ -1,12 +1,12 @@
 import Logo from '@/components/template/Logo'
 import { useThemeStore } from '@/store/themeStore'
-import useAppNavigation from '@/utils/hooks/useAppNavigation'
+import { useLayoutContext } from '@/components/layouts/LayoutContext'
 import { Link } from 'react-router-dom'
 import type { Mode } from '@/@types/theme'
 
 const HeaderLogo = ({ mode }: { mode?: Mode }) => {
     const defaultMode = useThemeStore((state) => state.mode)
-    const { homePath } = useAppNavigation()
+    const { homePath } = useLayoutContext()
 
     return (
         <Link to={homePath}>
