@@ -392,7 +392,17 @@ function DataTable<T>(props: DataTableProps<T>) {
                 </Loading>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
+                <Pagination
+                    pageSize={pageSize}
+                    currentPage={pageIndex}
+                    total={total}
+                    onChange={handlePaginationChange}
+                />
+
                 <div className="flex items-center gap-2.5">
+                    <span className="text-xs sm:text-sm text-gray-500 font-medium">
+                        {t('common.rowsPerPage', 'عدد الصفوف في الصفحة:')}
+                    </span>
                     <div style={{ minWidth: 80 }}>
                         <Select
                             instanceId={instanceId}
@@ -406,17 +416,7 @@ function DataTable<T>(props: DataTableProps<T>) {
                             onChange={(option) => handleSelectChange(option?.value)}
                         />
                     </div>
-                    <span className="text-xs sm:text-sm text-gray-500 font-medium">
-                        {t('common.rowsPerPage', 'عدد الصفوف في الصفحة:')}
-                    </span>
                 </div>
-
-                <Pagination
-                    pageSize={pageSize}
-                    currentPage={pageIndex}
-                    total={total}
-                    onChange={handlePaginationChange}
-                />
             </div>
         </div>
     )
