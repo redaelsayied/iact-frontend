@@ -3,6 +3,7 @@ import Header from '@/components/template/Header'
 import MobileNav from '@/components/template/MobileNav'
 import UserProfileDropdown from '@/components/template/UserProfileDropdown'
 import LanguageSelector from '@/components/template/LanguageSelector'
+import DarkModeToggle from '@/components/template/DarkModeToggle'
 import LayoutBase from '@/components/template/LayoutBase'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_STACKED_SIDE } from '@/constants/theme.constant'
@@ -24,6 +25,7 @@ const StackedSide = ({ children }: CommonProps) => {
                         headerStart={<>{smaller.lg && <MobileNav />}</>}
                         headerEnd={
                             <>
+                                <DarkModeToggle />
                                 <LanguageSelector />
                                 <UserProfileDropdown hoverable={false} />
                             </>

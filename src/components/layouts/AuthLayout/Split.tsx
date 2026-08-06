@@ -1,5 +1,6 @@
 import { cloneElement } from 'react'
 import LanguageSelector from '@/components/template/LanguageSelector'
+import DarkModeToggle from '@/components/template/DarkModeToggle'
 import type { ReactNode } from 'react'
 import type { CommonProps } from '@/@types/common'
 
@@ -10,7 +11,8 @@ interface SplitProps extends CommonProps {
 const Split = ({ children, content, ...rest }: SplitProps) => {
     return (
         <div className="grid lg:grid-cols-2 h-full p-6 bg-white dark:bg-gray-800 relative">
-            <div className="absolute top-4 ltr:right-4 rtl:left-4 z-10">
+            <div className="absolute top-4 ltr:right-4 rtl:left-4 z-10 flex items-center gap-2">
+                <DarkModeToggle />
                 <LanguageSelector />
             </div>
             <div className="bg-no-repeat bg-cover py-6 px-16 flex-col justify-center items-center hidden lg:flex bg-primary rounded-3xl">

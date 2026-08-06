@@ -3,7 +3,6 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Alert from '@/components/ui/Alert'
 import Dialog from '@/components/ui/Dialog'
-import Switcher from '@/components/ui/Switcher'
 import PasswordInput from '@/components/shared/PasswordInput'
 import useTranslation from '@/utils/hooks/useTranslation'
 import { apiChangePassword } from '@/services/UserService'
@@ -15,11 +14,6 @@ import { z } from 'zod'
 import {
     HiOutlineKey,
     HiOutlineCog6Tooth,
-    HiOutlineMoon,
-    HiOutlineSun,
-    HiOutlineGlobeAlt,
-    HiOutlineBell,
-    HiOutlineShieldCheck,
     HiChevronLeft,
     HiChevronRight,
 } from 'react-icons/hi2'
@@ -41,16 +35,8 @@ type PasswordSchemaType = z.infer<typeof passwordSchema>
 const UserSettings = () => {
     const { t } = useTranslation()
     const currentLang = useLocaleStore((state) => state.currentLang)
-    const setLang = useLocaleStore((state) => state.setLang)
-
-    const mode = useThemeStore((state) => state.mode)
-    const setMode = useThemeStore((state) => state.setMode)
     const direction = useThemeStore((state) => state.direction)
     const isRtl = currentLang === 'ar' || direction === 'rtl'
-
-    // Notification Toggles state
-    const [emailNotif, setEmailNotif] = useState<boolean>(true)
-    const [securityNotif, setSecurityNotif] = useState<boolean>(true)
 
     // Modals state
     const [passwordModalOpen, setPasswordModalOpen] = useState<boolean>(false)
@@ -124,168 +110,48 @@ const UserSettings = () => {
     const ChevronIcon = isRtl ? HiChevronLeft : HiChevronRight
 
     return (
-        <div className="w-full max-w-7xl mx-auto flex flex-col gap-6">
-            <div className="mb-2">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+        <div className="w-full max-w-2xl mx-auto flex flex-col gap-6">
+            <div className="mb-2 text-center sm:text-start">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center justify-center sm:justify-start gap-2">
                     <HiOutlineCog6Tooth className="text-primary dark:text-primary-soft text-2xl" />
                     {t('common.accountSettings', 'إعدادات الحساب')}
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     {t(
                         'settings.description',
-                        'إدارة كلمة المرور والتفضيلات والإشعارات الخاصة بحسابك',
+                        'إدارة كلمة المرور وتأمين حسابك الشخصي',
                     )}
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                {/* Card 1: Security & Password */}
-                <Card className="shadow-sm border border-gray-100 dark:border-gray-800 rounded-3xl p-6 bg-white dark:bg-gray-900 flex flex-col justify-between h-full">
-                    <div>
-                        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">
-                            <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl">
-                                <HiOutlineShieldCheck />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">
-                                    {t('settings.securityTitle', 'الأمان وكلمة المرور')}
-                                </h3>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                    {t('settings.securitySub', 'حماية الحساب وإدارة الدخول')}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="my-4 p-4 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <HiOutlineKey className="text-xl text-primary" />
-                                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                                    {t('profile.changePassword', 'تغيير كلمة المرور')}
-                                </span>
-                            </div>
-                            <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 font-medium">
-                                {t('settings.activeStatus', 'نشط')}
-                            </span>
-                        </div>
-                    </div>
-
-                    <Button
-                        variant="solid"
-                        className="w-full mt-4 bg-[#1b2b65] hover:bg-[#152250] text-white rounded-xl font-medium"
+            <Card className="shadow-sm border border-gray-100 dark:border-gray-800 rounded-3xl p-6 bg-white dark:bg-gray-900">
+                <div className="flex flex-col gap-4">
+                    {/* Change Password Option Box */}
+                    <div
+                        className="group flex items-center justify-between p-4 sm:p-5 border border-gray-200/80 dark:border-gray-800 rounded-2xl bg-gray-50/50 hover:bg-primary-subtle/50 dark:bg-gray-800/40 dark:hover:bg-gray-800/80 transition-all duration-200 cursor-pointer shadow-xs"
                         onClick={() => {
                             setPasswordSuccess('')
                             setPasswordError('')
                             setPasswordModalOpen(true)
                         }}
                     >
-                        {t('profile.changePassword', 'تغيير كلمة المرور')}
-                    </Button>
-                </Card>
-
-                {/* Card 2: Appearance & Language */}
-                <Card className="shadow-sm border border-gray-100 dark:border-gray-800 rounded-3xl p-6 bg-white dark:bg-gray-900 flex flex-col justify-between h-full">
-                    <div>
-                        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">
-                            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl">
-                                <HiOutlineSun />
+                        <div className="flex items-center gap-3 sm:gap-4">
+                            <div className="w-11 h-11 rounded-xl bg-primary-soft text-primary dark:bg-gray-700 dark:text-gray-100 flex items-center justify-center text-xl transition-transform group-hover:scale-105">
+                                <HiOutlineKey />
                             </div>
-                            <div>
-                                <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">
-                                    {t('settings.appearanceTitle', 'المظهر واللغة')}
-                                </h3>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                    {t('settings.appearanceSub', 'تخصيص ثيم الصفحة ولغة العرض')}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-4 my-2">
-                            {/* Dark mode option */}
-                            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800">
-                                <div className="flex items-center gap-3">
-                                    {mode === 'dark' ? (
-                                        <HiOutlineMoon className="text-xl text-amber-500" />
-                                    ) : (
-                                        <HiOutlineSun className="text-xl text-amber-500" />
-                                    )}
-                                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                                        {t('settings.darkMode', 'الوضع الداكن')}
-                                    </span>
-                                </div>
-                                <Switcher
-                                    checked={mode === 'dark'}
-                                    onChange={(checked) =>
-                                        setMode(checked ? 'dark' : 'light')
-                                    }
-                                />
-                            </div>
-
-                            {/* Language option */}
-                            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800">
-                                <div className="flex items-center gap-3">
-                                    <HiOutlineGlobeAlt className="text-xl text-blue-500" />
-                                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                                        {t('settings.language', 'اللغة (Language)')}
-                                    </span>
-                                </div>
-                                <Button
-                                    size="sm"
-                                    variant="twoTone"
-                                    onClick={() =>
-                                        setLang(currentLang === 'ar' ? 'en' : 'ar')
-                                    }
-                                    className="text-xs font-bold px-3 py-1"
-                                >
-                                    {currentLang === 'ar' ? 'English' : 'العربية'}
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </Card>
-
-                {/* Card 3: Notification Settings */}
-                <Card className="shadow-sm border border-gray-100 dark:border-gray-800 rounded-3xl p-6 bg-white dark:bg-gray-900 flex flex-col justify-between h-full">
-                    <div>
-                        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">
-                            <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl">
-                                <HiOutlineBell />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">
-                                    {t('settings.notificationsTitle', 'الإشعارات والتنبيهات')}
-                                </h3>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                    {t('settings.notificationsSub', 'التحكم في تنبيهات البريد الإلكتروني')}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-4 my-2">
-                            {/* Email notification toggle */}
-                            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800">
-                                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                                    {t('settings.emailNotif', 'إشعارات البريد الإلكتروني')}
+                            <div className="flex flex-col">
+                                <span className="font-bold text-base sm:text-lg text-gray-900 dark:text-gray-100">
+                                    {t('profile.changePassword', 'تغيير كلمة المرور')}
                                 </span>
-                                <Switcher
-                                    checked={emailNotif}
-                                    onChange={(checked) => setEmailNotif(checked)}
-                                />
-                            </div>
-
-                            {/* Security alert toggle */}
-                            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800">
-                                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                                    {t('settings.securityNotif', 'تنبيهات الأمان والجلسات')}
+                                <span className="text-xs text-gray-400 font-normal">
+                                    {t('settings.changePasswordSub', 'تحديث كلمة المرور لحماية الحساب')}
                                 </span>
-                                <Switcher
-                                    checked={securityNotif}
-                                    onChange={(checked) => setSecurityNotif(checked)}
-                                />
                             </div>
                         </div>
+                        <ChevronIcon className="text-primary dark:text-gray-300 text-lg transition-transform group-hover:rtl:-translate-x-1 group-hover:ltr:translate-x-1" />
                     </div>
-                </Card>
-            </div>
+                </div>
+            </Card>
 
             {/* Change Password Popup Dialog Modal */}
             <Dialog

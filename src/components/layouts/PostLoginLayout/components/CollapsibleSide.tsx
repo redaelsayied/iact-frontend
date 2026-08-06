@@ -4,6 +4,7 @@ import SideNavToggle from '@/components/template/SideNavToggle'
 import MobileNav from '@/components/template/MobileNav'
 import UserProfileDropdown from '@/components/template/UserProfileDropdown'
 import LanguageSelector from '@/components/template/LanguageSelector'
+import DarkModeToggle from '@/components/template/DarkModeToggle'
 import LayoutBase from '@/components/template/LayoutBase'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_COLLAPSIBLE_SIDE } from '@/constants/theme.constant'
@@ -30,6 +31,7 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                         }
                         headerEnd={
                             <>
+                                <DarkModeToggle />
                                 <LanguageSelector />
                                 <UserProfileDropdown hoverable={false} />
                             </>

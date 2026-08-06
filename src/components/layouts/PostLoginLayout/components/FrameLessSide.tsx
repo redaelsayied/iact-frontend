@@ -5,6 +5,7 @@ import SideNavToggle from '@/components/template/SideNavToggle'
 import MobileNav from '@/components/template/MobileNav'
 import UserProfileDropdown from '@/components/template/UserProfileDropdown'
 import LanguageSelector from '@/components/template/LanguageSelector'
+import DarkModeToggle from '@/components/template/DarkModeToggle'
 import LayoutBase from '@/components/template/LayoutBase'
 import classNames from '@/utils/classNames'
 import useScrollTop from '@/utils/hooks/useScrollTop'
@@ -99,6 +100,7 @@ const FrameLessSide = ({ children }: CommonProps) => {
                             }
                             headerEnd={
                                 <>
+                                    <DarkModeToggle />
                                     <LanguageSelector />
                                     <UserProfileDropdown hoverable={false} />
                                 </>
