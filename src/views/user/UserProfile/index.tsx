@@ -7,7 +7,6 @@ import Avatar from '@/components/ui/Avatar'
 import Dialog from '@/components/ui/Dialog'
 import Spinner from '@/components/ui/Spinner'
 import useTranslation from '@/utils/hooks/useTranslation'
-import { useAuth } from '@/auth'
 import {
     apiGetMe,
     apiUpdateProfile,
@@ -26,8 +25,6 @@ import {
     HiOutlineDocumentText,
     HiOutlineCreditCard,
     HiOutlineQuestionMarkCircle,
-    HiOutlineArrowRightOnRectangle,
-    HiOutlineArrowLeftOnRectangle,
     HiChevronRight,
     HiChevronLeft,
     HiOutlinePencilSquare,
@@ -281,7 +278,6 @@ const UserProfile = () => {
 
     const displayUser = profile || sessionUser
     const ChevronIcon = isRtl ? HiChevronLeft : HiChevronRight
-    const LogoutIcon = isRtl ? HiOutlineArrowLeftOnRectangle : HiOutlineArrowRightOnRectangle
 
     const renderProfileForm = () => (
         <div>
@@ -564,23 +560,6 @@ const UserProfile = () => {
                         </div>
                     </Card>
 
-                    {/* Item 5: Log Out */}
-                    <Card
-                        className="group border border-gray-100/90 dark:border-gray-800 shadow-sm hover:shadow-md rounded-3xl p-5 bg-white dark:bg-gray-900 transition-all cursor-pointer md:col-span-2 hover:border-red-200 dark:hover:border-red-900/50"
-                        onClick={signOut}
-                    >
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition-transform">
-                                    <LogoutIcon />
-                                </div>
-                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
-                                    {t('common.signOut', 'Log Out')}
-                                </span>
-                            </div>
-                            <ChevronIcon className="text-orange-500 text-lg transition-transform group-hover:rtl:-translate-x-1 group-hover:ltr:translate-x-1" />
-                        </div>
-                    </Card>
                 </div>
             </div>
 
@@ -738,7 +717,7 @@ const UserProfile = () => {
 
                         {/* Item 4: Help Center */}
                         <div
-                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
+                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer"
                             onClick={() =>
                                 openFeatureModal(
                                     t('profile.helpCenter', 'Help Center'),
@@ -751,22 +730,6 @@ const UserProfile = () => {
                                 </div>
                                 <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
                                     {t('profile.helpCenter', 'Help Center')}
-                                </span>
-                            </div>
-                            <ChevronIcon className="text-orange-500 text-lg" />
-                        </div>
-
-                        {/* Item 5: Log Out */}
-                        <div
-                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer"
-                            onClick={signOut}
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl shrink-0">
-                                    <LogoutIcon />
-                                </div>
-                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
-                                    {t('common.signOut', 'Log Out')}
                                 </span>
                             </div>
                             <ChevronIcon className="text-orange-500 text-lg" />
