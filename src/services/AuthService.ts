@@ -6,6 +6,8 @@ import type {
     VerifyEmailPayload,
     ResendOtpPayload,
     ForgotPasswordPayload,
+    VerifyResetCodePayload,
+    VerifyResetCodeResponse,
     ResetPasswordPayload,
     RefreshTokenPayload,
     LogoutPayload,
@@ -47,7 +49,15 @@ export async function apiResendOtp(data: ResendOtpPayload) {
 
 export async function apiForgotPassword(data: ForgotPasswordPayload) {
     return ApiService.fetchDataWithAxios<ApiResponse>({
-        url: '/Auth/forget-password',
+        url: '/Auth/forgot-password',
+        method: 'post',
+        data,
+    })
+}
+
+export async function apiVerifyResetCode(data: VerifyResetCodePayload) {
+    return ApiService.fetchDataWithAxios<ApiResponse<VerifyResetCodeResponse>>({
+        url: '/Auth/verify-reset-code',
         method: 'post',
         data,
     })

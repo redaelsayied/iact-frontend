@@ -122,7 +122,23 @@
         "verifyButton": "Verfiy",
         "didntGetCode": "Didn't Get The Code on Your Email?",
         "resendIt": "Resend it",
-        "verifying": "Verifying..."
+        "verifying": "Verifying...",
+        "setNewPassword": "Set New Password",
+        "setNewPasswordSubtitle": "Your new password must contain uppercase, lowercase, digit, and special character.",
+        "newPassword": "New Password",
+        "invalidCode": "Invalid verification code.",
+        "operationFailed": "Operation failed.",
+        "emailMissing": "Target email address missing. Please request a new code.",
+        "newCodeSent": "A new verification code has been sent to your email.",
+        "resendFailed": "Failed to resend verification code.",
+        "noResetToken": "Reset session expired or token missing.",
+        "passwordResetFailed": "Failed to reset password.",
+        "passwordResetSuccessTitle": "Reset Complete!",
+        "passwordResetSuccessSubtitle": "Your password has been successfully reset. You can now log in with your new password.",
+        "sessionExpiredTitle": "Reset Session Expired",
+        "resetTokenExpired": "Your reset session has expired or token is invalid. Please request a new verification code.",
+        "requestNewCode": "Request New Code",
+        "backToSignIn": "Back to Sign In"
     },
     "home": {
         "title": "Home",
@@ -169,6 +185,16 @@
         "failedFetchUsers": "Failed to fetch users.",
         "statusUpdated": "User status updated successfully.",
         "failedToggleStatus": "Failed to toggle user status.",
-        "operationFailed": "Operation failed."
+        "operationFailed": "Operation failed.",
+        "backToUsersList": "Back to Users List",
+        "userNotFound": "User details not found.",
+        "failedLoadDetails": "Failed to load user details.",
+        "contactInfo": "Contact & Identification",
+        "nationality": "Nationality",
+        "notSpecified": "Not specified",
+        "verificationDocuments": "Verification Documents",
+        "idFileAttached": "Identity Verification File Attached",
+        "viewIdFile": "View Verification Document",
+        "noIdFileUploaded": "No identity document uploaded"
     }
 }

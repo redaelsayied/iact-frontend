@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import Alert from '@/components/ui/Alert'
-import Button from '@/components/ui/Button'
 import ActionLink from '@/components/shared/ActionLink'
 import ForgotPasswordForm from './components/ForgotPasswordForm'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
@@ -17,14 +15,14 @@ type ForgotPasswordProps = {
 export const ForgotPasswordBase = ({
     signInUrl = '/sign-in',
 }: ForgotPasswordProps) => {
-    const [emailSent, setEmailSent] = useState(false)
     const [message, setMessage] = useTimeOutMessage()
     const { t } = useTranslation()
-
     const navigate = useNavigate()
 
-    const handleContinue = () => {
-        navigate(signInUrl)
+    const handleSuccess = (email: string) => {
+        navigate(`/verify-reset-code?email=${encodeURIComponent(email)}`, {
+            state: { email },
+        })
     }
 
     return (
@@ -40,7 +38,7 @@ export const ForgotPasswordBase = ({
                     <img
                         src={passwordIcon}
                         alt="Forget Password"
-                        className="h-52 sm:h-64 lg:h-80 xl:h-96 w-auto object-contain hover:scale-105 transition-transform duration-300 max-w-full drop-shadow-md"
+                        className="h-52 sm:h-64 lg:h-80 xl:h-96 w-auto object-contain hover:scale-105 transition-transform duration-300 max-w-full drop-shadow-md select-none"
                     />
                 </div>
 
@@ -48,25 +46,12 @@ export const ForgotPasswordBase = ({
                 <div className="lg:col-span-7 flex flex-col justify-center px-2 sm:px-6">
                     {/* Title & Subtitle */}
                     <div className="mb-6 text-center lg:text-start">
-                        {emailSent ? (
-                            <>
-                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text-primary mb-2">
-                                    {t('auth.checkEmail', 'Check your email')}
-                                </h1>
-                                <p className="text-xs sm:text-sm font-medium text-text-secondary">
-                                    {t('auth.emailSentMessage', 'We have sent a password recovery link to your email')}
-                                </p>
-                            </>
-                        ) : (
-                            <>
-                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text-primary mb-2">
-                                    {t('auth.forgetPassword', 'Forget Password ?')}
-                                </h1>
-                                <p className="text-xs sm:text-sm font-medium text-text-secondary">
-                                    {t('auth.enterEmailToReset', 'No worries! Enter your email to reset your password')}
-                                </p>
-                            </>
-                        )}
+                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text-primary mb-2">
+                            {t('auth.forgetPassword', 'Forget Password ?')}
+                        </h1>
+                        <p className="text-xs sm:text-sm font-medium text-text-secondary">
+                            {t('auth.enterEmailToReset', 'No worries! Enter your email to reset your password')}
+                        </p>
                     </div>
 
                     {message && (
@@ -76,24 +61,15 @@ export const ForgotPasswordBase = ({
                     )}
 
                     <ForgotPasswordForm
-                        emailSent={emailSent}
                         setMessage={setMessage}
-                        setEmailSent={setEmailSent}
+                        onSuccess={handleSuccess}
                         className="w-full"
-                    >
-                        <Button
-                            block
-                            variant="solid"
-                            type="button"
-                            className="h-12 bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold text-base rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border-none w-full"
-                            onClick={handleContinue}
-                        >
-                            {t('common.continue', 'Continue')}
-                        </Button>
-                    </ForgotPasswordForm>
+                    />
 
                     <div className="mt-6 text-center lg:text-start">
-                        <span className="text-text-secondary text-sm font-medium">{t('auth.backTo', 'Back to')}{' '}</span>
+                        <span className="text-text-secondary text-sm font-medium">
+                            {t('auth.backTo', 'Back to')}{' '}
+                        </span>
                         <ActionLink
                             to={signInUrl}
                             className="text-secondary font-bold text-sm underline decoration-secondary decoration-2 underline-offset-4 hover:opacity-80"

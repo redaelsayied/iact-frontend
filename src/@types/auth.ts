@@ -24,9 +24,17 @@ export type ForgotPasswordPayload = {
     email: string
 }
 
-export type ResetPasswordPayload = {
+export type VerifyResetCodePayload = {
     email: string
     code: string
+}
+
+export type VerifyResetCodeResponse = {
+    resetToken: string
+}
+
+export type ResetPasswordPayload = {
+    resetToken: string
     newPassword: string
 }
 

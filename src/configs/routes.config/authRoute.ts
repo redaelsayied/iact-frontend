@@ -39,6 +39,12 @@ const authRoute: Routes = [
         authority: [],
     },
     {
+        key: 'verifyResetCode',
+        path: `/verify-reset-code`,
+        component: lazy(() => import('@/views/auth/VerifyResetCode')),
+        authority: [],
+    },
+    {
         key: 'resetPassword',
         path: `/reset-password`,
         component: lazy(() => import('@/views/auth/ResetPassword')),

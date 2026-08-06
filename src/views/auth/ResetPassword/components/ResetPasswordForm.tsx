@@ -1,49 +1,62 @@
 import { useState } from 'react'
-import { useSearchParams, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
 import { FormItem, Form } from '@/components/ui/Form'
 import PasswordInput from '@/components/shared/PasswordInput'
-import OtpInput from '@/components/shared/OtpInput'
 import { apiResetPassword } from '@/services/AuthService'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import useTranslation from '@/utils/hooks/useTranslation'
 import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
+import passwordIcon from '@/assets/icons/password.svg'
 
 interface ResetPasswordFormProps extends CommonProps {
+    resetToken: string
     resetComplete: boolean
     setResetComplete?: (complete: boolean) => void
     setMessage?: (message: string) => void
+    setIsTokenExpired?: (expired: boolean) => void
 }
 
 type ResetPasswordFormSchema = {
-    email: string
-    code: string
     newPassword: string
     confirmPassword: string
 }
 
+// Minimum 8 characters, at least 1 uppercase, 1 lowercase, 1 digit, 1 special character
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/
+
 const validationSchema: ZodType<ResetPasswordFormSchema> = z
     .object({
-        email: z.string().email({ message: 'Please enter a valid email address' }),
-        code: z.string().min(6, { message: 'Please enter the 6-digit OTP code' }),
-        newPassword: z.string().min(8, { message: 'Password must be at least 8 characters' }),
-        confirmPassword: z.string({ required_error: 'Confirm Password Required' }),
+        newPassword: z
+            .string()
+            .min(8, { message: 'Password must be at least 8 characters' })
+            .regex(passwordRegex, {
+                message:
+                    'Password must contain uppercase, lowercase, digit, and special character (!@#$%^&*)',
+            }),
+        confirmPassword: z.string().min(1, { message: 'Please confirm your password' }),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
-        message: 'Your passwords do not match',
+        message: 'Passwords do not match',
         path: ['confirmPassword'],
     })
 
 const ResetPasswordForm = (props: ResetPasswordFormProps) => {
-    const [searchParams] = useSearchParams()
     const navigate = useNavigate()
-    const initialEmail = searchParams.get('email') || ''
-
+    const { t } = useTranslation()
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
-    const { className, setMessage, setResetComplete, resetComplete, children } = props
+    const {
+        resetToken,
+        className,
+        setMessage,
+        setResetComplete,
+        setIsTokenExpired,
+        resetComplete,
+        children,
+    } = props
 
     const {
         handleSubmit,
@@ -51,8 +64,6 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
         control,
     } = useForm<ResetPasswordFormSchema>({
         defaultValues: {
-            email: initialEmail,
-            code: '',
             newPassword: '',
             confirmPassword: '',
         },
@@ -60,32 +71,52 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
     })
 
     const onResetPassword = async (values: ResetPasswordFormSchema) => {
-        const { email, code, newPassword } = values
+        const { newPassword } = values
+
+        if (!resetToken) {
+            setMessage?.(t('auth.noResetToken', 'Reset session expired or token missing.'))
+            setIsTokenExpired?.(true)
+            return
+        }
 
         try {
             setSubmitting(true)
+            setMessage?.('')
             const resp = await apiResetPassword({
-                email,
-                code,
+                resetToken,
                 newPassword,
             })
+
             if (resp && resp.status) {
                 setSubmitting(false)
                 setResetComplete?.(true)
-                setTimeout(() => {
-                    navigate('/sign-in')
-                }, 2000)
             } else {
-                setMessage?.(resp?.message || 'Failed to reset password.')
+                const errorMsg = resp?.message || t('auth.passwordResetFailed', 'Failed to reset password.')
+                setMessage?.(errorMsg)
+                if (
+                    errorMsg.toLowerCase().includes('expired') ||
+                    errorMsg.toLowerCase().includes('invalid token') ||
+                    errorMsg.toLowerCase().includes('token')
+                ) {
+                    setIsTokenExpired?.(true)
+                }
                 setSubmitting(false)
             }
         } catch (errors: unknown) {
             const errorObj = errors as { response?: { data?: { message?: string } }; message?: string }
-            setMessage?.(
+            const errorMsg =
                 errorObj?.response?.data?.message ||
                 errorObj.message ||
-                'Failed to reset password',
-            )
+                t('auth.passwordResetFailed', 'Failed to reset password.')
+
+            setMessage?.(errorMsg)
+            if (
+                errorMsg.toLowerCase().includes('expired') ||
+                errorMsg.toLowerCase().includes('invalid token') ||
+                errorMsg.toLowerCase().includes('token')
+            ) {
+                setIsTokenExpired?.(true)
+            }
             setSubmitting(false)
         }
     }
@@ -95,45 +126,10 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
             {!resetComplete ? (
                 <Form onSubmit={handleSubmit(onResetPassword)}>
                     <FormItem
-                        label="Email Address"
-                        invalid={Boolean(errors.email)}
-                        errorMessage={errors.email?.message}
-                    >
-                        <Controller
-                            name="email"
-                            control={control}
-                            render={({ field }) => (
-                                <Input
-                                    type="email"
-                                    placeholder="your.email@example.com"
-                                    autoComplete="off"
-                                    {...field}
-                                />
-                            )}
-                        />
-                    </FormItem>
-                    <FormItem
-                        label="6-digit OTP Code"
-                        invalid={Boolean(errors.code)}
-                        errorMessage={errors.code?.message}
-                    >
-                        <Controller
-                            name="code"
-                            control={control}
-                            render={({ field }) => (
-                                <OtpInput
-                                    length={6}
-                                    placeholder=""
-                                    inputClass="h-[48px]"
-                                    {...field}
-                                />
-                            )}
-                        />
-                    </FormItem>
-                    <FormItem
-                        label="New Password"
+                        label={t('auth.newPassword', 'New Password')}
                         invalid={Boolean(errors.newPassword)}
                         errorMessage={errors.newPassword?.message}
+                        className="mb-4"
                     >
                         <Controller
                             name="newPassword"
@@ -142,15 +138,17 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                                 <PasswordInput
                                     autoComplete="off"
                                     placeholder="••••••••••••"
+                                    className="h-12 bg-surface border-border text-text-primary text-base"
                                     {...field}
                                 />
                             )}
                         />
                     </FormItem>
                     <FormItem
-                        label="Confirm Password"
+                        label={t('auth.confirmPassword', 'Confirm Password')}
                         invalid={Boolean(errors.confirmPassword)}
                         errorMessage={errors.confirmPassword?.message}
+                        className="mb-6"
                     >
                         <Controller
                             name="confirmPassword"
@@ -158,7 +156,8 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                             render={({ field }) => (
                                 <PasswordInput
                                     autoComplete="off"
-                                    placeholder="Confirm Password"
+                                    placeholder={t('auth.confirmPassword', 'Confirm Password')}
+                                    className="h-12 bg-surface border-border text-text-primary text-base"
                                     {...field}
                                 />
                             )}
@@ -167,11 +166,14 @@ const ResetPasswordForm = (props: ResetPasswordFormProps) => {
                     <Button
                         block
                         loading={isSubmitting}
+                        disabled={isSubmitting}
                         variant="solid"
                         type="submit"
-                        className="mt-4"
+                        className="h-12 bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold text-base rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border-none w-full cursor-pointer"
                     >
-                        {isSubmitting ? 'Submitting...' : 'Reset Password'}
+                        {isSubmitting
+                            ? t('common.loading', 'Submitting...')
+                            : t('auth.resetPassword', 'Reset Password')}
                     </Button>
                 </Form>
             ) : (

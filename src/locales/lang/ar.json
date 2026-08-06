@@ -122,7 +122,23 @@
         "verifyButton": "تأكيد",
         "didntGetCode": "لم يصلك الكود على بريدك الإلكتروني؟",
         "resendIt": "إعادة إرسال",
-        "verifying": "جاري التحقق..."
+        "verifying": "جاري التحقق...",
+        "setNewPassword": "تعيين كلمة مرور جديدة",
+        "setNewPasswordSubtitle": "يجب أن تحتوي كلمة المرور الجديدة على حرف كبير، حرف صغير، رقم، ورمز خاص.",
+        "newPassword": "كلمة المرور الجديدة",
+        "invalidCode": "رمز التحقق غير صحيح.",
+        "operationFailed": "فشلت العملية.",
+        "emailMissing": "البريد الإلكتروني المستهدف مفقود. يرجى طلب كود جديد.",
+        "newCodeSent": "تم إرسال رمز تحقق جديد إلى بريدك الإلكتروني.",
+        "resendFailed": "فشل إعادة إرسال رمز التحقق.",
+        "noResetToken": "انتهت جلسة إعادة الضبط أو الرمز مفقود.",
+        "passwordResetFailed": "فشل إعادة ضبط كلمة المرور.",
+        "passwordResetSuccessTitle": "تمت إعادة الضبط بنجاح!",
+        "passwordResetSuccessSubtitle": "تمت إعادة ضبط كلمة المرور الخاصة بك بنجاح. يمكنك الآن تسجيل الدخول باستخدام كلمة المرور الجديدة.",
+        "sessionExpiredTitle": "انتهت جلسة إعادة الضبط",
+        "resetTokenExpired": "انتهت جلسة إعادة الضبط أو أن الرمز غير صالح. يرجى طلب رمز تحقق جديد.",
+        "requestNewCode": "طلب رمز جديد",
+        "backToSignIn": "العودة إلى تسجيل الدخول"
     },
     "home": {
         "title": "الرئيسية",
@@ -169,6 +185,16 @@
         "failedFetchUsers": "فشل جلب المستخدمين.",
         "statusUpdated": "تم تحديث حالة المستخدم بنجاح.",
         "failedToggleStatus": "فشل تبديل حالة المستخدم.",
-        "operationFailed": "فشلت العملية."
+        "operationFailed": "فشلت العملية.",
+        "backToUsersList": "العودة إلى قائمة المستخدمين",
+        "userNotFound": "لم يتم العثور على تفاصيل المستخدم.",
+        "failedLoadDetails": "فشل تحميل تفاصيل المستخدم.",
+        "contactInfo": "معلومات الاتصال والتحقق",
+        "nationality": "الجنسية",
+        "notSpecified": "غير محدد",
+        "verificationDocuments": "وثائق التحقق",
+        "idFileAttached": "تم إرفاق ملف التحقق من الهوية",
+        "viewIdFile": "عرض وثيقة الهوية",
+        "noIdFileUploaded": "لم يتم رفع وثيقة الهوية"
     }
 }
