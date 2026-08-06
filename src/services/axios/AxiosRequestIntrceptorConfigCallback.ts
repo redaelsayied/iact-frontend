@@ -30,9 +30,13 @@ const AxiosRequestIntrceptorConfigCallback = (
         config.headers[REQUEST_HEADER_AUTH_KEY] = `${TOKEN_TYPE}${accessToken}`
     }
 
-    // Attach Accept-Language header based on current locale store
-    const currentLang = useLocaleStore.getState()?.currentLang || appConfig.locale || 'en'
+    // Attach language headers based on current locale store
+    const currentLang =
+        useLocaleStore.getState()?.currentLang || appConfig.locale || 'en'
     config.headers['Accept-Language'] = currentLang
+    config.headers['language'] = currentLang
+    config.headers['Language'] = currentLang
+    config.headers['lang'] = currentLang
 
     return config
 }
