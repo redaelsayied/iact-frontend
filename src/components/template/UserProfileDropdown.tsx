@@ -2,7 +2,7 @@ import Avatar from '@/components/ui/Avatar'
 import Dropdown from '@/components/ui/Dropdown'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import { useSessionUser } from '@/store/authStore'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
     HiOutlineUser,
     HiOutlineCog6Tooth,
@@ -24,6 +24,7 @@ const _UserDropdown = () => {
     const { avatar, userName, firstName, lastName, email, roles, authority } =
         useSessionUser((state) => state.user)
 
+    const location = useLocation()
     const { signOut } = useAuth()
     const { t, i18n } = useTranslation()
     const currentLang =
@@ -62,15 +63,19 @@ const _UserDropdown = () => {
     }
     const displayRole = getRoleTitle(userRole)
 
+    const isAdminArea = location.pathname.startsWith('/admin')
+    const profilePath = isAdminArea ? '/admin/profile' : '/user/profile'
+    const settingsPath = isAdminArea ? '/admin/settings' : '/user/settings'
+
     const dropdownItemList: DropdownList[] = [
         {
             label: t('common.profile', 'الملف الشخصي'),
-            path: '/user/profile',
+            path: profilePath,
             icon: <HiOutlineUser />,
         },
         {
             label: t('common.accountSettings', 'إعدادات الحساب'),
-            path: '/user/settings',
+            path: settingsPath,
             icon: <HiOutlineCog6Tooth />,
         },
     ]

@@ -5,7 +5,9 @@ type FooterProps = {
     className?: string
 }
 
-export default function Footer({}: FooterProps) {
+export default function Footer(props: FooterProps) {
+    const { pageContainerType, className } = props
+    void pageContainerType
+    void className
     return null
 }
-

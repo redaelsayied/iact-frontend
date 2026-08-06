@@ -5,7 +5,7 @@ import VerticalMenuContent from '@/components/template/VerticalMenuContent'
 import { useThemeStore } from '@/store/themeStore'
 import { useSessionUser } from '@/store/authStore'
 import { useRouteKeyStore } from '@/store/routeKeyStore'
-import navigationConfig from '@/configs/navigation.config'
+import useAppNavigation from '@/utils/hooks/useAppNavigation'
 import appConfig from '@/configs/app.config'
 import { Link } from 'react-router-dom'
 import {
@@ -49,8 +49,8 @@ const SideNav = ({
     )
 
     const currentRouteKey = useRouteKeyStore((state) => state.currentRouteKey)
-
     const userAuthority = useSessionUser((state) => state.user.authority)
+    const { navigationTree, homePath } = useAppNavigation()
 
     return (
         <div
@@ -63,7 +63,7 @@ const SideNav = ({
             )}
         >
             <Link
-                to={appConfig.authenticatedEntryPath}
+                to={homePath}
                 className="side-nav-header flex flex-col justify-center"
                 style={{ height: HEADER_HEIGHT }}
             >
@@ -83,7 +83,7 @@ const SideNav = ({
                 <ScrollBar style={{ height: '100%' }} direction={direction}>
                     <VerticalMenuContent
                         collapsed={sideNavCollapse}
-                        navigationTree={navigationConfig}
+                        navigationTree={navigationTree}
                         routeKey={currentRouteKey}
                         direction={direction}
                         translationSetup={translationSetup}

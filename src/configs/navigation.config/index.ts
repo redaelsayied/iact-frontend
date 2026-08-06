@@ -1,73 +1,28 @@
-import {
-    NAV_ITEM_TYPE_TITLE,
-    NAV_ITEM_TYPE_ITEM,
-} from '@/constants/navigation.constant'
-
+import adminNavigationConfig from './adminNavigation.config'
+import userNavigationConfig from './userNavigation.config'
 import type { NavigationTree } from '@/@types/navigation'
 
+export { adminNavigationConfig, userNavigationConfig }
+
+export const getNavigationConfig = (
+    pathname: string,
+    authority: string[] = [],
+): NavigationTree[] => {
+    if (pathname.startsWith('/admin')) {
+        return adminNavigationConfig
+    }
+    if (pathname.startsWith('/user')) {
+        return userNavigationConfig
+    }
+    if (authority.some((r) => r.toLowerCase() === 'admin')) {
+        return adminNavigationConfig
+    }
+    return userNavigationConfig
+}
+
 const navigationConfig: NavigationTree[] = [
-    {
-        key: 'userMenu',
-        path: '',
-        title: 'User Menu',
-        translateKey: 'nav.userMenu',
-        icon: 'home',
-        type: NAV_ITEM_TYPE_TITLE,
-        authority: [],
-        subMenu: [
-            {
-                key: 'user.home',
-                path: '/user/home',
-                title: 'User Home',
-                translateKey: 'nav.userHome',
-                icon: 'home',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            {
-                key: 'user.profile',
-                path: '/user/profile',
-                title: 'My Profile',
-                translateKey: 'nav.userProfile',
-                icon: 'singleMenu',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-        ],
-    },
-    {
-        key: 'adminMenu',
-        path: '',
-        title: 'Admin Management',
-        translateKey: 'nav.adminMenu',
-        icon: 'groupMenu',
-        type: NAV_ITEM_TYPE_TITLE,
-        authority: ['Admin'],
-        subMenu: [
-            {
-                key: 'admin.dashboard',
-                path: '/admin/dashboard',
-                title: 'Admin Dashboard',
-                translateKey: 'nav.adminDashboard',
-                icon: 'groupSingleMenu',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: ['Admin'],
-                subMenu: [],
-            },
-            {
-                key: 'admin.users',
-                path: '/admin/users',
-                title: 'Users List',
-                translateKey: 'nav.usersList',
-                icon: 'groupCollapseMenu',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: ['Admin'],
-                subMenu: [],
-            },
-        ],
-    },
+    ...userNavigationConfig,
+    ...adminNavigationConfig,
 ]
 
 export default navigationConfig

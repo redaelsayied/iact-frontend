@@ -8,9 +8,9 @@ import {
     HEADER_HEIGHT,
 } from '@/constants/theme.constant'
 import { NAV_ITEM_TYPE_ITEM } from '@/constants/navigation.constant'
-import appConfig from '@/configs/app.config'
 import navigationIcon from '@/configs/navigation-icon.config'
 import useMenuActive from '@/utils/hooks/useMenuActive'
+import useAppNavigation from '@/utils/hooks/useAppNavigation'
 import isEmpty from 'lodash/isEmpty'
 import { Link } from 'react-router-dom'
 import type { NavigationTree } from '@/@types/navigation'
@@ -56,6 +56,7 @@ const StackedSideNavMini = (props: StackedSideNavMiniProps) => {
         ...rest
     } = props
 
+    const { homePath } = useAppNavigation()
     const { includedRouteTree } = useMenuActive(navigationTree, routeKey)
 
     const handleMenuItemSelect = ({
@@ -98,7 +99,7 @@ const StackedSideNavMini = (props: StackedSideNavMiniProps) => {
     return (
         <div {...rest}>
             <Link
-                to={appConfig.authenticatedEntryPath}
+                to={homePath}
                 className="stacked-mini-nav-header flex items-center justify-center"
                 style={{ height: HEADER_HEIGHT }}
             >

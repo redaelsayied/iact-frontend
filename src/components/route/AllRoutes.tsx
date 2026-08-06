@@ -4,7 +4,6 @@ import AuthorityGuard from './AuthorityGuard'
 import AppRoute from './AppRoute'
 import PageContainer from '@/components/template/PageContainer'
 import { protectedRoutes, publicRoutes } from '@/configs/routes.config'
-import appConfig from '@/configs/app.config'
 import { useAuth } from '@/auth'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import type { LayoutType } from '@/@types/theme'
@@ -16,7 +15,12 @@ interface ViewsProps {
 
 type AllRoutesProps = ViewsProps
 
-const { authenticatedEntryPath } = appConfig
+const RootRedirect = () => {
+    const { user } = useAuth()
+    const roles = user?.roles || user?.authority || []
+    const isAdmin = roles.some((r) => r.toLowerCase() === 'admin')
+    return <Navigate replace to={isAdmin ? '/admin/dashboard' : '/user/home'} />
+}
 
 const AllRoutes = (props: AllRoutesProps) => {
     const { user } = useAuth()
@@ -26,7 +30,7 @@ const AllRoutes = (props: AllRoutesProps) => {
             <Route path="/" element={<ProtectedRoute />}>
                 <Route
                     path="/"
-                    element={<Navigate replace to={authenticatedEntryPath} />}
+                    element={<RootRedirect />}
                 />
                 {protectedRoutes.map((route, index) => (
                     <Route
