@@ -13,6 +13,7 @@ interface OTPInputProps {
     autoFocus?: boolean
     placeholder?: string
     invalid?: boolean
+    shake?: boolean
 }
 
 const OTPInput = ({
@@ -25,6 +26,7 @@ const OTPInput = ({
     autoFocus = false,
     placeholder,
     invalid = false,
+    shake = false,
 }: OTPInputProps) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, setActiveInput] = useState<number>(0)
@@ -36,9 +38,20 @@ const OTPInput = ({
             .map((_, i) => inputRefs.current[i] || null)
     }, [length])
 
+    useEffect(() => {
+        if (!value || value.length === 0) {
+            inputRefs.current[0]?.focus()
+        }
+    }, [value])
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
         const newValue = e.target.value
         if (newValue.length > 1) return
+
+        // Restrict to numeric digits only
+        if (newValue && !/^[0-9]$/.test(newValue)) {
+            return
+        }
 
         const newOTPValue =
             value.slice(0, index) + newValue + value.slice(index + 1)
@@ -80,9 +93,12 @@ const OTPInput = ({
         e.preventDefault()
         const pastedData = e.clipboardData
             .getData('text/plain')
+            .replace(/[^0-9]/g, '')
             .slice(0, length)
-        if (pastedData.match(/^[0-9]+$/)) {
+        if (pastedData) {
             onChange?.(pastedData.padEnd(length, ''))
+            const nextIndex = Math.min(pastedData.length, length - 1)
+            inputRefs.current[nextIndex]?.focus()
         }
     }
 
@@ -91,7 +107,27 @@ const OTPInput = ({
     }
 
     return (
-        <div className={`flex gap-2 ${className}`}>
+        <div
+            className={classNames(
+                'flex gap-2 transition-transform duration-200',
+                shake && 'animate-[shake_0.4s_ease-in-out]',
+                className,
+            )}
+            style={
+                shake
+                    ? {
+                          animation: 'shake 0.4s ease-in-out',
+                      }
+                    : undefined
+            }
+        >
+            <style>{`
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    20%, 60% { transform: translateX(-6px); }
+                    40%, 80% { transform: translateX(6px); }
+                }
+            `}</style>
             {Array(length)
                 .fill(null)
                 .map((_, index) => (

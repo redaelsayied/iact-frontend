@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Button from '@/components/ui/Button'
 import { FormItem, Form } from '@/components/ui/Form'
 import OtpInput from '@/components/shared/OtpInput'
@@ -23,22 +23,34 @@ type OtpFormSchema = {
 const OTP_LENGTH = 6
 
 const validationSchema: ZodType<OtpFormSchema> = z.object({
-    otp: z.string().min(OTP_LENGTH, { message: 'Please enter a 6-digit OTP code' }),
+    otp: z
+        .string()
+        .min(OTP_LENGTH, { message: 'Please enter a 6-digit OTP code' })
+        .regex(/^[0-9]+$/, { message: 'OTP must contain digits only' }),
 })
 
 const OtpVerificationForm = (props: OtpVerificationFormProps) => {
     const { email, className, setMessage, setOtpVerified } = props
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const [shake, setShake] = useState<boolean>(false)
     const { verifyEmail } = useAuth()
     const { t } = useTranslation()
+    const autoSubmittedRef = useRef<string>('')
 
     const {
         handleSubmit,
         formState: { errors },
         control,
+        setValue,
+        watch,
     } = useForm<OtpFormSchema>({
         resolver: zodResolver(validationSchema),
+        defaultValues: {
+            otp: '',
+        },
     })
+
+    const otpValue = watch('otp')
 
     const onOtpSend = async (values: OtpFormSchema) => {
         const { otp } = values
@@ -48,14 +60,34 @@ const OtpVerificationForm = (props: OtpVerificationFormProps) => {
         }
 
         setSubmitting(true)
+        setShake(false)
         const result = await verifyEmail({ email, otp })
         if (result?.status === 'failed') {
-            setMessage?.(result.message)
+            setMessage?.(result.message || 'Invalid OTP code')
+            setShake(true)
+            setValue('otp', '')
+            autoSubmittedRef.current = ''
+            setTimeout(() => {
+                setShake(false)
+            }, 500)
         } else {
             setOtpVerified?.(result.message || 'Email verified successfully!')
         }
         setSubmitting(false)
     }
+
+    // Auto-submit when all 6 digits are typed
+    useEffect(() => {
+        if (
+            otpValue &&
+            otpValue.length === OTP_LENGTH &&
+            !isSubmitting &&
+            autoSubmittedRef.current !== otpValue
+        ) {
+            autoSubmittedRef.current = otpValue
+            handleSubmit(onOtpSend)()
+        }
+    }, [otpValue, isSubmitting])
 
     return (
         <div className={`w-full ${className || ''}`}>
@@ -63,7 +95,7 @@ const OtpVerificationForm = (props: OtpVerificationFormProps) => {
                 <FormItem
                     invalid={Boolean(errors.otp)}
                     errorMessage={errors.otp?.message}
-                    className="mb-2"
+                    className="mb-4"
                 >
                     <Controller
                         name="otp"
@@ -74,24 +106,23 @@ const OtpVerificationForm = (props: OtpVerificationFormProps) => {
                                 className="justify-center lg:justify-start gap-2 sm:gap-3 my-2"
                                 inputClass="w-10 sm:w-12 md:w-14 h-12 sm:h-14 text-center text-lg sm:text-xl font-bold rounded-lg border border-gray-300 dark:border-gray-600 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm transition-all"
                                 length={OTP_LENGTH}
+                                disabled={isSubmitting}
+                                shake={shake}
+                                invalid={Boolean(errors.otp) || shake}
                                 {...field}
                             />
                         )}
                     />
                 </FormItem>
 
-                {/* Code Expiration Notice */}
-                <p className="text-xs sm:text-sm text-text-secondary text-center lg:text-start mb-6 font-medium">
-                    {t('auth.codeExpireNotice', 'Your Code Will Expire in 10 Minutes')}
-                </p>
-
                 {/* Submit Button */}
                 <Button
                     block
                     loading={isSubmitting}
+                    disabled={isSubmitting}
                     variant="solid"
                     type="submit"
-                    className="w-full h-12 bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold py-3 sm:py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-base sm:text-lg border-none focus:outline-none cursor-pointer"
+                    className="w-full h-12 bg-primary hover:bg-primary-hover active:bg-primary-active text-white font-bold py-3 sm:py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-base sm:text-lg border-none focus:outline-none cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                     {isSubmitting
                         ? t('auth.verifying', 'Verifying...')

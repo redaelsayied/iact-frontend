@@ -2,6 +2,8 @@
     "nav": {
         "adminMenu": "Admin Management",
         "usersList": "Users List",
+        "userMenu": "User Menu",
+        "userHome": "User Home",
         "home": "Home",
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
@@ -125,6 +127,13 @@
     "home": {
         "title": "Home",
         "welcome": "Welcome to Dashboard"
+    },
+    "userHome": {
+        "comingSoon": "Dashboard Features Coming Soon",
+        "welcome": "Welcome, {{name}}!",
+        "member": "Member",
+        "description": "We are currently building exciting new features for your dashboard home. Stay tuned for upcoming tools, statistics, and course management features!",
+        "goToProfile": "Go to My Profile"
     },
     "userManagement": {
         "title": "User Management",

@@ -220,6 +220,12 @@ function AuthProvider({ children }: AuthProviderProps) {
             const resp = await apiVerifyEmail(values)
             if (resp && resp.status && resp.data) {
                 const { accessToken, refreshToken, user: verifyUser } = resp.data
+                const tokenRoles = extractRolesFromToken(accessToken)
+                const rawRoles = verifyUser.roles && verifyUser.roles.length > 0 ? verifyUser.roles : tokenRoles
+                const roles = rawRoles.length > 0
+                    ? rawRoles.map((r) => (r.toLowerCase() === 'admin' ? 'Admin' : r))
+                    : ['User']
+
                 const updatedUser: User = {
                     id: verifyUser.id,
                     userId: verifyUser.id,
@@ -229,11 +235,12 @@ function AuthProvider({ children }: AuthProviderProps) {
                     email: verifyUser.email,
                     phoneNumber: verifyUser.phoneNumber,
                     status: verifyUser.status,
-                    authority: ['User'],
-                    roles: ['User'],
+                    authority: roles,
+                    roles: roles,
                 }
                 handleSignIn({ accessToken, refreshToken }, updatedUser)
-                redirect('/user/home')
+                const landing = getLandingPath(updatedUser)
+                redirect(landing)
                 return {
                     status: 'success',
                     message: resp.message || 'Email verified successfully',

@@ -27,7 +27,7 @@ export const OtpVerificationBase = () => {
     const [otpResend, setOtpResend] = useTimeOutMessage()
     const [message, setMessage] = useTimeOutMessage()
 
-    const [timer, setTimer] = useState<number>(45)
+    const [timer, setTimer] = useState<number>(60)
     const [isResending, setIsResending] = useState<boolean>(false)
 
     useEffect(() => {
@@ -50,21 +50,30 @@ export const OtpVerificationBase = () => {
         }
 
         setIsResending(true)
+        setMessage('')
+        setOtpResend('')
         try {
             const resp = await apiResendOtp({ email })
-            if (resp?.status) {
+            const isSuccess = Boolean(resp?.status)
+            if (isSuccess) {
                 setOtpResend(resp.message || 'A new OTP has been sent to your email.')
                 setTimer(60)
             } else {
                 setMessage(resp?.message || 'Failed to resend OTP.')
             }
         } catch (err: unknown) {
-            const errorObj = err as { response?: { data?: { message?: string } }; message?: string }
-            setMessage(
-                errorObj?.response?.data?.message ||
-                errorObj.message ||
-                'Unable to resend OTP at this time.'
-            )
+            const errorObj = err as { response?: { data?: { status?: boolean; message?: string } }; message?: string }
+            const responseData = errorObj?.response?.data
+            if (responseData?.status) {
+                setOtpResend(responseData.message || 'A new OTP has been sent to your email.')
+                setTimer(60)
+            } else {
+                setMessage(
+                    responseData?.message ||
+                    errorObj.message ||
+                    'Unable to resend OTP at this time.'
+                )
+            }
         } finally {
             setIsResending(false)
         }
@@ -152,7 +161,9 @@ export const OtpVerificationBase = () => {
                         >
                             {isResending
                                 ? t('common.loading', 'Sending...')
-                                : `${t('auth.resendIt', 'Resend it')} (${formatTime(timer)})`}
+                                : timer > 0
+                                ? `${t('auth.resendIt', 'Resend it')} (${formatTime(timer)})`
+                                : t('auth.resendIt', 'Resend it')}
                         </button>
                     </div>
                 </div>
