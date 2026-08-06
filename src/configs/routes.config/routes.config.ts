@@ -25,9 +25,15 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
+        key: 'user.settings',
+        path: '/user/settings',
+        component: lazy(() => import('@/views/user/UserSettings')),
+        authority: [],
+    },
+    {
         key: 'user.changePassword',
         path: '/user/change-password',
-        component: lazy(() => import('@/views/user/UserProfile')),
+        component: lazy(() => import('@/views/user/UserSettings')),
         authority: [],
     },
     {

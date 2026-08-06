@@ -21,6 +21,7 @@
         "signOut": "Sign Out",
         "profile": "Profile",
         "settings": "Settings",
+        "accountSettings": "Account Settings",
         "search": "Search...",
         "anonymous": "Anonymous",
         "noEmail": "No email available",
@@ -64,7 +65,14 @@
         "close": "Close",
         "confirmLogOutTitle": "Log Out Confirmation",
         "confirmLogOutMsg": "Are you sure you want to log out of your account?",
-        "underDevelopment": "This section is currently under development. Stay tuned for updates!"
+        "underDevelopment": "This section is currently under development. Stay tuned for updates!",
+        "imageUpdateSuccess": "Profile image updated successfully.",
+        "imageUpdateFailed": "Failed to upload profile image.",
+        "profileUpdateSuccess": "Profile updated successfully.",
+        "profileUpdateFailed": "Failed to update profile.",
+        "passwordChangeSuccess": "Password changed successfully.",
+        "passwordChangeFailed": "Failed to change password.",
+        "clickToChangePicture": "Click to change profile picture"
     },
     "auth": {
         "signIn": "Sign In",

@@ -21,6 +21,7 @@
         "signOut": "تسجيل الخروج",
         "profile": "الملف الشخصي",
         "settings": "الإعدادات",
+        "accountSettings": "إعدادات الحساب",
         "search": "بحث...",
         "anonymous": "مستخدم مجهول",
         "noEmail": "لا يوجد بريد إلكتروني",
@@ -64,7 +65,14 @@
         "close": "إغلاق",
         "confirmLogOutTitle": "تأكيد تسجيل الخروج",
         "confirmLogOutMsg": "هل أنت تأكد من رغبتك في تسجيل الخروج من حسابك؟",
-        "underDevelopment": "هذا القسم قيد التطوير حالياً. تابعنا للحصول على التحديثات القادمة!"
+        "underDevelopment": "هذا القسم قيد التطوير حالياً. تابعنا للحصول على التحديثات القادمة!",
+        "imageUpdateSuccess": "تم تحديث الصورة الشخصية بنجاح.",
+        "imageUpdateFailed": "فشل رفع الصورة الشخصية.",
+        "profileUpdateSuccess": "تم تحديث الملف الشخصي بنجاح.",
+        "profileUpdateFailed": "فشل تحديث الملف الشخصي.",
+        "passwordChangeSuccess": "تم تغيير كلمة المرور بنجاح.",
+        "passwordChangeFailed": "فشل تغيير كلمة المرور.",
+        "clickToChangePicture": "انقر لتغيير الصورة الشخصية"
     },
     "auth": {
         "signIn": "تسجيل الدخول",
