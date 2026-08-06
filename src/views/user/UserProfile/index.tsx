@@ -288,87 +288,99 @@ const UserProfile = () => {
             )}
 
             <form
-                className="flex flex-col gap-4 max-w-lg"
+                className="flex flex-col gap-5 w-full"
                 onSubmit={handleProfileSubmit(onProfileSubmit)}
             >
-                <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                        {t('profile.firstName', 'First Name')}
-                    </label>
-                    <Controller
-                        name="firstName"
-                        control={profileControl}
-                        render={({ field }) => (
-                            <Input
-                                {...field}
-                                placeholder={t('profile.firstName', 'First Name')}
-                            />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+                            {t('profile.firstName', 'First Name')}
+                        </label>
+                        <Controller
+                            name="firstName"
+                            control={profileControl}
+                            render={({ field }) => (
+                                <Input
+                                    {...field}
+                                    spellCheck={false}
+                                    autoComplete="off"
+                                    autoCorrect="off"
+                                    autoCapitalize="off"
+                                    placeholder={t('profile.firstName', 'First Name')}
+                                />
+                            )}
+                        />
+                        {profileErrors.firstName && (
+                            <span className="text-xs text-red-500 mt-1 block">
+                                {profileErrors.firstName.message}
+                            </span>
                         )}
-                    />
-                    {profileErrors.firstName && (
-                        <span className="text-xs text-red-500 mt-1 block">
-                            {profileErrors.firstName.message}
-                        </span>
-                    )}
-                </div>
+                    </div>
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                        {t('profile.lastName', 'Last Name')}
-                    </label>
-                    <Controller
-                        name="lastName"
-                        control={profileControl}
-                        render={({ field }) => (
-                            <Input
-                                {...field}
-                                placeholder={t('profile.lastName', 'Last Name')}
-                            />
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+                            {t('profile.lastName', 'Last Name')}
+                        </label>
+                        <Controller
+                            name="lastName"
+                            control={profileControl}
+                            render={({ field }) => (
+                                <Input
+                                    {...field}
+                                    spellCheck={false}
+                                    autoComplete="off"
+                                    autoCorrect="off"
+                                    autoCapitalize="off"
+                                    placeholder={t('profile.lastName', 'Last Name')}
+                                />
+                            )}
+                        />
+                        {profileErrors.lastName && (
+                            <span className="text-xs text-red-500 mt-1 block">
+                                {profileErrors.lastName.message}
+                            </span>
                         )}
-                    />
-                    {profileErrors.lastName && (
-                        <span className="text-xs text-red-500 mt-1 block">
-                            {profileErrors.lastName.message}
-                        </span>
-                    )}
+                    </div>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                        {t('profile.email', 'Email Address')} (
-                        {t('profile.readOnly', 'Read-only')})
-                    </label>
-                    <Input
-                        disabled
-                        readOnly
-                        value={profile?.email || sessionUser.email || ''}
-                        className="bg-gray-100 dark:bg-gray-700"
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+                            {t('profile.email', 'Email Address')} (
+                            {t('profile.readOnly', 'Read-only')})
+                        </label>
+                        <Input
+                            disabled
+                            readOnly
+                            value={profile?.email || sessionUser.email || ''}
+                            className="bg-gray-100 dark:bg-gray-700"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+                            {t('profile.phone', 'Phone Number')} (
+                            {t('profile.readOnly', 'Read-only')})
+                        </label>
+                        <Input
+                            disabled
+                            readOnly
+                            value={
+                                profile?.phoneNumber ||
+                                sessionUser.phoneNumber ||
+                                ''
+                            }
+                            className="bg-gray-100 dark:bg-gray-700"
+                        />
+                    </div>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                        {t('profile.phone', 'Phone Number')} (
-                        {t('profile.readOnly', 'Read-only')})
-                    </label>
-                    <Input
-                        disabled
-                        readOnly
-                        value={
-                            profile?.phoneNumber ||
-                            sessionUser.phoneNumber ||
-                            ''
-                        }
-                        className="bg-gray-100 dark:bg-gray-700"
-                    />
-                </div>
-
-                <div className="flex justify-end gap-2 mt-2">
+                <div className="flex justify-end gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                     <Button
                         variant="solid"
                         type="submit"
                         loading={updatingProfile}
-                        className="bg-[#1b2b65] hover:bg-[#152250] text-white rounded-xl"
+                        className="bg-[#1b2b65] hover:bg-[#152250] text-white rounded-xl px-8"
                     >
                         {t('profile.saveChanges', 'Save Changes')}
                     </Button>
@@ -378,7 +390,7 @@ const UserProfile = () => {
     )
 
     return (
-        <div className="max-w-6xl mx-auto p-2 sm:p-6">
+        <div className="w-full max-w-3xl mx-auto flex flex-col gap-6">
             {/* Hidden File Input for Avatar Direct Upload */}
             <input
                 ref={fileInputRef}
@@ -388,200 +400,188 @@ const UserProfile = () => {
                 onChange={handleAvatarSelect}
             />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                {/* Left Column (Profile Summary Card & Menu List) */}
-                <div className="lg:col-span-5 xl:col-span-5 flex flex-col items-center">
-                    <Card className="w-full border border-sky-100/80 dark:border-gray-800 shadow-sm rounded-3xl p-5 sm:p-7 bg-white dark:bg-gray-900">
-                        {/* Avatar Upload Feedback Alerts */}
-                        {avatarSuccess && (
-                            <Alert type="success" className="mb-4">
-                                {avatarSuccess}
-                            </Alert>
-                        )}
-                        {avatarError && (
-                            <Alert type="danger" className="mb-4">
-                                {avatarError}
-                            </Alert>
-                        )}
+            <div className="w-full">
+                {/* Profile Summary Card & Menu List */}
+                <Card className="w-full border border-sky-100/80 dark:border-gray-800 shadow-sm rounded-3xl p-5 sm:p-7 bg-white dark:bg-gray-900">
+                    {/* Avatar Upload Feedback Alerts */}
+                    {avatarSuccess && (
+                        <Alert type="success" className="mb-4">
+                            {avatarSuccess}
+                        </Alert>
+                    )}
+                    {avatarError && (
+                        <Alert type="danger" className="mb-4">
+                            {avatarError}
+                        </Alert>
+                    )}
 
-                        {/* Header Top Profile Section */}
-                        <div className="border border-sky-100 dark:border-gray-800 rounded-2xl p-6 flex flex-col items-center text-center bg-white dark:bg-gray-900 shadow-2xs mb-6">
-                            {/* Clickable Avatar Container with Hover Camera Badge */}
-                            <div
-                                className="relative group cursor-pointer inline-block mb-4"
-                                title={t(
-                                    'profile.clickToChangePicture',
-                                    'Click to change profile picture',
+                    {/* Header Top Profile Section */}
+                    <div className="border border-sky-100 dark:border-gray-800 rounded-2xl p-6 flex flex-col items-center text-center bg-white dark:bg-gray-900 shadow-2xs mb-6">
+                        {/* Clickable Avatar Container with Hover Camera Badge */}
+                        <div
+                            className="relative group cursor-pointer inline-block mb-4"
+                            title={t(
+                                'profile.clickToChangePicture',
+                                'Click to change profile picture',
+                            )}
+                            onClick={() => fileInputRef.current?.click()}
+                        >
+                            <Avatar
+                                size={100}
+                                shape="circle"
+                                src={
+                                    previewUrl ||
+                                    displayUser.profileImageUrl ||
+                                    sessionUser.avatar ||
+                                    undefined
+                                }
+                                icon={
+                                    <HiOutlineUser className="text-4xl" />
+                                }
+                                className="border-2 border-gray-100 shadow-sm group-hover:brightness-90 transition-all"
+                            />
+
+                            {/* Dark Hover Overlay with Camera Icon */}
+                            <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                {uploadingAvatar ? (
+                                    <Spinner
+                                        size="24px"
+                                        className="text-white"
+                                    />
+                                ) : (
+                                    <HiOutlineCamera className="text-2xl" />
                                 )}
-                                onClick={() => fileInputRef.current?.click()}
-                            >
-                                <Avatar
-                                    size={100}
-                                    shape="circle"
-                                    src={
-                                        previewUrl ||
-                                        displayUser.profileImageUrl ||
-                                        sessionUser.avatar ||
-                                        undefined
-                                    }
-                                    icon={
-                                        <HiOutlineUser className="text-4xl" />
-                                    }
-                                    className="border-2 border-gray-100 shadow-sm group-hover:brightness-90 transition-all"
-                                />
-
-                                {/* Dark Hover Overlay with Camera Icon */}
-                                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                                    {uploadingAvatar ? (
-                                        <Spinner
-                                            size="24px"
-                                            className="text-white"
-                                        />
-                                    ) : (
-                                        <HiOutlineCamera className="text-2xl" />
-                                    )}
-                                </div>
-
-                                {/* Floating Camera Badge Icon */}
-                                <div className="absolute bottom-0 right-0 p-1.5 bg-[#1b2b65] text-white rounded-full shadow-md border-2 border-white text-xs">
-                                    {uploadingAvatar ? (
-                                        <Spinner
-                                            size="14px"
-                                            className="text-white"
-                                        />
-                                    ) : (
-                                        <HiOutlineCamera />
-                                    )}
-                                </div>
                             </div>
 
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 tracking-tight mb-0.5">
-                                {displayUser.firstName} {displayUser.lastName}
-                            </h3>
-
-                            <p className="text-gray-400 text-sm mb-2 font-normal">
-                                {displayUser.email}
-                            </p>
-
-                            <div className="mb-4">
-                                {renderStatusDot(displayUser.status)}
-                            </div>
-
-                            <Button
-                                variant="solid"
-                                className="bg-[#1b2b65] hover:bg-[#152250] text-white rounded-full px-8 py-2.5 text-sm font-semibold border-none shadow-sm transition-all"
-                                onClick={() => setEditModalOpen(true)}
-                            >
-                                {t('profile.editProfile', 'Edit Profile')}
-                            </Button>
-                        </div>
-
-                        {/* Navigation Menu Options List */}
-                        <div className="flex flex-col">
-                            {/* Item 1: Certificates */}
-                            <div
-                                className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
-                                onClick={() =>
-                                    openFeatureModal(
-                                        t(
-                                            'profile.certificates',
-                                            'Certificates',
-                                        ),
-                                    )
-                                }
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
-                                        <HiOutlineAcademicCap />
-                                    </div>
-                                    <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
-                                        {t(
-                                            'profile.certificates',
-                                            'Certificates',
-                                        )}
-                                    </span>
-                                </div>
-                                <ChevronIcon className="text-orange-500 text-lg" />
-                            </div>
-
-                            {/* Item 2: Invoices */}
-                            <div
-                                className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
-                                onClick={() =>
-                                    openFeatureModal(
-                                        t('profile.invoices', 'Invoices'),
-                                    )
-                                }
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
-                                        <HiOutlineDocumentText />
-                                    </div>
-                                    <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
-                                        {t('profile.invoices', 'Invoices')}
-                                    </span>
-                                </div>
-                                <ChevronIcon className="text-orange-500 text-lg" />
-                            </div>
-
-                            {/* Item 3: Payment Method */}
-                            <div
-                                className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
-                                onClick={() =>
-                                    openFeatureModal(
-                                        t(
-                                            'profile.paymentMethod',
-                                            'Payment Method',
-                                        ),
-                                    )
-                                }
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
-                                        <HiOutlineCreditCard />
-                                    </div>
-                                    <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
-                                        {t(
-                                            'profile.paymentMethod',
-                                            'Payment Method',
-                                        )}
-                                    </span>
-                                </div>
-                                <ChevronIcon className="text-orange-500 text-lg" />
-                            </div>
-
-                            {/* Item 4: Help Center */}
-                            <div
-                                className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer"
-                                onClick={() =>
-                                    openFeatureModal(
-                                        t('profile.helpCenter', 'Help Center'),
-                                    )
-                                }
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
-                                        <HiOutlineQuestionMarkCircle />
-                                    </div>
-                                    <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
-                                        {t('profile.helpCenter', 'Help Center')}
-                                    </span>
-                                </div>
-                                <ChevronIcon className="text-orange-500 text-lg" />
+                            {/* Floating Camera Badge Icon */}
+                            <div className="absolute bottom-0 right-0 p-1.5 bg-[#1b2b65] text-white rounded-full shadow-md border-2 border-white text-xs">
+                                {uploadingAvatar ? (
+                                    <Spinner
+                                        size="14px"
+                                        className="text-white"
+                                    />
+                                ) : (
+                                    <HiOutlineCamera />
+                                )}
                             </div>
                         </div>
-                    </Card>
-                </div>
 
-                {/* Right Column (Desktop Profile Edit Form Area) */}
-                <div className="hidden lg:block lg:col-span-7 xl:col-span-7">
-                    <Card className="shadow-sm border border-gray-100 dark:border-gray-800 rounded-3xl p-6 bg-white dark:bg-gray-900">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-                            {t('profile.personalInfo', 'البيانات الشخصية')}
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 tracking-tight mb-0.5">
+                            {displayUser.firstName} {displayUser.lastName}
                         </h3>
-                        {renderProfileForm()}
-                    </Card>
-                </div>
+
+                        <p className="text-gray-400 text-sm mb-2 font-normal">
+                            {displayUser.email}
+                        </p>
+
+                        <div className="mb-4">
+                            {renderStatusDot(displayUser.status)}
+                        </div>
+
+                        <Button
+                            variant="solid"
+                            className="bg-[#1b2b65] hover:bg-[#152250] text-white rounded-full px-8 py-2.5 text-sm font-semibold border-none shadow-sm transition-all"
+                            onClick={() => setEditModalOpen(true)}
+                        >
+                            {t('profile.editProfile', 'Edit Profile')}
+                        </Button>
+                    </div>
+
+                    {/* Navigation Menu Options List */}
+                    <div className="flex flex-col">
+                        {/* Item 1: Certificates */}
+                        <div
+                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
+                            onClick={() =>
+                                openFeatureModal(
+                                    t(
+                                        'profile.certificates',
+                                        'Certificates',
+                                    ),
+                                )
+                            }
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
+                                    <HiOutlineAcademicCap />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t(
+                                        'profile.certificates',
+                                        'Certificates',
+                                    )}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg" />
+                        </div>
+
+                        {/* Item 2: Invoices */}
+                        <div
+                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
+                            onClick={() =>
+                                openFeatureModal(
+                                    t('profile.invoices', 'Invoices'),
+                                )
+                            }
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
+                                    <HiOutlineDocumentText />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t('profile.invoices', 'Invoices')}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg" />
+                        </div>
+
+                        {/* Item 3: Payment Method */}
+                        <div
+                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer border-b border-gray-100 dark:border-gray-800"
+                            onClick={() =>
+                                openFeatureModal(
+                                    t(
+                                        'profile.paymentMethod',
+                                        'Payment Method',
+                                    ),
+                                )
+                            }
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
+                                    <HiOutlineCreditCard />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t(
+                                        'profile.paymentMethod',
+                                        'Payment Method',
+                                    )}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg" />
+                        </div>
+
+                        {/* Item 4: Help Center */}
+                        <div
+                            className="flex items-center justify-between py-4 px-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-all cursor-pointer"
+                            onClick={() =>
+                                openFeatureModal(
+                                    t('profile.helpCenter', 'Help Center'),
+                                )
+                            }
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 dark:bg-orange-950/30 text-orange-500 flex items-center justify-center text-xl">
+                                    <HiOutlineQuestionMarkCircle />
+                                </div>
+                                <span className="font-bold text-gray-800 dark:text-gray-200 text-base">
+                                    {t('profile.helpCenter', 'Help Center')}
+                                </span>
+                            </div>
+                            <ChevronIcon className="text-orange-500 text-lg" />
+                        </div>
+                    </div>
+                </Card>
             </div>
 
             {/* Mobile Edit Profile Dialog */}

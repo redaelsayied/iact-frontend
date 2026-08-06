@@ -11,7 +11,7 @@ export const SIDE_NAV_CONTENT_GUTTER = 'px-2'
 export const LOGO_X_GUTTER = 'px-6'
 export const HEADER_HEIGHT = 64
 export const PAGE_CONTAINER_GUTTER_X = 'px-4 sm:px-6 md:px-8'
-export const PAGE_CONTAINER_GUTTER_Y = 'py-4 sm:py-6 md:px-8'
+export const PAGE_CONTAINER_GUTTER_Y = 'py-4 sm:py-6 md:py-8'
 
 export const LAYOUT_COLLAPSIBLE_SIDE = 'collapsibleSide'
 export const LAYOUT_STACKED_SIDE = 'stackedSide'

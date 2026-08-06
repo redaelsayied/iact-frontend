@@ -9,7 +9,7 @@ const UserHome = () => {
     const sessionUser = useSessionUser((state) => state.user)
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[70vh] p-4 max-w-4xl mx-auto text-center">
+        <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[70vh] p-4 sm:p-6 text-center">
             <Card className="w-full border border-gray-100 shadow-md p-8 md:p-12 flex flex-col items-center">
                 <div className="w-20 h-20 bg-primary-50 text-primary rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner">
                     <HiOutlineRocketLaunch />

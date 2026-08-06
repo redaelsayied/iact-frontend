@@ -161,6 +161,10 @@ const Input = (props: InputProps) => {
         disabled,
         type,
         ref,
+        spellCheck: false,
+        autoComplete: 'off',
+        autoCorrect: 'off',
+        autoCapitalize: 'off',
         ...rest,
     }
 
